@@ -15,6 +15,7 @@ export interface SquareProps {
   isMovingOver: boolean;
   isValidTarget: boolean;
   wasLastMove: boolean;
+  moveOrigin: number;
 }
 
 export const Square: FC<SquareProps> = ({
@@ -27,6 +28,7 @@ export const Square: FC<SquareProps> = ({
   isMovingOver,
   isValidTarget,
   wasLastMove,
+  moveOrigin,
 }) => {
   const dispatch = useDispatch();
 
@@ -44,6 +46,15 @@ export const Square: FC<SquareProps> = ({
             'green' :
             squareColor,
         touchAction: 'none',
+      }}
+      onClick={() => {
+        if (
+          moveOrigin !== null &&
+          moveOrigin !== pos &&
+          validMoves[moveOrigin]?.includes(pos)
+        ) {
+          dispatch(moveTo(pos));
+        }
       }}
     >
       <Piece

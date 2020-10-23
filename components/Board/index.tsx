@@ -31,11 +31,20 @@ export const Board: FC<BoardProps> = ({
     const boardX = clientX - rootRef.current.offsetLeft;
     const boardY = clientY - rootRef.current.offsetTop;
     const sideLength = (Math.min(window.innerWidth, window.innerHeight) / 25) * 24;
-    const boardXPos = Math.floor((boardX / sideLength) * 8);
-    const boardYPos = Math.floor((boardY / sideLength) * 8);
-    const pos = (boardYPos * 8) + boardXPos;
-    if (isMovingFrom !== null && pos !== isMovingOver) {
-      dispatch(movingOver(pos));
+    if (
+      boardX > 0 &&
+      boardY > 0 &&
+      boardX <= sideLength &&
+      boardY <= sideLength
+    ) {
+      const boardXPos = Math.floor((boardX / sideLength) * 8);
+      const boardYPos = Math.floor((boardY / sideLength) * 8);
+      const pos = (boardYPos * 8) + boardXPos;
+      if (isMovingFrom !== null && pos !== isMovingOver) {
+        dispatch(movingOver(pos));
+      }
+    } else {
+      dispatch(movingOver(null));
     }
   };
 

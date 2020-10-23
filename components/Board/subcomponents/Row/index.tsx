@@ -47,6 +47,7 @@ export const Row: FC<RowProps> = ({
             isMovingFrom={isMovingFrom === pos}
             isMovingOver={isMovingOver === pos}
             isValidTarget={isValidTarget}
+            moveOrigin={isMovingFrom}
             wasLastMove={lastMove?.[0] === pos || lastMove?.[1] === pos}
           />
         );

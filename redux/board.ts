@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { makeMove, getValidMoves, initGame } from './util';
 
@@ -49,19 +49,22 @@ const boardSlice = createSlice({
         state.isMovingOver = action.payload;
       }
     },
-    moveTo(state) {
+    moveTo(state, action?: PayloadAction<number>) {
+      const target = state.isMovingOver ?? action.payload;
       if (
-        state.isMovingFrom !== state.isMovingOver &&
-        state.validMoves[state.isMovingFrom]?.includes(state.isMovingOver)
+        state.isMovingFrom !== target &&
+        state.validMoves[state.isMovingFrom]?.includes(target)
       ) {
-        const { fen, validMoves } = makeMove(state.fen, state.isMovingFrom, state.isMovingOver);
+        const { fen, validMoves } = makeMove(state.fen, state.isMovingFrom, target);
         state.history.push({ fen: state.fen, move: state.lastMove });
-        state.lastMove = [state.isMovingFrom, state.isMovingOver];
+        state.lastMove = [state.isMovingFrom, target];
         state.fen = fen;
         state.future = [];
         state.validMoves = validMoves;
       }
-      state.isMovingFrom = null;
+      if (state.isMovingOver !== null && state.isMovingFrom !== state.isMovingOver) {
+        state.isMovingFrom = null;
+      }
       state.isMovingOver = null;
     },
     reset() {
