@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import styles from './styles.module.scss';
 import Button from '../Button';
 import { useDispatch } from 'react-redux';
+import { reset } from '../../redux/board';
 
 export interface HomeProps {
   
@@ -13,6 +14,10 @@ export const Home: FC<HomeProps> = () => {
   const authenticateUser = () => {
     console.log('hit');
   };
+
+  useEffect(() => {
+    return () => dispatch(reset());
+  }, []);
 
   return (
     <div className={styles.root}>

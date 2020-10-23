@@ -15,8 +15,7 @@ export const AI: FC<AIProps> = ({
   className,
 }) => {
   const dispatch = useDispatch();
-  const { fen, validMoves } = useSelector(boardSelector);
-  const moveHistory = [];
+  const { fen, validMoves, history, future } = useSelector(boardSelector);
 
   useEffect(() => {
     dispatch(init());
@@ -33,7 +32,8 @@ export const AI: FC<AIProps> = ({
       <GameDetails
         className={styles.details}
         board={fen}
-        moveHistory={moveHistory}
+        history={history}
+        future={future}
         whitePlayer={null}
         blackPlayer={null}
         user={null}

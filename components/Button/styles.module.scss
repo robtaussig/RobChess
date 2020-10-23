@@ -1,5 +1,9 @@
 .root {
 
+  &:disabled {
+    background-color: gray;
+    color: white;
+  }
   @media screen and (min-width: 600px) {
     
   }

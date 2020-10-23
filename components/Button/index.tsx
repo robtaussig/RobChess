@@ -7,6 +7,7 @@ export interface ButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   className?: string;
   link?: string;
+  [rest: string]: any;
 };
 
 export const Button: FC<ButtonProps> = ({
@@ -14,6 +15,7 @@ export const Button: FC<ButtonProps> = ({
   className,
   link,
   children,
+  ...rest
 }) => {
 
   if (link) {
@@ -21,6 +23,7 @@ export const Button: FC<ButtonProps> = ({
       <Link href={link}>
         <button
           className={cn(styles.root, className)}
+          {...rest}
         >
           {children}
         </button>
@@ -32,6 +35,7 @@ export const Button: FC<ButtonProps> = ({
     <button
       className={cn(styles.root, className)}
       onClick={onClick}
+      {...rest}
     >
       {children}
     </button>

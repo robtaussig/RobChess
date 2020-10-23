@@ -30,7 +30,6 @@ export const getValidMoves = (board: string): { [pos: number]: number[] } => {
     legalMoves[fromNum].push(toNum);
   });
 
-  console.log(board, legalMoves);
   return legalMoves;
 };
 
