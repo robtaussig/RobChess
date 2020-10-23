@@ -38,7 +38,10 @@ const boardSlice = createSlice({
       }
     },
     moveTo(state) {
-      if (state.isMovingFrom !== state.isMovingOver) {
+      if (
+        state.isMovingFrom !== state.isMovingOver &&
+        state.validMoves[state.isMovingFrom]?.includes(state.isMovingOver)
+      ) {
         const { fen, validMoves } = makeMove(state.fen, state.isMovingFrom, state.isMovingOver);
         state.lastMove = [state.isMovingFrom, state.isMovingOver];
         state.fen = fen;

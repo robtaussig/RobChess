@@ -1,14 +1,26 @@
 .root {
-
+  display: grid;
+  grid-template-areas: "header"
+                       "board"
+                       "details";
+  grid-template-rows: max-content 1fr max-content;
+  grid-template-columns: 1fr;
   @media screen and (min-width: 600px) {
-    
+    grid-template-areas: "board header"
+                         "board details";
+    grid-template-rows: max-content 1fr;
+    grid-template-columns: max-content 1fr;
   }
 }
 
 .header {
-
+  grid-area: header;
 }
 
 .board {
+  grid-area: board;
+}
 
+.details {
+  grid-area: details;
 }

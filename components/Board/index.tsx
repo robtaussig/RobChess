@@ -22,11 +22,15 @@ export const Board: FC<BoardProps> = ({
   const squares = board.split(' ')[0];
   const rows = squares.split('/');
 
-  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
-    const { clientX, clientY } = event.touches[0];
+  const handleMove = (
+    event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const { clientX, clientY } = 'touches' in event ?
+      event.touches[0] :
+      event;
     const boardX = clientX - rootRef.current.offsetLeft;
     const boardY = clientY - rootRef.current.offsetTop;
-    const sideLength = (window.innerWidth / 25) * 24;
+    const sideLength = (Math.min(window.innerWidth, window.innerHeight) / 25) * 24;
     const boardXPos = Math.floor((boardX / sideLength) * 8);
     const boardYPos = Math.floor((boardY / sideLength) * 8);
     const pos = (boardYPos * 8) + boardXPos;
@@ -39,7 +43,8 @@ export const Board: FC<BoardProps> = ({
     <div
       ref={rootRef}
       className={cn(styles.root, className)}
-      onTouchMove={handleTouchMove}
+      onTouchMove={handleMove}
+      onMouseMove={handleMove}
     >
       {rows.map((row, idx) => {
         return (

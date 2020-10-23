@@ -31,6 +31,7 @@ export const AI: FC<AIProps> = ({
         board={fen}
       />}
       <GameDetails
+        className={styles.details}
         board={fen}
         moveHistory={moveHistory}
         whitePlayer={null}
