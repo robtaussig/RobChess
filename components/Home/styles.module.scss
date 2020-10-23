@@ -1,6 +1,45 @@
 .root {
-
+  height: 100%;
+  display: grid;
+  grid-template-areas: ". header ."
+                       ". guest ."
+                       ". sign-in ."
+                       ". ai ."
+                       ". . .";
+  grid-template-rows: 1fr max-content max-content max-content 1fr;
+  grid-template-columns: 1fr max-content 1fr;
+  grid-gap: 5px;
+  & > button {
+    border: 1px solid black;
+    padding: 15px 10px;
+    margin: 20px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    background-color: midnightblue;
+  }
   @media screen and (min-width: 600px) {
     
   }
+}
+
+.header {
+  grid-area: header;
+  margin-top: 50px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 36px;
+}
+
+.guestButton {
+  grid-area: guest;
+}
+
+.signinButton {
+  grid-area: sign-in;
+}
+
+.aiButton {
+  grid-area: ai;
 }

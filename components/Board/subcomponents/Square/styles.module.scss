@@ -1,0 +1,27 @@
+.root {
+  flex: 0 0 12vw;
+  box-sizing: border-box;
+  position: relative;
+  @media screen and (min-width: 600px) {
+    
+  }
+}
+
+.validBlackSquare, .validWhiteSquare  {
+  &:after {
+    content: "";
+    background-color: gray;
+    position: absolute;
+    height: 30%;
+    width: 30%;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    opacity: 0.5;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.wasLastMove {
+  border: 2px solid red;
+}

@@ -16,15 +16,26 @@ export const Home: FC<HomeProps> = () => {
 
   return (
     <div className={styles.root}>
+      <h1 className={styles.header}>
+        Rob Chess
+      </h1>
       <Button
+        className={styles.guestButton}
         link={'/play'}
       >
         Continue As Guest
       </Button>
       <Button
+        className={styles.signinButton}
         onClick={authenticateUser}
       >
         Sign in
+      </Button>
+      <Button
+        className={styles.aiButton}
+        link={'/ai'}
+      >
+        Play AI
       </Button>
     </div>
   );
