@@ -21,7 +21,6 @@ export const AI: FC<AIProps> = ({
 
   return (
     <div className={cn(styles.root, className)}>
-      <h1 className={styles.header}>Vs AI</h1>
       <Board
         className={styles.board}
       />

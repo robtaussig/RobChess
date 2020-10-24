@@ -25,8 +25,6 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
         }
     }, [history, future, lastMove]);
 
-    console.log(moveHistory);
-
     return (
         <div className={cn(styles.root, className)}>
             {moveHistory.map((move, idx) => {
