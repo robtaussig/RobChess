@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { makeMove, getValidMoves, initGame } from './util';
+import { User } from './user';
 
 export interface Board {
   fen: string;
@@ -33,7 +34,7 @@ const boardSlice = createSlice({
   name: 'board',
   initialState: INITIAL_STATE,
   reducers: {
-    init(state) {
+    init(state, action: PayloadAction<User>) {
       const { fen, validMoves } = initGame();
       state.fen = fen;
       state.validMoves = validMoves;

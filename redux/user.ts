@@ -1,26 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 
 export interface User {
-  
+  name: string;
+  rating: number;
 }
 
-const INITIAL_STATE: User = {};
+const INITIAL_STATE: User = {
+  name: 'Anonymous',
+  rating: 1000,
+};
 
 const userSlice = createSlice({
   name: 'user',
   initialState: INITIAL_STATE,
   reducers: {
-    add(state, action) {
-      
-    },
     reset(state, action) {
       return INITIAL_STATE;
     },
   }
 })
 
-export const { add, reset } = userSlice.actions
+export const { reset } = userSlice.actions
 
 export const userSelector = (state: AppState) => state.user
 

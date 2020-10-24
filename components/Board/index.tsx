@@ -3,21 +3,26 @@ import cn from 'classnames';
 import styles from './styles.module.scss';
 import Row from './subcomponents/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { boardSelector, movingOver } from '../../redux/board';
+import { movingOver } from '../../redux/board';
 
 export interface BoardProps {
   className?: string;
   validMoves: { [pos: number]: number[] };
   board: string;
+  isMovingOver: number;
+  isMovingFrom: number;
+  lastMove: [number, number];
 }
 
 export const Board: FC<BoardProps> = ({
   className,
   validMoves,
   board,
+  isMovingOver,
+  isMovingFrom,
+  lastMove,
 }) => {
   const dispatch = useDispatch();
-  const { isMovingOver, isMovingFrom, lastMove } = useSelector(boardSelector);
   const rootRef = useRef<HTMLDivElement>(null);
   const squares = board.split(' ')[0];
   const rows = squares.split('/');

@@ -1,0 +1,23 @@
+.root {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  grid-template-rows: max-content;
+  grid-auto-flow: column;
+  grid-column-gap: 10px;
+  overflow: auto;
+  @media screen and (min-width: 600px) {
+    
+  }
+}
+
+.move {
+
+}
+
+.white {
+  grid-column: 1;
+}
+
+.black {
+  grid-column: 2;
+}
