@@ -26,6 +26,7 @@ export const Layout: FC<LayoutProps> = ({
         <link rel="shortcut icon" href="favicon.ico"/>
         <link href='https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;800&display=swap' rel="stylesheet"/>
         <title>Rob Taussig</title>
+        <script src='https://kit.fontawesome.com/a076d05399.js'/>
         <script type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: `{
             "@context": "http://schema.org",

@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import clamp from 'lodash/clamp';
 import { useSpring, animated } from 'react-spring';
 import { useGesture } from 'react-with-gesture';
+import { PIECE_TO_CSS } from './constants';
 
 export interface PieceProps {
   className?: string;
@@ -50,7 +51,7 @@ export const Piece: FC<PieceProps> = ({
   const pieceColor = piece === piece.toLowerCase() ? styles.black : styles.white;
 
   return (
-    <animated.div
+    <animated.i
       {...bind()}
       onDragEnd={console.log}
       style={{
@@ -58,10 +59,8 @@ export const Piece: FC<PieceProps> = ({
         transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`),
         touchAction: 'none',
       }}
-      className={cn(styles.root, className, pieceColor)}
-    >
-      {piece}
-    </animated.div>
+      className={cn(styles.root, className, pieceColor, PIECE_TO_CSS[piece])}
+    />
   );
 };
 

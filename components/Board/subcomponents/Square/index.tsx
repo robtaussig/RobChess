@@ -38,15 +38,11 @@ export const Square: FC<SquareProps> = ({
         [styles.validBlackSquare]: isValidTarget && squareColor === 'black',
         [styles.validWhiteSquare]: isValidTarget && squareColor === 'white',
         [styles.wasLastMove]: wasLastMove,
+        [styles.blackSquare]: squareColor === 'black',
+        [styles.whiteSquare]: squareColor === 'white',
+        [styles.movingFrom]: isMovingFrom,
+        [styles.isMovingOver]: isMovingOver,
       })}
-      style={{
-        backgroundColor: isMovingFrom ?
-          'midnightblue' :
-          isMovingOver ?
-            'green' :
-            squareColor,
-        touchAction: 'none',
-      }}
       onClick={() => {
         if (
           moveOrigin !== null &&
