@@ -11,7 +11,9 @@
 }
 
 .move {
-
+  &.isCurrentMove {
+    border: 1px solid black;
+  }
 }
 
 .white {

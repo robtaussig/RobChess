@@ -13,12 +13,19 @@ export interface Board {
   lastMove: [number, number];
   history: Moment[];
   future: Moment[];
+  whitePlayer: User;
+  blackPlayer: User;
 }
 
 export interface Moment {
   fen: string;
   move: [number, number];
 }
+
+export const AI_PLAYER: User = {
+  name: 'AI',
+  rating: 1000,
+};
 
 const INITIAL_STATE: Board = {
   fen: null,
@@ -28,13 +35,15 @@ const INITIAL_STATE: Board = {
   lastMove: null,
   history: [],
   future: [],
+  blackPlayer: null,
+  whitePlayer: null,
 }
 
 const boardSlice = createSlice({
   name: 'board',
   initialState: INITIAL_STATE,
   reducers: {
-    init(state, action: PayloadAction<User>) {
+    init(state) {
       const { fen, validMoves } = initGame();
       state.fen = fen;
       state.validMoves = validMoves;
@@ -74,7 +83,7 @@ const boardSlice = createSlice({
     goBack(state) {
       if (state.history.length > 0) {
         const { fen, move } = state.history.pop();
-        state.future.push({ fen: state.fen, move: state.lastMove });
+        state.future.unshift({ fen: state.fen, move: state.lastMove });
         state.fen = fen;
         state.lastMove = move;
         state.validMoves = getValidMoves(fen);
@@ -82,11 +91,25 @@ const boardSlice = createSlice({
     },
     goForward(state) {
       if (state.future.length > 0) {
-        const { fen, move } = state.future.pop();
+        const { fen, move } = state.future.shift();
         state.history.push({ fen: state.fen, move: state.lastMove });
         state.fen = fen;
         state.lastMove = move;
         state.validMoves = getValidMoves(fen);
+      }
+    },
+    claimSeat(state, action: PayloadAction<{ user: User, color: 'white' | 'black'}>) {
+      if (action.payload.color === 'white') {
+        state.whitePlayer = action.payload.user;
+      } else {
+        state.blackPlayer = action.payload.user;
+      }
+    },
+    assignAI(state, action: PayloadAction<'white' | 'black'>) {
+      if (action.payload === 'white') {
+        state.whitePlayer = AI_PLAYER;
+      } else {
+        state.blackPlayer = AI_PLAYER;
       }
     }
   }
@@ -100,6 +123,8 @@ export const {
   init,
   goBack,
   goForward,
+  claimSeat,
+  assignAI,
 } = boardSlice.actions
 
 export const boardSelector = (state: AppState) => state.board

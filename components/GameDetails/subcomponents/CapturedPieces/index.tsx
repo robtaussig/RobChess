@@ -4,16 +4,17 @@ import cn from 'classnames';
 import { CapturedCountByPiece } from './types';
 import { INITIAL_PIECE_COUNT } from './constants';
 import Pieces from './subcomponents/Pieces';
+import { useSelector } from 'react-redux';
+import { boardSelector } from '../../../../redux/board';
 
 export interface CapturedPiecesProps {
   className?: string;
-  board: string;
 }
 
 export const CapturedPieces: FC<CapturedPiecesProps> = ({
   className,
-  board,
 }) => {
+  const { fen: board } = useSelector(boardSelector);
 
   const {
     white, black
@@ -47,6 +48,7 @@ export const CapturedPieces: FC<CapturedPiecesProps> = ({
       black,
     }
   }, [board]);
+
   return (
     <div className={cn(styles.root, className)}>
       <Pieces className={styles.whitePieces} pieces={white} white/>

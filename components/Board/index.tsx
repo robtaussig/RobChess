@@ -3,30 +3,25 @@ import cn from 'classnames';
 import styles from './styles.module.scss';
 import Row from './subcomponents/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { movingOver } from '../../redux/board';
+import { movingOver, boardSelector } from '../../redux/board';
 
 export interface BoardProps {
   className?: string;
-  validMoves: { [pos: number]: number[] };
-  board: string;
-  isMovingOver: number;
-  isMovingFrom: number;
-  lastMove: [number, number];
 }
 
 export const Board: FC<BoardProps> = ({
   className,
-  validMoves,
-  board,
-  isMovingOver,
-  isMovingFrom,
-  lastMove,
 }) => {
+  const {
+    validMoves,
+    fen: board,
+    isMovingOver,
+    isMovingFrom,
+    lastMove,
+  } = useSelector(boardSelector);
   const dispatch = useDispatch();
   const rootRef = useRef<HTMLDivElement>(null);
-  const squares = board.split(' ')[0];
-  const rows = squares.split('/');
-
+ 
   const handleMove = (
     event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -53,6 +48,8 @@ export const Board: FC<BoardProps> = ({
     }
   };
 
+  if (!board) return null;
+
   return (
     <div
       ref={rootRef}
@@ -60,18 +57,21 @@ export const Board: FC<BoardProps> = ({
       onTouchMove={handleMove}
       onMouseMove={handleMove}
     >
-      {rows.map((row, idx) => {
-        return (
-          <Row
-            key={`${idx}-row`}
-            rowIdx={idx}
-            row={row}
-            isMovingFrom={isMovingFrom}
-            isMovingOver={isMovingOver}
-            validMoves={validMoves}
-            lastMove={lastMove}
-          />
-        );
+      {board
+        .split(' ')[0]
+        .split('/')
+        .map((row, idx) => {
+          return (
+            <Row
+              key={`${idx}-row`}
+              rowIdx={idx}
+              row={row}
+              isMovingFrom={isMovingFrom}
+              isMovingOver={isMovingOver}
+              validMoves={validMoves}
+              lastMove={lastMove}
+            />
+          );
       })}
     </div>
   );

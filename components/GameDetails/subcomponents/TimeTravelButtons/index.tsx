@@ -3,31 +3,28 @@ import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Button from '../../../Button';
-import { goBack, goForward } from '../../../../redux/board';
+import { boardSelector, goBack, goForward } from '../../../../redux/board';
 
 export interface TimeTravelButtonsProps {
   className?: string;
-  hasHistory: boolean;
-  hasFuture: boolean;
 }
 
 export const TimeTravelButtons: FC<TimeTravelButtonsProps> = ({
   className,
-  hasHistory,
-  hasFuture,
 }) => {
+  const { history, future } = useSelector(boardSelector);
   const dispatch = useDispatch();
 
   return (
     <div className={cn(styles.root, className)}>
       <Button
-        disabled={!hasHistory}
+        disabled={history?.length === 0 ?? false}
         onClick={() => dispatch(goBack())}
       >
         Back
       </Button>
       <Button
-        disabled={!hasFuture}
+        disabled={future?.length === 0 ?? false}
         onClick={() => dispatch(goForward())}
       >
         Forward
