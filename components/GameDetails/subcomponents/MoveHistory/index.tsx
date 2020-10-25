@@ -27,18 +27,34 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
 
     return (
         <div className={cn(styles.root, className)}>
-            {moveHistory.map((move, idx) => {
+            {moveHistory
+            .reduce((pairs, move, idx) => {
+                if (idx % 2 === 0) {
+                    pairs.push([]);
+                }
+                pairs[pairs.length - 1].push(move);
+                return pairs;
+            }, [])
+            .map(([whiteMove, blackMove], idx) => {
                 return (
-                    <span
-                        key={`${idx}-move`}
-                        className={cn(styles.move, {
-                            [styles.white]: idx % 2 === 0,
-                            [styles.black]: idx % 2 === 1,
-                            [styles.isCurrentMove]: idx === history.length - 1,
-                        })}
-                    >
-                        {Math.floor(idx / 2) + 1}. {move}
-                    </span>
+                    <div className={styles.movePair}>
+                        <span
+                            key={`${idx}-move`}
+                            className={cn(styles.move, styles.white, {
+                                [styles.isCurrentMove]: (idx * 2) === history.length - 1,
+                            })}
+                        >
+                            {idx + 1}. {whiteMove}
+                        </span>
+                        {blackMove && (<span
+                            key={`${idx}-move`}
+                            className={cn(styles.move, styles.black, {
+                                [styles.isCurrentMove]: ((idx * 2) + 1) === history.length - 1,
+                            })}
+                        >
+                            {idx + 1}. {blackMove}
+                        </span>)}
+                    </div>
                 );
             })}
         </div>

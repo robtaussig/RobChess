@@ -1,16 +1,18 @@
 .root {
-  display: grid;
-  grid-template-columns: repeat(2, max-content);
-  grid-template-rows: max-content;
-  grid-auto-flow: column;
-  grid-column-gap: 10px;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
   @media screen and (min-width: 600px) {
     
   }
 }
 
+.movePair {
+  display: flex;
+  justify-content: space-around;
+}
+
 .move {
+  border: 1px solid transparent;
   &.isCurrentMove {
     border: 1px solid black;
   }
