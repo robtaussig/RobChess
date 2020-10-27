@@ -1,10 +1,11 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect, useRef } from 'react';
 import styles from './styles.module.scss';
 import cn from 'classnames';
-import { boardSelector, Moment } from '../../../../redux/board';
+import { boardSelector } from '../../../../redux/board';
 import { convertMoveHistory } from './util';
 import { useSelector } from 'react-redux';
-
+import TimeTravelButtons from '../TimeTravelButtons';
+import MovePair from './components/MovePair';
 export interface MoveHistoryProps {
     className?: string;
 }
@@ -12,6 +13,7 @@ export interface MoveHistoryProps {
 export const MoveHistory: FC<MoveHistoryProps> = ({
     className,
 }) => {
+    const listRef = useRef<HTMLUListElement>(null);
     const {
         history,
         future,
@@ -25,38 +27,36 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
         }
     }, [history, future, lastMove]);
 
+    useEffect(() => {
+        setTimeout(() => {
+            listRef.current.scrollTop = listRef.current.scrollHeight;
+        }, 50);
+    }, [history.length]);
+
     return (
         <div className={cn(styles.root, className)}>
-            {moveHistory
-            .reduce((pairs, move, idx) => {
-                if (idx % 2 === 0) {
-                    pairs.push([]);
-                }
-                pairs[pairs.length - 1].push(move);
-                return pairs;
-            }, [])
-            .map(([whiteMove, blackMove], idx) => {
-                return (
-                    <div className={styles.movePair}>
-                        <span
-                            key={`${idx}-move`}
-                            className={cn(styles.move, styles.white, {
-                                [styles.isCurrentMove]: (idx * 2) === history.length - 1,
-                            })}
-                        >
-                            {idx + 1}. {whiteMove}
-                        </span>
-                        {blackMove && (<span
-                            key={`${idx}-move`}
-                            className={cn(styles.move, styles.black, {
-                                [styles.isCurrentMove]: ((idx * 2) + 1) === history.length - 1,
-                            })}
-                        >
-                            {idx + 1}. {blackMove}
-                        </span>)}
-                    </div>
-                );
-            })}
+            <TimeTravelButtons className={styles.timeTravelButtons} />
+            <ul ref={listRef} className={styles.moveList} >
+                {moveHistory
+                .reduce((pairs, move, idx) => {
+                    if (idx % 2 === 0) {
+                        pairs.push([]);
+                    }
+                    pairs[pairs.length - 1].push(move);
+                    return pairs;
+                }, [])
+                    .map(([whiteMove, blackMove], idx) => {
+                        return (
+                            <MovePair
+                                key={`${idx}-move-history`}
+                                movePairNum={idx}
+                                whiteMove={whiteMove}
+                                blackMove={blackMove}
+                                history={history}
+                            />
+                        );
+                })}
+            </ul>
         </div>
     );
 };

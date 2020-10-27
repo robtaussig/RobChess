@@ -18,12 +18,14 @@ export const TimeTravelButtons: FC<TimeTravelButtonsProps> = ({
   return (
     <div className={cn(styles.root, className)}>
       <Button
+        className={styles.button}
         disabled={history?.length === 0 ?? false}
         onClick={() => dispatch(goBack())}
       >
         Back
       </Button>
       <Button
+        className={styles.button}
         disabled={future?.length === 0 ?? false}
         onClick={() => dispatch(goForward())}
       >

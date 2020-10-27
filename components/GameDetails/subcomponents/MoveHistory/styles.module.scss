@@ -1,14 +1,32 @@
 .root {
   display: flex;
   flex-direction: column;
+  height: calc(100vh - 100vw);
+  width: 100%;
+  overflow: hidden;
   @media screen and (min-width: 600px) {
-    
+    height: 100%;
+    width: calc(100vw - 100vh);
   }
+}
+
+.timeTravelButtons {
+  flex: 0;
+  margin: 10px;
+  margin-bottom: 0px;
+}
+
+.moveList {
+  flex: 1;
+  overflow: auto;
+  margin: 10px;
 }
 
 .movePair {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  height: 30px;
+  margin: 0 20px;
 }
 
 .move {
