@@ -1,13 +1,18 @@
 .root {
+  flex: 1;
+  margin: 2vw;
   display: grid;
+  grid-gap: 2vw;
   grid-template-areas: "board"
                        "details";
-  grid-template-rows: 1fr 100vw;
+  grid-template-rows: 96vw calc(100vh - 102vw);
   grid-template-columns: 1fr;
   @media screen and (min-width: 600px) {
+    margin: 2vh;
+    grid-gap: 2vh;
     grid-template-areas: "board details";
-    grid-template-rows: max-content 1fr;
-    grid-template-columns: 1fr 100vh;
+    grid-template-rows: 96vh calc(100vw - 102vh);
+    grid-template-columns: max-content 1fr;
   }
 }
 

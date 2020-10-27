@@ -3,12 +3,10 @@
   flex-direction: column;
   width: 96vw;
   height: 96vw;
-  margin: 2vw;
   border: 1px solid black;
   user-select: none;
   @media screen and (min-width: 600px) {
     width: 96vh;
     height: 96vh;
-    margin: 2vh;
   }
 }
