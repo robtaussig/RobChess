@@ -58,6 +58,7 @@ export const Piece: FC<PieceProps> = ({
         //@ts-ignore
         transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`),
         touchAction: 'none',
+        display: 'flex',
       }}
       className={cn(styles.root, className, pieceColor, PIECE_TO_CSS[piece])}
     />
