@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { useRef, FC, useEffect } from 'react';
 import styles from '../styles.module.scss';
 import cn from 'classnames';
 import { Moment } from '../../../../../redux/board';
@@ -16,12 +16,18 @@ export const MovePair: FC<MovePairProps> = ({
     blackMove,
     history,
 }) => {
-
+    const liRef = useRef<HTMLLIElement>(null);
     const isWhiteMove = (movePairNum * 2) === history.length - 1;
     const isBlackMove = ((movePairNum * 2) + 1) === history.length - 1;
 
+    useEffect(() => {
+        if (isWhiteMove || isBlackMove) {
+            liRef.current.scrollIntoView();
+        }
+    }, [isWhiteMove, isBlackMove]);
+
     return (
-        <li className={styles.movePair}>
+        <li ref={liRef} className={styles.movePair}>
             <span
                 className={cn(styles.move, styles.white, {
                     [styles.isCurrentMove]: isWhiteMove,

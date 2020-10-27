@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import cn from 'classnames';
 import { boardSelector } from '../../../../redux/board';
@@ -13,7 +13,6 @@ export interface MoveHistoryProps {
 export const MoveHistory: FC<MoveHistoryProps> = ({
     className,
 }) => {
-    const listRef = useRef<HTMLUListElement>(null);
     const {
         history,
         future,
@@ -27,16 +26,10 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
         }
     }, [history, future, lastMove]);
 
-    useEffect(() => {
-        setTimeout(() => {
-            listRef.current.scrollTop = listRef.current.scrollHeight;
-        }, 50);
-    }, [history.length]);
-
     return (
         <div className={cn(styles.root, className)}>
             <TimeTravelButtons className={styles.timeTravelButtons} />
-            <ul ref={listRef} className={styles.moveList} >
+            <ul className={styles.moveList} >
                 {moveHistory
                 .reduce((pairs, move, idx) => {
                     if (idx % 2 === 0) {

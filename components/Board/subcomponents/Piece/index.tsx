@@ -53,10 +53,9 @@ export const Piece: FC<PieceProps> = ({
   return (
     <animated.i
       {...bind()}
-      onDragEnd={console.log}
       style={{
         //@ts-ignore
-        transform: xy.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`),
+        transform: xy?.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`),
         touchAction: 'none',
         display: 'flex',
       }}
