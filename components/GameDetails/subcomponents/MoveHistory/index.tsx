@@ -1,9 +1,9 @@
 import React, { FC, useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import cn from 'classnames';
-import { boardSelector } from '../../../../redux/board';
+import { boardSelector, goTo } from '../../../../redux/board';
 import { convertMoveHistory } from './util';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import TimeTravelButtons from '../TimeTravelButtons';
 import MovePair from './components/MovePair';
 export interface MoveHistoryProps {
@@ -18,7 +18,12 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
         future,
         lastMove,
     } = useSelector(boardSelector);
+    const dispatch = useDispatch();
     const [moveHistory, setMoveHistory] = useState([]);
+
+    const handleGoToMove = (moveNum: number, white: boolean) => {
+        dispatch(goTo(moveNum * 2 + (white ? 0 : 1)));
+    };
 
     useEffect(() => {
         if (history) {
@@ -46,6 +51,7 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
                                 whiteMove={whiteMove}
                                 blackMove={blackMove}
                                 history={history}
+                                onGoTo={handleGoToMove}
                             />
                         );
                 })}

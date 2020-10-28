@@ -98,6 +98,18 @@ const boardSlice = createSlice({
         state.validMoves = getValidMoves(fen);
       }
     },
+    goTo(state, action: PayloadAction<number>) {
+      const combinedState = state.history
+        .concat({ move: state.lastMove, fen: state.fen })
+        .concat(state.future);
+      
+      const { move, fen } = combinedState[action.payload + 1];
+      state.history = combinedState.slice(0, action.payload + 1);
+      state.future = combinedState.slice(action.payload + 2);
+      state.lastMove = move;
+      state.fen = fen;
+      state.validMoves = getValidMoves(fen);
+    },
     claimSeat(state, action: PayloadAction<{ user: User, color: 'white' | 'black'}>) {
       if (action.payload.color === 'white') {
         state.whitePlayer = action.payload.user;
@@ -125,6 +137,7 @@ export const {
   goForward,
   claimSeat,
   assignAI,
+  goTo,
 } = boardSlice.actions
 
 export const boardSelector = (state: AppState) => state.board
