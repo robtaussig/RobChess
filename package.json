@@ -27,6 +27,7 @@
     "react-svg": "^11.0.30",
     "react-with-gesture": "^4.0.8",
     "redux-logger": "^3.0.6",
+    "robtaussig_chess_engine": "^1.2.0",
     "sass": "^1.26.10"
   },
   "devDependencies": {

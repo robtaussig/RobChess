@@ -17,6 +17,7 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
     const {
         whitePlayer,
         blackPlayer,
+        history,
     } = useSelector(boardSelector);
     const user = useSelector(userSelector);
 
@@ -41,6 +42,7 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 onAssignAI={handleAssignAI}
                 canUnseat={whitePlayer && (whitePlayer === user || whitePlayer === AI_PLAYER)}
                 onUnseat={handleUnseat}
+                currentTurn={history.length % 2 === 0}
                 white
             />
             {whitePlayer && blackPlayer && (<span className={styles.vs}>-vs-</span>)}
@@ -51,6 +53,7 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 onAssignAI={handleAssignAI}
                 canUnseat={blackPlayer && (blackPlayer === user || blackPlayer === AI_PLAYER)}
                 onUnseat={handleUnseat}
+                currentTurn={history.length % 2 === 1}
                 black
             />
         </div>

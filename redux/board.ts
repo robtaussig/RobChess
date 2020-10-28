@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { makeMove, getValidMoves, initGame } from './util';
 import { User } from './user';
+import { getBestMove, fenToBoard } from 'robtaussig_chess_engine';
 
 export interface Board {
   fen: string;
@@ -77,6 +78,14 @@ const boardSlice = createSlice({
       }
       state.isMovingOver = null;
     },
+    movePiece(state, action: PayloadAction<{ from: number, to: number }>) {
+      const { fen, validMoves } = makeMove(state.fen, action.payload.from, action.payload.to);
+      state.history.push({ fen: state.fen, move: state.lastMove });
+      state.lastMove = [action.payload.from, action.payload.to];
+      state.fen = fen;
+      state.future = [];
+      state.validMoves = validMoves;
+    },
     reset() {
       return INITIAL_STATE;
     },
@@ -127,6 +136,23 @@ const boardSlice = createSlice({
   }
 })
 
+const convertToFenPos = (pos: number): number => {
+  const row = Math.floor(pos / 10) - 1;
+  const col = pos % 10;
+  return (row * 8) + col - 1;
+};
+
+export const makeEngineMove = (): ThunkAction<void, AppState, void, any> =>
+  async (dispatch, getState) => {
+    const { board } = getState();
+    const bestMove = getBestMove(fenToBoard(board.fen));
+    if (bestMove) {
+      const [,move] = bestMove;
+      const [from, to] = move.split('-').map(Number).map(convertToFenPos);
+      dispatch(movePiece({ from, to }));
+    }
+  };
+
 export const {
   movingFrom,
   movingOver,
@@ -138,6 +164,7 @@ export const {
   claimSeat,
   assignAI,
   goTo,
+  movePiece,
 } = boardSlice.actions
 
 export const boardSelector = (state: AppState) => state.board

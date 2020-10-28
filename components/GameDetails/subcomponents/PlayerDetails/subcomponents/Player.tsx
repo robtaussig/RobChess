@@ -1,8 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import styles from './styles.module.scss';
+import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { User } from '../../../../../redux/user';
 import { PIECE_TO_CSS } from '../../../../Board/subcomponents/Piece/constants';
+import { AI_PLAYER, makeEngineMove } from '../../../../../redux/board';
 
 export interface PlayerProps {
   className?: string;
@@ -10,6 +12,7 @@ export interface PlayerProps {
   white?: boolean;
   black?: boolean;
   canUnseat: boolean;
+  currentTurn: boolean;
   onClaimSeat: (color: 'white' | 'black') => void;
   onAssignAI: (color: 'white' | 'black') => void;
   onUnseat: (color: 'white' | 'black') => void;
@@ -24,7 +27,16 @@ export const Player: FC<PlayerProps> = ({
   onAssignAI,
   canUnseat,
   onUnseat,
+  currentTurn,
 }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (player === AI_PLAYER && currentTurn) {
+      dispatch(makeEngineMove());
+    }
+  }, [currentTurn, player]);
+
   if (!player) {
     return (
       <div
