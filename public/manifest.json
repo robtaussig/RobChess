@@ -3,8 +3,13 @@
   "short_name": "RobChess",
   "theme_color": "#5121f3",
   "background_color": "#2196f3",
-  "display": "minimal-ui",
+  "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
-  "start_url": "/"
+  "start_url": "/",
+  "dir": "ltr",
+  "lang": "en",
+  "description": "The best chess app in the world",
+  "related_applications": "",
+  "prefer_related_applications": false
 }
