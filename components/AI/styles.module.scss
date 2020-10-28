@@ -5,14 +5,14 @@
   grid-gap: 2vw;
   grid-template-areas: "board"
                        "details";
-  grid-template-rows: 96vw calc(100vh - 102vw);
+  grid-template-rows: 96vw calc(var(--100vh, 100vh) - 102vw);
   grid-template-columns: 96vw;
   @media screen and (min-width: 600px) {
-    margin: 2vh;
-    grid-gap: 2vh;
+    margin: calc(0.02 * var(--100vh, 100vh));
+    grid-gap: calc(0.02 * var(--100vh, 100vh));
     grid-template-areas: "board details";
-    grid-template-rows: 96vh;
-    grid-template-columns: 96vh calc(100vw - 102vh);
+    grid-template-rows: calc(0.96 * var(--100vh, 100vh));
+    grid-template-columns: calc(0.96 * var(--100vh, 100vh)) calc(100vw - calc(1.02 * var(--100vh, 100vh)));
   }
 }
 

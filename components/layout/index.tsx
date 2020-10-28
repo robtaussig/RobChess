@@ -1,7 +1,8 @@
-import { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import Head from 'next/head';
 import styles from './styles.module.scss';
 import cn from 'classnames';
+import { use100vh } from 'react-div-100vh';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -16,8 +17,14 @@ export const Layout: FC<LayoutProps> = ({
   className,
   title = 'Rob Taussig',
 }) => {
+  const height = use100vh();
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--100vh', `${height}px`);
+  }, [height]);
+  
   return (
-    <div className={cn(styles.container, className)}>
+    <div className={cn(styles.container, className)} style={{ height: height ?? '100vh' }}>
       <Head>
         <meta name="robots" content="NOODP"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, minimal-ui"/>

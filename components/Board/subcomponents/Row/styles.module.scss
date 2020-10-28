@@ -2,6 +2,6 @@
   flex: 0 0 12vw;
   display: flex;
   @media screen and (min-width: 600px) {
-    flex: 0 0 12vh;
+    flex: 0 0 calc(0.12 * var(--100vh, 100vh));
   }
 }
