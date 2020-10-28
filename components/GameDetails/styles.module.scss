@@ -6,6 +6,9 @@
                        "captured-pieces move-history";
   grid-template-rows: max-content max-content 1fr;
   grid-template-columns: 1fr 1fr;
+  & > * {
+    background-color: gainsboro;
+  }
   @media screen and (min-width: 600px) {
     grid-gap: calc(0.02 * var(--100vh, 100vh));
     grid-template-areas: "player-details game-actions"

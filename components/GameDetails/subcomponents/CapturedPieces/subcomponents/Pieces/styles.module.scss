@@ -1,11 +1,13 @@
 .root {
+  font-size: 8vw;
+  padding: 7px;
   @media screen and (min-width: 600px) {
-
+    font-size: calc(0.08 * var(--100vh, 100vh));
   }
 }
 
 .piece {
-
+  margin: 3px;
 }
 
 .white {

@@ -43,6 +43,7 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 onUnseat={handleUnseat}
                 white
             />
+            {whitePlayer && blackPlayer && (<span className={styles.vs}>-vs-</span>)}
             <Player
                 className={styles.blackPlayer}
                 player={blackPlayer}

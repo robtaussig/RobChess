@@ -1,7 +1,17 @@
 .root {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  & > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
   @media screen and (min-width: 600px) {
     
   }
+}
+
+.vs {
+  text-align: center;
 }
 
 .whitePlayer {

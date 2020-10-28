@@ -1,13 +1,24 @@
 .root {
+  display: flex;
+  padding: 10px;
+  justify-content: space-around;
   @media screen and (min-width: 600px) {
     
   }
 }
 
 .resign {
-
+  background-color: #920000;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+  margin-left: auto;
 }
 
 .draw {
-
+  background-color: #e29b30;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+  margin-left: auto;
 }

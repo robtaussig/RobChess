@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import styles from './styles.module.scss';
 import cn from 'classnames';
 import { User } from '../../../../../redux/user';
+import { PIECE_TO_CSS } from '../../../../Board/subcomponents/Piece/constants';
 
 export interface PlayerProps {
   className?: string;
@@ -27,19 +28,25 @@ export const Player: FC<PlayerProps> = ({
   if (!player) {
     return (
       <div
-        className={cn(styles.root, className)}
+        className={cn(styles.root, className, styles.unclaimed)}
       >
+        <i
+          className={cn(styles.piece, PIECE_TO_CSS['k'], {
+            [styles.white]: white,
+            [styles.black]: black,
+          })}
+        />
         <button
           className={styles.claimSeat}
           onClick={() => onClaimSeat(white ? 'white' : 'black')}
         >
-          Claim seat
+          Claim
         </button>
         <button
           className={styles.assignAI}
           onClick={() => onAssignAI(white ? 'white' : 'black')}
         >
-          Assign AI
+          AI
         </button>
       </div>
     );
@@ -51,13 +58,13 @@ export const Player: FC<PlayerProps> = ({
       [styles.black]: black,
     })}>
       <span className={styles.name}>{player.name}</span>
-      <span className={styles.rating}>{player.rating}</span>
+      <span className={styles.rating}>({player.rating})</span>
       {canUnseat && (
         <button
           className={styles.unseatButton}
           onClick={() => onUnseat(white ? 'white' : 'black')}
         >
-          Unseat
+          X
         </button>
       )}
     </div>

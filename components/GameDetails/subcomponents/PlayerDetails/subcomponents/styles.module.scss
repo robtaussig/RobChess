@@ -1,13 +1,19 @@
 .root {
+  display: flex;
+  align-items: center;
+  &.unclaimed {
+    justify-content: space-between;
+  }
   @media screen and (min-width: 600px) {
       
   }
-  &.white {
+}
 
-  }
-  &.black {
-
-  }
+.white {
+  color:#ff8a8a;
+}
+.black {
+  color: #332b2b;
 }
 
 .name {
@@ -19,13 +25,25 @@
 }
 
 .claimSeat {
-
+  background-color: midnightblue;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+  margin-left: auto;
 }
 
 .assignAI {
-
+  background-color: midnightblue;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+  margin-left: auto;
 }
 
 .unseatButton {
-
+  background-color: #920000;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: white;
+  margin-left: auto;
 }
