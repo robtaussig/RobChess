@@ -28,7 +28,11 @@ export const MovePair: FC<MovePairProps> = ({
 
     useEffect(() => {
         if (isWhiteMove || isBlackMove) {
-            liRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            liRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'start',
+            });
         }
     }, [isWhiteMove, isBlackMove]);
 
