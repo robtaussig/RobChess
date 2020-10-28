@@ -1,8 +1,8 @@
 .root {
-  font-size: 8vw;
+  font-size: 5vw;
   padding: 7px;
   @media screen and (min-width: 600px) {
-    font-size: calc(0.08 * var(--100vh, 100vh));
+    font-size: calc(0.035 * var(--100vh, 100vh));
   }
 }
 

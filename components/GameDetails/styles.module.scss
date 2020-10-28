@@ -14,7 +14,7 @@
     grid-template-areas: "player-details game-actions"
                        "move-history move-history"
                        "captured-pieces captured-pieces";
-    grid-template-rows: 100px 1fr 200px;
+    grid-template-rows: max-content 1fr 200px;
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -29,4 +29,8 @@
 
 .moveHistory {
   grid-area: move-history;
+}
+
+.capturedPieces {
+  grid-area: captured-pieces;
 }

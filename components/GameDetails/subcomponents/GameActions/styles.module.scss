@@ -1,5 +1,6 @@
 .root {
   display: flex;
+  align-items: center;
   padding: 10px;
   justify-content: space-around;
   @media screen and (min-width: 600px) {
