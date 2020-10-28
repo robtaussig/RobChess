@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^1.4.0",
     "chess.js": "^0.11.0",
     "classnames": "^2.2.6",
+    "comlink": "^4.3.0",
     "css.gg": "^2.0.0",
     "lodash": "^4.17.20",
     "mobile-detect": "^1.4.4",
@@ -28,7 +29,8 @@
     "react-with-gesture": "^4.0.8",
     "redux-logger": "^3.0.6",
     "robtaussig_chess_engine": "^1.2.0",
-    "sass": "^1.26.10"
+    "sass": "^1.26.10",
+    "worker-plugin": "^5.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.162",

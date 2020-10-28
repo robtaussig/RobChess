@@ -3,6 +3,13 @@ import { AppState } from './reducers';
 import { makeMove, getValidMoves, initGame } from './util';
 import { User } from './user';
 import { getBestMove, fenToBoard } from 'robtaussig_chess_engine';
+import { wrap } from 'comlink';
+import { WorkerInterface } from '../engine/index.worker';
+
+const comLinkWorker = typeof window !== 'undefined' ?
+  wrap<WorkerInterface>(new Worker('../engine/index.worker', {
+    type: 'module',
+  })) : null;
 
 export interface Board {
   fen: string;
@@ -145,7 +152,7 @@ const convertToFenPos = (pos: number): number => {
 export const makeEngineMove = (): ThunkAction<void, AppState, void, any> =>
   async (dispatch, getState) => {
     const { board } = getState();
-    const bestMove = getBestMove(fenToBoard(board.fen));
+    const bestMove = await comLinkWorker.getBestMove(fenToBoard(board.fen));
     if (bestMove) {
       const [,move] = bestMove;
       const [from, to] = move.split('-').map(Number).map(convertToFenPos);
