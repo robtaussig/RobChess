@@ -73,7 +73,6 @@ export const Piece: FC<PieceProps> = ({
         touchAction: 'none',
         display: 'flex',
       }}
-      onClick={onClickPiece}
       className={cn(styles.root, className, pieceColor, PIECE_TO_CSS[piece])}
     />
   );
