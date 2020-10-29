@@ -6,6 +6,7 @@ import clamp from 'lodash/clamp';
 import { useSpring, animated } from 'react-spring';
 import { useGesture } from 'react-with-gesture';
 import { PIECE_TO_CSS } from './constants';
+import { User } from '../../../../redux/user';
 
 export interface PieceProps {
   className?: string;
@@ -13,6 +14,9 @@ export interface PieceProps {
   canMove: Boolean;
   onClickPiece: any;
   onMove: any;
+  user: User;
+  whitePlayer: User;
+  blackPlayer: User;
 }
 
 export const Piece: FC<PieceProps> = ({
@@ -21,9 +25,17 @@ export const Piece: FC<PieceProps> = ({
   canMove,
   onClickPiece,
   onMove,
+  user,
+  whitePlayer,
+  blackPlayer,
 }) => {
   const canMoveRef = useRef(null);
-  canMoveRef.current = canMove;
+  const isBlack = piece === piece.toLowerCase();
+  canMoveRef.current = canMove &&
+    (
+      isBlack && user === blackPlayer ||
+      !isBlack && user === whitePlayer
+    );
   const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }));
   const bind = useGesture(({ down, delta, velocity, first, event }) => {
     velocity = clamp(velocity, 1, 8);
@@ -39,7 +51,7 @@ export const Piece: FC<PieceProps> = ({
     });
     if (canMoveRef.current && first) {
       onClickPiece(event);
-    } else if (canMoveRef.current && !down) {
+    } else if (!first && canMoveRef.current && !down) {
       onMove(event);
     }
   });
@@ -48,7 +60,9 @@ export const Piece: FC<PieceProps> = ({
     return null;
   }
   
-  const pieceColor = piece === piece.toLowerCase() ? styles.black : styles.white;
+  const pieceColor = isBlack ?
+    styles.black :
+    styles.white;
 
   return (
     <animated.i
@@ -59,6 +73,7 @@ export const Piece: FC<PieceProps> = ({
         touchAction: 'none',
         display: 'flex',
       }}
+      onClick={onClickPiece}
       className={cn(styles.root, className, pieceColor, PIECE_TO_CSS[piece])}
     />
   );

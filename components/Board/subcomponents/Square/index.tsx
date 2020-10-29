@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Piece from '../Piece';
 import { movingFrom, moveTo } from '../../../../redux/board';
+import { User } from '../../../../redux/user';
 
 export interface SquareProps {
   className?: string;
@@ -16,6 +17,9 @@ export interface SquareProps {
   isValidTarget: boolean;
   wasLastMove: boolean;
   moveOrigin: number;
+  user: User;
+  whitePlayer: User;
+  blackPlayer: User;
 }
 
 export const Square: FC<SquareProps> = ({
@@ -29,6 +33,9 @@ export const Square: FC<SquareProps> = ({
   isValidTarget,
   wasLastMove,
   moveOrigin,
+  user,
+  whitePlayer,
+  blackPlayer,
 }) => {
   const dispatch = useDispatch();
 
@@ -50,6 +57,8 @@ export const Square: FC<SquareProps> = ({
           validMoves[moveOrigin]?.includes(pos)
         ) {
           dispatch(moveTo(pos));
+        } else if (!validMoves[pos]) {
+          dispatch(movingFrom(null));
         }
       }}
     >
@@ -58,6 +67,9 @@ export const Square: FC<SquareProps> = ({
         canMove={pos in validMoves}
         onClickPiece={() => dispatch(movingFrom(pos))}
         onMove={() => dispatch(moveTo())}
+        user={user}
+        whitePlayer={whitePlayer}
+        blackPlayer={blackPlayer}
       />
     </div>
   );

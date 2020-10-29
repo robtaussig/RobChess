@@ -4,6 +4,7 @@ import styles from './styles.module.scss';
 import Row from './subcomponents/Row';
 import { useDispatch, useSelector } from 'react-redux';
 import { movingOver, boardSelector } from '../../redux/board';
+import { userSelector } from '../../redux/user';
 
 export interface BoardProps {
   className?: string;
@@ -18,7 +19,10 @@ export const Board: FC<BoardProps> = ({
     isMovingOver,
     isMovingFrom,
     lastMove,
+    whitePlayer,
+    blackPlayer,
   } = useSelector(boardSelector);
+  const user = useSelector(userSelector);
   const dispatch = useDispatch();
   const rootRef = useRef<HTMLDivElement>(null);
  
@@ -70,6 +74,9 @@ export const Board: FC<BoardProps> = ({
               isMovingOver={isMovingOver}
               validMoves={validMoves}
               lastMove={lastMove}
+              user={user}
+              whitePlayer={whitePlayer}
+              blackPlayer={blackPlayer}
             />
           );
       })}

@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Square from '../Square';
+import { User } from '../../../../redux/user';
 
 export interface RowProps {
   className?: string;
@@ -12,6 +13,9 @@ export interface RowProps {
   isMovingFrom: number;
   isMovingOver: number;
   lastMove: [number, number];
+  user: User;
+  whitePlayer: User;
+  blackPlayer: User;
 }
 
 export const Row: FC<RowProps> = ({
@@ -22,6 +26,9 @@ export const Row: FC<RowProps> = ({
   isMovingFrom,
   isMovingOver,
   lastMove,
+  user,
+  whitePlayer,
+  blackPlayer,
 }) => {
   const squares = row.split('').reduce((next, unit) => {
     if (!Number.isNaN(Number(unit))) {
@@ -49,6 +56,9 @@ export const Row: FC<RowProps> = ({
             isValidTarget={isValidTarget}
             moveOrigin={isMovingFrom}
             wasLastMove={lastMove?.[0] === pos || lastMove?.[1] === pos}
+            user={user}
+            whitePlayer={whitePlayer}
+            blackPlayer={blackPlayer}
           />
         );
       })}
