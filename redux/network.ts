@@ -13,12 +13,16 @@ export interface Network {
   room: string;
   users: User[];
   status: RoomJoinStatus;
+  inviting: string;
+  invitedBy: string;
 }
 
 const INITIAL_STATE: Network = {
   room: MAIN_ROOM,
   users: [],
   status: RoomJoinStatus.None,
+  inviting: null,
+  invitedBy: null,
 };
 
 const networkSlice = createSlice({
@@ -30,6 +34,12 @@ const networkSlice = createSlice({
     },
     joined(state) {
       state.status = RoomJoinStatus.Joined;
+    },
+    invite(state, action: PayloadAction<string>) {
+      state.inviting = action.payload;
+    },
+    invitedBy(state, action: PayloadAction<string>) {
+      state.invitedBy = action.payload;
     },
     addUser(state, action: PayloadAction<User>) {
       if (!state.users.find(({ name }) => {
@@ -53,6 +63,8 @@ export const {
   joined,
   addUser,
   disconnected,
+  invite,
+  invitedBy,
 } = networkSlice.actions
 
 export const networkSelector = (state: AppState) => state.network

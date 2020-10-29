@@ -16,7 +16,7 @@ export interface OpponentFinderProps {
 export const OpponentFinder: FC<OpponentFinderProps> = ({
   className,
 }) => {
-  const { users, room, status } = useSelector(networkSelector);
+  const { users, room, status, inviting } = useSelector(networkSelector);
   const user = useSelector(userSelector);
 
   return (
@@ -33,6 +33,7 @@ export const OpponentFinder: FC<OpponentFinderProps> = ({
       <OtherUsers
         className={styles.otherUsers}
         users={users}
+        inviting={inviting}
       />
     </div>
   );

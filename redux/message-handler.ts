@@ -27,7 +27,7 @@ const get = (type: Messages, message: string): [string, string] => {
   ];
 };
 
-const sendTo = (user: string, sendMessage: SendMessage, payload: any) => {
+export const sendTo = (user: string, sendMessage: SendMessage, payload: any) => {
   sendMessage(`${Messages.To}<${user}><<${JSON.stringify(payload)}>>`);
 };
 

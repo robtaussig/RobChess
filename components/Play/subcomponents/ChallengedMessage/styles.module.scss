@@ -1,0 +1,30 @@
+.root {
+  display: grid;
+  grid-template-areas: "challenger challenger"
+                       "reject accept";
+  grid-template-rows: max-content 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  & > * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  & > button {
+    padding: 10px 20px;
+    background-color: dodgerblue;
+    color: white;
+  }
+}
+
+.challenger {
+  grid-area: challenger;
+}
+
+.rejectButton {
+  grid-area: reject;
+}
+
+.acceptButton {
+  grid-area: accept;
+}
