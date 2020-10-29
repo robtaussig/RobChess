@@ -26,10 +26,12 @@
     "react-redux": "^7.2.1",
     "react-spring": "^8.0.27",
     "react-svg": "^11.0.30",
+    "react-use-websocket": "^2.2.0",
     "react-with-gesture": "^4.0.8",
     "redux-logger": "^3.0.6",
     "robtaussig_chess_engine": "^1.2.0",
     "sass": "^1.26.10",
+    "uuid": "^8.3.1",
     "worker-plugin": "^5.0.0"
   },
   "devDependencies": {
@@ -38,6 +40,7 @@
     "@types/node": "^14.0.23",
     "@types/react": "^16.9.43",
     "@types/react-redux": "^7.1.9",
+    "@types/uuid": "^8.3.0",
     "typescript": "^3.9.6"
   }
 }

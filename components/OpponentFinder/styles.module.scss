@@ -1,0 +1,31 @@
+.root {
+  display: grid;
+  grid-gap: 2vw;
+  grid-template-areas: "current-user current-room"
+                       "other-users other-users";
+  grid-template-rows: max-content 1fr;
+  grid-template-columns: 1fr 1fr;
+  & > * {
+    background-color: gainsboro;
+  }
+  @media screen and (min-width: 600px) {
+    grid-gap: calc(0.02 * var(--100vh, 100vh));
+    grid-template-areas: "current-user"
+                         "current-room"
+                         "other-users";
+    grid-template-rows: max-content max-content 1fr;
+    grid-template-columns: 1fr;
+  }
+}
+
+.currentUser {
+  grid-area: current-user;
+}
+
+.currentRoom {
+  grid-area: current-room;
+}
+
+.otherUsers {
+  grid-area: other-users;
+}

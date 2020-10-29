@@ -15,13 +15,16 @@ const userSlice = createSlice({
   name: 'user',
   initialState: INITIAL_STATE,
   reducers: {
+    named(state, action: PayloadAction<string>) {
+      state.name = action.payload;
+    },
     reset(state, action) {
       return INITIAL_STATE;
     },
   }
 })
 
-export const { reset } = userSlice.actions
+export const { reset, named } = userSlice.actions
 
 export const userSelector = (state: AppState) => state.user
 
