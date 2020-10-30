@@ -101,11 +101,11 @@ export const Play: FC<PlayProps> = ({
   };
 
   const handlePlayAgain = () => {
-
+    dispatch(init());
   };
 
   const handleGoBack = () => {
-
+    dispatch(init());
   };
 
   useEffect(() => {
