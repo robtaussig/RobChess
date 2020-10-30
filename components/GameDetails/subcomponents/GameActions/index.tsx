@@ -22,7 +22,7 @@ export const GameActions: FC<GameActionsProps> = ({
         className={styles.draw}
         onClick={console.log}
       >
-        Offer Draw
+        Draw
       </button>
     </div>
   );
