@@ -48,6 +48,13 @@ const networkSlice = createSlice({
         state.users.push(action.payload);
       }
     },
+    acceptedInvite(state, action: PayloadAction<string>) {
+      state.invitedBy = null;
+      state.inviting = null;
+      state.room = action.payload;
+      state.status = RoomJoinStatus.None;
+      state.users = [];
+    },
     disconnected(state, action: PayloadAction<string>) {
       state.users = state.users.filter(user => user.name !== action.payload);
     },
@@ -65,6 +72,7 @@ export const {
   disconnected,
   invite,
   invitedBy,
+  acceptedInvite,
 } = networkSlice.actions
 
 export const networkSelector = (state: AppState) => state.network

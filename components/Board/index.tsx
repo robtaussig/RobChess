@@ -8,10 +8,12 @@ import { userSelector } from '../../redux/user';
 
 export interface BoardProps {
   className?: string;
+  moveTo: (pos?: number) => void;
 }
 
 export const Board: FC<BoardProps> = ({
   className,
+  moveTo,
 }) => {
   const {
     validMoves,
@@ -77,6 +79,7 @@ export const Board: FC<BoardProps> = ({
               user={user}
               whitePlayer={whitePlayer}
               blackPlayer={blackPlayer}
+              moveTo={moveTo}
             />
           );
       })}

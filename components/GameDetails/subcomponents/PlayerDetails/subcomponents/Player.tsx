@@ -69,7 +69,7 @@ export const Player: FC<PlayerProps> = ({
       [styles.white]: white,
       [styles.black]: black,
     })}>
-      <span className={styles.name}>{player.name}</span>
+      <span className={styles.name}>{player.name.slice(0, 7)}</span>
       <span className={styles.rating}>({player.rating})</span>
       {canUnseat && (
         <button

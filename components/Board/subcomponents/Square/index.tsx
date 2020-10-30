@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Piece from '../Piece';
-import { movingFrom, moveTo } from '../../../../redux/board';
+import { movingFrom } from '../../../../redux/board';
 import { User } from '../../../../redux/user';
 
 export interface SquareProps {
@@ -20,6 +20,7 @@ export interface SquareProps {
   user: User;
   whitePlayer: User;
   blackPlayer: User;
+  moveTo: (pos?: number) => void;
 }
 
 export const Square: FC<SquareProps> = ({
@@ -36,6 +37,7 @@ export const Square: FC<SquareProps> = ({
   user,
   whitePlayer,
   blackPlayer,
+  moveTo,
 }) => {
   const dispatch = useDispatch();
 
@@ -56,7 +58,7 @@ export const Square: FC<SquareProps> = ({
           moveOrigin !== pos &&
           validMoves[moveOrigin]?.includes(pos)
         ) {
-          dispatch(moveTo(pos));
+          moveTo(pos);
         } else if (!validMoves[pos]) {
           dispatch(movingFrom(null));
         }
@@ -66,7 +68,7 @@ export const Square: FC<SquareProps> = ({
         piece={piece}
         canMove={pos in validMoves}
         onClickPiece={() => dispatch(movingFrom(pos))}
-        onMove={() => dispatch(moveTo())}
+        onMove={() => moveTo()}
         user={user}
         whitePlayer={whitePlayer}
         blackPlayer={blackPlayer}

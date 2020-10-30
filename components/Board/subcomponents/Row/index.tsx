@@ -16,6 +16,7 @@ export interface RowProps {
   user: User;
   whitePlayer: User;
   blackPlayer: User;
+  moveTo: (pos?: number) => void;
 }
 
 export const Row: FC<RowProps> = ({
@@ -29,6 +30,7 @@ export const Row: FC<RowProps> = ({
   user,
   whitePlayer,
   blackPlayer,
+  moveTo,
 }) => {
   const squares = row.split('').reduce((next, unit) => {
     if (!Number.isNaN(Number(unit))) {
@@ -59,6 +61,7 @@ export const Row: FC<RowProps> = ({
             user={user}
             whitePlayer={whitePlayer}
             blackPlayer={blackPlayer}
+            moveTo={moveTo}
           />
         );
       })}

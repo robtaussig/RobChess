@@ -4,12 +4,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Board from '../Board';
 import GameDetails from '../GameDetails';
-import { init } from '../../redux/board';
+import { init, boardSelector, moveTo } from '../../redux/board';
 import { named, userSelector } from '../../redux/user';
-import { networkSelector, RoomJoinStatus, joining, MAIN_ROOM, invite, invitedBy as invitedByAction } from '../../redux/network';
+import {
+  networkSelector,
+  RoomJoinStatus,
+  joining,
+  MAIN_ROOM,
+  invite,
+  invitedBy as invitedByAction,
+  acceptedInvite,
+} from '../../redux/network';
 import { WS_ADDR, Messages } from './constants';
 import useWebsocket from 'react-use-websocket';
-import { handleMessage, sendTo } from '../../redux/message-handler';
+import {
+  handleMessage,
+  sendTo,
+  propagateMove,
+  whiteClaimed,
+  blackClaimed,
+} from '../../redux/message-handler';
 import { v4 as uuidv4 } from 'uuid';
 import OpponentFinder from '../OpponentFinder';
 import ChallengedMessage from './subcomponents/ChallengedMessage';
@@ -27,10 +41,17 @@ export const Play: FC<PlayProps> = ({
     status,
     inviting,
     invitedBy,
+    users,
   } = useSelector(networkSelector);
   const {
     name,
   } = useSelector(userSelector);
+  const {
+    isMovingFrom,
+    isMovingOver,
+    whitePlayer,
+    blackPlayer,
+  } = useSelector(boardSelector);
   const {
     sendMessage,
     lastMessage,
@@ -42,7 +63,14 @@ export const Play: FC<PlayProps> = ({
   });
 
   const handleAcceptChallenge = () => {
-
+    dispatch(acceptedInvite(invitedBy));
+    sendTo(invitedBy, sendMessage, {
+      type: Messages.Action,
+      payload: {
+        type: acceptedInvite.type,
+        payload: invitedBy,
+      }
+    });
   };
 
   const handleRejectChallenge = () => {
@@ -56,6 +84,10 @@ export const Play: FC<PlayProps> = ({
     });
   };
 
+  const handleMove = (pos?: number) => {
+    dispatch(propagateMove(sendMessage, pos));
+    dispatch(moveTo(pos));
+  };
 
   useEffect(() => {
     dispatch(init());
@@ -91,10 +123,25 @@ export const Play: FC<PlayProps> = ({
     }
   }, [inviting, name]);
 
+  useEffect(() => {
+    if (whitePlayer?.name === name) {
+      dispatch(whiteClaimed(true, sendMessage));
+      return () => dispatch(whiteClaimed(false, sendMessage));
+    }
+  }, [whitePlayer?.name === name]);
+
+  useEffect(() => {
+    if (blackPlayer?.name === name) {
+      dispatch(blackClaimed(true, sendMessage));
+      return () => dispatch(blackClaimed(false, sendMessage));
+    }
+  }, [blackPlayer?.name === name]);
+
   return (
     <div className={cn(styles.root, className)}>
       <Board
         className={styles.board}
+        moveTo={handleMove}
       />
       {invitedBy ? (
         <ChallengedMessage

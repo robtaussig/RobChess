@@ -1,6 +1,7 @@
 import { ThunkAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { joined, addUser, disconnected } from './network';
+import { movePiece, claimSeat } from './board';
 import { Messages } from '../components/Play/constants';
 
 type Thunk = ThunkAction<void, AppState, void, any>;
@@ -30,6 +31,61 @@ const get = (type: Messages, message: string): [string, string] => {
 export const sendTo = (user: string, sendMessage: SendMessage, payload: any) => {
   sendMessage(`${Messages.To}<${user}><<${JSON.stringify(payload)}>>`);
 };
+
+export const propagateMove = (
+  sendMessage: SendMessage,
+  to?: number,
+): Thunk =>
+  (dispatch, getState) => {
+    const { network, board } = getState();
+    network.users.forEach(user => sendTo(user.name, sendMessage, {
+      type: Messages.Action,
+      payload: {
+        type: movePiece.type,
+        payload: {
+          from: board.isMovingFrom,
+          to: to ?? board.isMovingOver,
+        },
+      }
+    }));
+  };
+
+export const whiteClaimed = (
+  claimed: boolean,
+  sendMessage: SendMessage,
+): Thunk =>
+  (dispatch, getState) => {
+    const { network, user: currentUser } = getState();
+    network.users.forEach(user => sendTo(user.name, sendMessage, {
+      type: Messages.Action,
+      payload: {
+        type: claimSeat.type,
+        payload: {
+          user: claimed ? currentUser : null,
+          color: 'white',
+        },
+      }
+    }));
+  };
+
+export const blackClaimed = (
+  claimed: boolean,
+  sendMessage: SendMessage,
+): Thunk =>
+  (dispatch, getState) => {
+    const { network, user: currentUser } = getState();
+    network.users.forEach(user => sendTo(user.name, sendMessage, {
+      type: Messages.Action,
+      payload: {
+        type: claimSeat.type,
+        payload: {
+          user: claimed ? currentUser : null,
+          color: 'black',
+        },
+      }
+    }));
+  };
+
 
 const respondToGetUsers = (
   userName: string,
