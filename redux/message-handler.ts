@@ -1,7 +1,7 @@
 import { ThunkAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { joined, addUser, disconnected } from './network';
-import { movePiece, claimSeat } from './board';
+import { movePiece, claimSeat, resign } from './board';
 import { Messages } from '../components/Play/constants';
 
 type Thunk = ThunkAction<void, AppState, void, any>;
@@ -50,6 +50,20 @@ export const propagateMove = (
     }));
   };
 
+export const propagateResignation = (
+  sendMessage: SendMessage,
+): Thunk =>
+  (dispatch, getState) => {
+    const { network } = getState();
+    network.users.forEach(user => sendTo(user.name, sendMessage, {
+      type: Messages.Action,
+      payload: {
+        type: resign.type,
+        payload: false,
+      }
+    }));
+  };
+
 export const whiteClaimed = (
   claimed: boolean,
   sendMessage: SendMessage,
@@ -63,6 +77,7 @@ export const whiteClaimed = (
         payload: {
           user: claimed ? currentUser : null,
           color: 'white',
+          isUser: false,
         },
       }
     }));
@@ -81,6 +96,7 @@ export const blackClaimed = (
         payload: {
           user: claimed ? currentUser : null,
           color: 'black',
+          isUser: false,
         },
       }
     }));

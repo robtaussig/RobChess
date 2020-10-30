@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Board from '../Board';
 import GameDetails from '../GameDetails';
-import { init, boardSelector, moveTo } from '../../redux/board';
+import { init, boardSelector, moveTo, resign, draw, PlayerState } from '../../redux/board';
 import { named, userSelector } from '../../redux/user';
 import {
   networkSelector,
@@ -23,10 +23,12 @@ import {
   propagateMove,
   whiteClaimed,
   blackClaimed,
+  propagateResignation,
 } from '../../redux/message-handler';
 import { v4 as uuidv4 } from 'uuid';
 import OpponentFinder from '../OpponentFinder';
 import ChallengedMessage from './subcomponents/ChallengedMessage';
+import GameOver from './subcomponents/GameOver';
 
 export interface PlayProps {
   className?: string;
@@ -49,6 +51,8 @@ export const Play: FC<PlayProps> = ({
   const {
     whitePlayer,
     blackPlayer,
+    playerState,
+    opponentState,
   } = useSelector(boardSelector);
   const {
     sendMessage,
@@ -85,6 +89,23 @@ export const Play: FC<PlayProps> = ({
   const handleMove = (pos?: number) => {
     dispatch(propagateMove(sendMessage, pos));
     dispatch(moveTo(pos));
+  };
+
+  const handleResign = () => {
+    dispatch(resign(true));
+    dispatch(propagateResignation(sendMessage));
+  };
+
+  const handleDraw = () => {
+
+  };
+
+  const handlePlayAgain = () => {
+
+  };
+
+  const handleGoBack = () => {
+
   };
 
   useEffect(() => {
@@ -154,9 +175,21 @@ export const Play: FC<PlayProps> = ({
         <OpponentFinder
           className={styles.opponentFinder}
         />
-      ) : (
+      ) : opponentState === PlayerState.Resigned ||
+          playerState === PlayerState.Resigned ? (
+        <GameOver
+          className={styles.gameOver}
+          opponentState={opponentState}
+          playerState={playerState}
+          onPlayAgain={handlePlayAgain}
+          onGoBack={handleGoBack}
+          onDraw={handleDraw}
+        />
+      ) :(
         <GameDetails
           className={styles.details}
+          onResign={handleResign}
+          onDraw={handleDraw}
         />
       )}
     </div>

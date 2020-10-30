@@ -4,23 +4,27 @@ import cn from 'classnames';
 
 export interface GameActionsProps {
   className?: string;
+  onResign: () => void;
+  onDraw: () => void;
 }
 
 export const GameActions: FC<GameActionsProps> = ({
   className,
+  onResign,
+  onDraw,
 }) => {
 
   return (
     <div className={cn(styles.root, className)}>
       <button
         className={styles.resign}
-        onClick={console.log}
+        onClick={onResign}
       >
         Resign
       </button>
       <button
         className={styles.draw}
-        onClick={console.log}
+        onClick={onDraw}
       >
         Draw
       </button>

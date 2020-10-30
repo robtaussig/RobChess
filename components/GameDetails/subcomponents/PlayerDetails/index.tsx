@@ -43,6 +43,7 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 canUnseat={whitePlayer && (whitePlayer === user || whitePlayer === AI_PLAYER)}
                 onUnseat={handleUnseat}
                 currentTurn={history.length % 2 === 0}
+                canClaim={blackPlayer !== user}
                 white
             />
             {whitePlayer && blackPlayer && (<span className={styles.vs}>-vs-</span>)}
@@ -54,6 +55,7 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 canUnseat={blackPlayer && (blackPlayer === user || blackPlayer === AI_PLAYER)}
                 onUnseat={handleUnseat}
                 currentTurn={history.length % 2 === 1}
+                canClaim={whitePlayer !== user}
                 black
             />
         </div>

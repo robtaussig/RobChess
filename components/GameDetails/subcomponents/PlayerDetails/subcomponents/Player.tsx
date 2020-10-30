@@ -13,6 +13,7 @@ export interface PlayerProps {
   black?: boolean;
   canUnseat: boolean;
   currentTurn: boolean;
+  canClaim: boolean;
   onClaimSeat: (color: 'white' | 'black') => void;
   onAssignAI: (color: 'white' | 'black') => void;
   onUnseat: (color: 'white' | 'black') => void;
@@ -28,6 +29,7 @@ export const Player: FC<PlayerProps> = ({
   canUnseat,
   onUnseat,
   currentTurn,
+  canClaim,
 }) => {
   const dispatch = useDispatch();
 
@@ -48,12 +50,12 @@ export const Player: FC<PlayerProps> = ({
             [styles.black]: black,
           })}
         />
-        <button
+        {canClaim && (<button
           className={styles.claimSeat}
           onClick={() => onClaimSeat(white ? 'white' : 'black')}
         >
           Claim
-        </button>
+        </button>)}
         <button
           className={styles.assignAI}
           onClick={() => onAssignAI(white ? 'white' : 'black')}

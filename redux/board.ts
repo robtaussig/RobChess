@@ -11,6 +11,14 @@ const comLinkWorker = typeof window !== 'undefined' ?
     type: 'module',
   })) : null;
 
+export enum PlayerState {
+  Playing = 'playing',
+  OfferedDraw = 'draw',
+  Resigned = 'resigned',
+  Left = 'left',
+  Rematch = 'rematch',
+}
+
 export interface Board {
   fen: string;
   isMovingFrom: number;
@@ -23,6 +31,8 @@ export interface Board {
   future: Moment[];
   whitePlayer: User;
   blackPlayer: User;
+  opponentState: PlayerState;
+  playerState: PlayerState;
 }
 
 export interface Moment {
@@ -45,6 +55,8 @@ const INITIAL_STATE: Board = {
   future: [],
   blackPlayer: null,
   whitePlayer: null,
+  opponentState: null,
+  playerState: null,
 }
 
 const boardSlice = createSlice({
@@ -58,6 +70,7 @@ const boardSlice = createSlice({
       state.history = [];
       state.future = [];
       state.lastMove = null;
+      state.opponentState = null;
     },
     movingFrom(state, action) {
       state.isMovingFrom = action.payload;
@@ -126,11 +139,20 @@ const boardSlice = createSlice({
       state.fen = fen;
       state.validMoves = getValidMoves(fen);
     },
-    claimSeat(state, action: PayloadAction<{ user: User, color: 'white' | 'black'}>) {
+    claimSeat(state, action: PayloadAction<{
+      user: User,
+      color: 'white' | 'black',
+      isUser?: boolean,
+    }>) {
       if (action.payload.color === 'white') {
         state.whitePlayer = action.payload.user;
       } else {
         state.blackPlayer = action.payload.user;
+      }
+      if (action.payload.isUser === false) {
+        state.opponentState = PlayerState.Playing;
+      } else {
+        state.playerState = PlayerState.Playing;
       }
     },
     assignAI(state, action: PayloadAction<'white' | 'black'>) {
@@ -138,6 +160,20 @@ const boardSlice = createSlice({
         state.whitePlayer = AI_PLAYER;
       } else {
         state.blackPlayer = AI_PLAYER;
+      }
+    },
+    resign(state, action: PayloadAction<boolean>) {
+      if (action.payload) {
+        state.playerState = PlayerState.Resigned;
+      } else {
+        state.opponentState = PlayerState.Resigned;
+      }
+    },
+    draw(state, action: PayloadAction<boolean>) {
+      if (action.payload) {
+        state.playerState = PlayerState.OfferedDraw;
+      } else {
+        state.opponentState = PlayerState.OfferedDraw;
       }
     }
   }
@@ -172,6 +208,8 @@ export const {
   assignAI,
   goTo,
   movePiece,
+  resign,
+  draw,
 } = boardSlice.actions
 
 export const boardSelector = (state: AppState) => state.board
