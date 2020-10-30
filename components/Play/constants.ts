@@ -5,5 +5,6 @@ export enum Messages {
   ResponseTo = '[[ResponseTo]]',
   GetUsers = '[[GetUsers]]',
   To = '[[To]]',
-  Disconnected = 'Disconnected||'
+  Disconnected = 'Disconnected||',
+  Leaving = '[[Leaving]]',
 }

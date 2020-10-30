@@ -9,11 +9,13 @@ import { userSelector } from '../../redux/user';
 export interface BoardProps {
   className?: string;
   moveTo: (pos?: number) => void;
+  isLive?: boolean;
 }
 
 export const Board: FC<BoardProps> = ({
   className,
   moveTo,
+  isLive = false,
 }) => {
   const {
     validMoves,
@@ -23,6 +25,7 @@ export const Board: FC<BoardProps> = ({
     lastMove,
     whitePlayer,
     blackPlayer,
+    future,
   } = useSelector(boardSelector);
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
@@ -80,6 +83,8 @@ export const Board: FC<BoardProps> = ({
               whitePlayer={whitePlayer}
               blackPlayer={blackPlayer}
               moveTo={moveTo}
+              isLive={isLive}
+              future={future}
             />
           );
       })}

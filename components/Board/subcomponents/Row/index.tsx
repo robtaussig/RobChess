@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Square from '../Square';
 import { User } from '../../../../redux/user';
+import { Moment } from '../../../../redux/board';
 
 export interface RowProps {
   className?: string;
@@ -17,6 +18,8 @@ export interface RowProps {
   whitePlayer: User;
   blackPlayer: User;
   moveTo: (pos?: number) => void;
+  isLive: boolean;
+  future: Moment[];
 }
 
 export const Row: FC<RowProps> = ({
@@ -31,6 +34,8 @@ export const Row: FC<RowProps> = ({
   whitePlayer,
   blackPlayer,
   moveTo,
+  isLive,
+  future,
 }) => {
   const squares = row.split('').reduce((next, unit) => {
     if (!Number.isNaN(Number(unit))) {
@@ -62,6 +67,8 @@ export const Row: FC<RowProps> = ({
             whitePlayer={whitePlayer}
             blackPlayer={blackPlayer}
             moveTo={moveTo}
+            isLive={isLive}
+            future={future}
           />
         );
       })}

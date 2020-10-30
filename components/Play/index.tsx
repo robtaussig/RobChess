@@ -47,8 +47,6 @@ export const Play: FC<PlayProps> = ({
     name,
   } = useSelector(userSelector);
   const {
-    isMovingFrom,
-    isMovingOver,
     whitePlayer,
     blackPlayer,
   } = useSelector(boardSelector);
@@ -102,6 +100,7 @@ export const Play: FC<PlayProps> = ({
       dispatch(named(name));
       sendMessage(`/name ${name}`);
       sendMessage(`${Messages.Broadcast}${Messages.GetUsers}`);
+      return () => sendMessage(`${Messages.Broadcast}${Messages.Leaving}`);
     }
   }, [status, room]);
 
@@ -142,6 +141,7 @@ export const Play: FC<PlayProps> = ({
       <Board
         className={styles.board}
         moveTo={handleMove}
+        isLive
       />
       {invitedBy ? (
         <ChallengedMessage

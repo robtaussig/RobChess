@@ -123,7 +123,9 @@ export const handleMessage = (
             case Messages.GetUsers:
               dispatch(respondToGetUsers(user, sendMessage));
               break;
-          
+            case Messages.Leaving:
+              dispatch(disconnected(user));
+              break;
             default:
               break;
           }
