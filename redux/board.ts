@@ -71,6 +71,7 @@ const boardSlice = createSlice({
       state.future = [];
       state.lastMove = null;
       state.opponentState = null;
+      state.playerState = null;
     },
     movingFrom(state, action) {
       state.isMovingFrom = action.payload;
