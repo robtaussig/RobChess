@@ -95,6 +95,14 @@ const boardSlice = createSlice({
         state.fen = fen;
         state.future = [];
         state.validMoves = validMoves;
+        if (
+          state.premoves.find(premove =>
+            premove.from === state.isMovingFrom && premove.to === target
+        )) {
+          state.premoves = state.premoves.filter(premove =>
+            premove.from !== state.isMovingFrom || premove.to !== target
+          )
+        }
       }
       if (state.isMovingOver !== null && state.isMovingFrom !== state.isMovingOver) {
         state.isMovingFrom = null;
@@ -110,6 +118,9 @@ const boardSlice = createSlice({
         state.premoves.push(action.payload);
       }
     },
+    clearPremoves(state) {
+      state.premoves = [];
+    },
     movePiece(state, action: PayloadAction<{ from: number, to: number }>) {
       const { fen, validMoves } = makeMove(state.fen, action.payload.from, action.payload.to);
       state.history.push({ fen: state.fen, move: state.lastMove });
@@ -117,6 +128,14 @@ const boardSlice = createSlice({
       state.fen = fen;
       state.future = [];
       state.validMoves = validMoves;
+      if (
+        state.premoves.find(premove =>
+          premove.from === action.payload.from && premove.to === action.payload.to
+      )) {
+        state.premoves = state.premoves.filter(premove =>
+          premove.from !== action.payload.from || premove.to !== action.payload.to
+        )
+      }
     },
     reset() {
       return INITIAL_STATE;
@@ -223,6 +242,7 @@ export const {
   resign,
   draw,
   premove,
+  clearPremoves,
 } = boardSlice.actions
 
 export const boardSelector = (state: AppState) => state.board

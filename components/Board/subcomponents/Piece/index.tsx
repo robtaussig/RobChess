@@ -12,12 +12,12 @@ export interface PieceProps {
   className?: string;
   piece: string;
   canMove: Boolean;
-  onClickPiece: (event: any) => void;
+  onClickPiece: () => void;
   onMove: () => void;
   user: User;
   whitePlayer: User;
   blackPlayer: User;
-  onPremove: (event: any) => void;
+  onPremove: (coors: { x: number, y: number}) => void;
 }
 
 export const Piece: FC<PieceProps> = ({
@@ -39,7 +39,7 @@ export const Piece: FC<PieceProps> = ({
       !isBlack && user === whitePlayer
     );
   const [{ xy }, set] = useSpring(() => ({ xy: [0, 0] }));
-  const bind = useGesture(({ down, delta, velocity, first, event }) => {
+  const bind = useGesture(({ down, xy, delta, velocity, first, event }) => {
     velocity = clamp(velocity, 1, 8);
     set({
       xy: down ?
@@ -52,12 +52,13 @@ export const Piece: FC<PieceProps> = ({
       },
     });
     if (canMoveRef.current && first) {
-      onClickPiece(event);
+      onClickPiece();
     } else if (!first && !down) {
       if (canMoveRef.current) {
         onMove();
       } else {
-        onPremove(event);
+        const [clientX, clientY] = xy;
+        onPremove({ x: clientX, y: clientY });
       }
     }
   });

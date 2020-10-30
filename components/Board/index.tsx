@@ -3,9 +3,9 @@ import cn from 'classnames';
 import styles from './styles.module.scss';
 import Row from './subcomponents/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { movingOver, boardSelector, premove } from '../../redux/board';
+import { movingOver, boardSelector, premove, clearPremoves } from '../../redux/board';
 import { userSelector } from '../../redux/user';
-import { getPosFromEvent } from './util';
+import { getPosFromEvent, getPosFromCoords } from './util';
 import PreMoveOverlay from './subcomponents/PreMoveOverlay';
 
 export interface BoardProps {
@@ -19,6 +19,7 @@ export const Board: FC<BoardProps> = ({
   moveTo,
   isLive = false,
 }) => {
+  const lastClick = useRef<number>(null);
   const {
     validMoves,
     fen: board,
@@ -49,10 +50,22 @@ export const Board: FC<BoardProps> = ({
 
   const handlePremove = (
     pos: number,
-    event: any,
+    coords: { x: number, y: number },
   ) => {
-    const toPos = getPosFromEvent(event, rootRef.current);
-    dispatch(premove({ from: pos, to: toPos }));
+    const toPos = getPosFromCoords(coords, rootRef.current);
+    if (pos !== toPos) {
+      dispatch(premove({ from: pos, to: toPos }));
+    }
+  };
+
+  const handleClickBoard = () => {
+    const newTime = +new Date();
+    if (newTime - lastClick.current < 250) {
+      dispatch(clearPremoves());
+      lastClick.current = null;
+    } else {
+      lastClick.current = newTime;
+    }
   };
 
   if (!board) return null;
@@ -63,6 +76,7 @@ export const Board: FC<BoardProps> = ({
       className={cn(styles.root, className)}
       onTouchMove={handleMove}
       onMouseMove={handleMove}
+      onClick={handleClickBoard}
     >
       {board
         .split(' ')[0]

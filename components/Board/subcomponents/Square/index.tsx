@@ -23,7 +23,7 @@ export interface SquareProps {
   moveTo: (pos?: number) => void;
   isLive: boolean;
   future: Moment[];
-  onPremove: (event: any) => void;
+  onPremove: (coors: { x: number, y: number}) => void;
 }
 
 export const Square: FC<SquareProps> = ({

@@ -4,7 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Board from '../Board';
 import GameDetails from '../GameDetails';
-import { init, boardSelector, moveTo, resign, draw, PlayerState } from '../../redux/board';
+import {
+  init,
+  boardSelector,
+  moveTo,
+  resign,
+  draw,
+  PlayerState,
+  movePiece,
+} from '../../redux/board';
+import { currentTurn } from '../../redux/util';
 import { named, userSelector } from '../../redux/user';
 import {
   networkSelector,
@@ -24,6 +33,7 @@ import {
   whiteClaimed,
   blackClaimed,
   propagateResignation,
+  propagatePreMove,
 } from '../../redux/message-handler';
 import { v4 as uuidv4 } from 'uuid';
 import OpponentFinder from '../OpponentFinder';
@@ -43,16 +53,16 @@ export const Play: FC<PlayProps> = ({
     status,
     inviting,
     invitedBy,
-    users,
   } = useSelector(networkSelector);
-  const {
-    name,
-  } = useSelector(userSelector);
+  const user = useSelector(userSelector);
   const {
     whitePlayer,
     blackPlayer,
     playerState,
     opponentState,
+    fen,
+    premoves,
+    validMoves,
   } = useSelector(boardSelector);
   const {
     sendMessage,
@@ -137,25 +147,51 @@ export const Play: FC<PlayProps> = ({
         type: Messages.Action,
         payload: {
           type: invitedByAction.type,
-          payload: name,
+          payload: user.name,
         }
       });
     }
-  }, [inviting, name]);
+  }, [inviting, user.name]);
 
   useEffect(() => {
-    if (whitePlayer?.name === name) {
+    if (whitePlayer?.name === user.name) {
       dispatch(whiteClaimed(true, sendMessage));
       return () => dispatch(whiteClaimed(false, sendMessage));
     }
-  }, [whitePlayer?.name === name]);
+  }, [whitePlayer?.name === user.name]);
 
   useEffect(() => {
-    if (blackPlayer?.name === name) {
+    if (blackPlayer?.name === user.name) {
       dispatch(blackClaimed(true, sendMessage));
       return () => dispatch(blackClaimed(false, sendMessage));
     }
-  }, [blackPlayer?.name === name]);
+  }, [blackPlayer?.name === user.name]);
+
+  useEffect(() => {
+    if (fen) {
+      const color = currentTurn(fen);
+      const isCurrentTurn = (
+        (color === 'white' && whitePlayer === user) ||
+        (color === 'black' && blackPlayer === user)
+      );
+      if (isCurrentTurn) {
+        for (let { from, to } of premoves) {
+          if (validMoves[from] && validMoves[from].includes(to)) {
+            dispatch(movePiece({ from, to }));
+            dispatch(propagatePreMove(sendMessage, from, to));
+            return;
+          }
+        }
+      }
+    }
+  }, [
+    fen,
+    premoves,
+    validMoves,
+    whitePlayer,
+    blackPlayer,
+    user,
+  ]);
 
   return (
     <div className={cn(styles.root, className)}>

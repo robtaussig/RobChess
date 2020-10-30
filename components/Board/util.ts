@@ -2,11 +2,16 @@ export const getPosFromEvent = (
   event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement, MouseEvent>,
   boardEl: HTMLDivElement,
 ): number => {
-  const { clientX, clientY } = 'touches' in event ?
-    event.touches[0] :
-    event;
-  const boardX = clientX - boardEl.offsetLeft;
-  const boardY = clientY - boardEl.offsetTop;
+  const { clientX, clientY } = (event as any)?.touches?.[0] ?? event;
+  return getPosFromCoords({ x: clientX, y: clientY }, boardEl);
+};
+
+export const getPosFromCoords = (
+  coords: { x: number, y: number },
+  boardEl: HTMLDivElement,
+): number => {
+  const boardX = coords.x - boardEl.offsetLeft;
+  const boardY = coords.y - boardEl.offsetTop;
   const sideLength = (Math.min(window.innerWidth, window.innerHeight) / 25) * 24;
   if (
     boardX > 0 &&

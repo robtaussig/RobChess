@@ -50,6 +50,25 @@ export const propagateMove = (
     }));
   };
 
+export const propagatePreMove = (
+  sendMessage: SendMessage,
+  from: number,
+  to: number,
+): Thunk =>
+  (dispatch, getState) => {
+    const { network } = getState();
+    network.users.forEach(user => sendTo(user.name, sendMessage, {
+      type: Messages.Action,
+      payload: {
+        type: movePiece.type,
+        payload: {
+          from,
+          to,
+        },
+      }
+    }));
+  };
+
 export const propagateResignation = (
   sendMessage: SendMessage,
 ): Thunk =>
