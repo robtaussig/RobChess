@@ -20,6 +20,7 @@ export interface RowProps {
   moveTo: (pos?: number) => void;
   isLive: boolean;
   future: Moment[];
+  onPremove: (pos: number, event: any) => void;
 }
 
 export const Row: FC<RowProps> = ({
@@ -36,6 +37,7 @@ export const Row: FC<RowProps> = ({
   moveTo,
   isLive,
   future,
+  onPremove,
 }) => {
   const squares = row.split('').reduce((next, unit) => {
     if (!Number.isNaN(Number(unit))) {
@@ -69,6 +71,7 @@ export const Row: FC<RowProps> = ({
             moveTo={moveTo}
             isLive={isLive}
             future={future}
+            onPremove={event => onPremove(pos, event)}
           />
         );
       })}

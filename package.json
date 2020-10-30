@@ -29,7 +29,7 @@
     "react-use-websocket": "^2.2.0",
     "react-with-gesture": "^4.0.8",
     "redux-logger": "^3.0.6",
-    "robtaussig_chess_engine": "^1.2.0",
+    "robtaussig_chess_engine": "^1.8.0",
     "sass": "^1.26.10",
     "uuid": "^8.3.1",
     "worker-plugin": "^5.0.0"

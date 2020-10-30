@@ -5,8 +5,17 @@
   height: 96vw;
   border: 1px solid black;
   user-select: none;
+  position: relative;
   @media screen and (min-width: 600px) {
     width: calc(0.96 * var(--100vh, 100vh));
     height: calc(0.96 * var(--100vh, 100vh));
   }
+}
+
+.premoves {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }

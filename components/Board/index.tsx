@@ -3,8 +3,10 @@ import cn from 'classnames';
 import styles from './styles.module.scss';
 import Row from './subcomponents/Row';
 import { useDispatch, useSelector } from 'react-redux';
-import { movingOver, boardSelector } from '../../redux/board';
+import { movingOver, boardSelector, premove } from '../../redux/board';
 import { userSelector } from '../../redux/user';
+import { getPosFromEvent } from './util';
+import PreMoveOverlay from './subcomponents/PreMoveOverlay';
 
 export interface BoardProps {
   className?: string;
@@ -26,6 +28,7 @@ export const Board: FC<BoardProps> = ({
     whitePlayer,
     blackPlayer,
     future,
+    premoves,
   } = useSelector(boardSelector);
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
@@ -34,27 +37,22 @@ export const Board: FC<BoardProps> = ({
   const handleMove = (
     event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    const { clientX, clientY } = 'touches' in event ?
-      event.touches[0] :
-      event;
-    const boardX = clientX - rootRef.current.offsetLeft;
-    const boardY = clientY - rootRef.current.offsetTop;
-    const sideLength = (Math.min(window.innerWidth, window.innerHeight) / 25) * 24;
-    if (
-      boardX > 0 &&
-      boardY > 0 &&
-      boardX <= sideLength &&
-      boardY <= sideLength
-    ) {
-      const boardXPos = Math.floor((boardX / sideLength) * 8);
-      const boardYPos = Math.floor((boardY / sideLength) * 8);
-      const pos = (boardYPos * 8) + boardXPos;
+    const pos = getPosFromEvent(event, rootRef.current);
+    if (pos !== null) {
       if (isMovingFrom !== null && pos !== isMovingOver) {
         dispatch(movingOver(pos));
       }
     } else {
       dispatch(movingOver(null));
     }
+  };
+
+  const handlePremove = (
+    pos: number,
+    event: any,
+  ) => {
+    const toPos = getPosFromEvent(event, rootRef.current);
+    dispatch(premove({ from: pos, to: toPos }));
   };
 
   if (!board) return null;
@@ -85,9 +83,14 @@ export const Board: FC<BoardProps> = ({
               moveTo={moveTo}
               isLive={isLive}
               future={future}
+              onPremove={handlePremove}
             />
           );
       })}
+      <PreMoveOverlay
+        className={styles.premoves}
+        premoves={premoves}
+      />
     </div>
   );
 };

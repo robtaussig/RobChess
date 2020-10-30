@@ -12,11 +12,12 @@ export interface PieceProps {
   className?: string;
   piece: string;
   canMove: Boolean;
-  onClickPiece: any;
-  onMove: any;
+  onClickPiece: (event: any) => void;
+  onMove: () => void;
   user: User;
   whitePlayer: User;
   blackPlayer: User;
+  onPremove: (event: any) => void;
 }
 
 export const Piece: FC<PieceProps> = ({
@@ -28,6 +29,7 @@ export const Piece: FC<PieceProps> = ({
   user,
   whitePlayer,
   blackPlayer,
+  onPremove,
 }) => {
   const canMoveRef = useRef(null);
   const isBlack = piece === piece.toLowerCase();
@@ -51,13 +53,26 @@ export const Piece: FC<PieceProps> = ({
     });
     if (canMoveRef.current && first) {
       onClickPiece(event);
-    } else if (!first && canMoveRef.current && !down) {
-      onMove(event);
+    } else if (!first && !down) {
+      if (canMoveRef.current) {
+        onMove();
+      } else {
+        onPremove(event);
+      }
     }
   });
 
   if (piece === '-') {
-    return null;
+    return <i
+      {...bind()}
+      className={cn(styles.root, className)}
+      style={{
+        //@ts-ignore
+        transform: xy?.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`),
+        touchAction: 'none',
+        display: 'flex',
+      }}
+    />;
   }
   
   const pieceColor = isBlack ?

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
-import { makeMove, getValidMoves, initGame } from './util';
+import { makeMove, getValidMoves, initGame, currentTurn } from './util';
 import { User } from './user';
 import { getBestMove, fenToBoard } from 'robtaussig_chess_engine';
 import { wrap } from 'comlink';
@@ -33,6 +33,7 @@ export interface Board {
   blackPlayer: User;
   opponentState: PlayerState;
   playerState: PlayerState;
+  premoves: { from: number, to: number }[];
 }
 
 export interface Moment {
@@ -57,6 +58,7 @@ const INITIAL_STATE: Board = {
   whitePlayer: null,
   opponentState: null,
   playerState: null,
+  premoves: [],
 }
 
 const boardSlice = createSlice({
@@ -98,6 +100,15 @@ const boardSlice = createSlice({
         state.isMovingFrom = null;
       }
       state.isMovingOver = null;
+    },
+    premove(state, action: PayloadAction<{ from: number, to: number}>) {
+      const existingPremove = state.premoves.findIndex(({ from, to }) =>
+        from === action.payload.from && to === action.payload.to)
+      if (existingPremove > -1) {
+        state.premoves.splice(existingPremove, 1);
+      } else {
+        state.premoves.push(action.payload);
+      }
     },
     movePiece(state, action: PayloadAction<{ from: number, to: number }>) {
       const { fen, validMoves } = makeMove(state.fen, action.payload.from, action.payload.to);
@@ -189,7 +200,7 @@ const convertToFenPos = (pos: number): number => {
 export const makeEngineMove = (): ThunkAction<void, AppState, void, any> =>
   async (dispatch, getState) => {
     const { board } = getState();
-    const bestMove = await comLinkWorker.getBestMove(fenToBoard(board.fen));
+    const bestMove = await comLinkWorker.getBestMove(fenToBoard(board.fen), 4);
     if (bestMove) {
       const [,move] = bestMove;
       const [from, to] = move.split('-').map(Number).map(convertToFenPos);
@@ -211,6 +222,7 @@ export const {
   movePiece,
   resign,
   draw,
+  premove,
 } = boardSlice.actions
 
 export const boardSelector = (state: AppState) => state.board

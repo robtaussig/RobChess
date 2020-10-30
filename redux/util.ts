@@ -43,3 +43,8 @@ export const initGame = (): {
     validMoves: getValidMoves(fen),
   };
 };
+
+export const currentTurn = (fen: string): 'white' | 'black' => {
+  const [, color] = fen.split(' ');
+  return color === 'w' ? 'white' : 'black';
+};

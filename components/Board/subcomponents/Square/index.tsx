@@ -23,6 +23,7 @@ export interface SquareProps {
   moveTo: (pos?: number) => void;
   isLive: boolean;
   future: Moment[];
+  onPremove: (event: any) => void;
 }
 
 export const Square: FC<SquareProps> = ({
@@ -42,6 +43,7 @@ export const Square: FC<SquareProps> = ({
   moveTo,
   isLive,
   future,
+  onPremove,
 }) => {
   const dispatch = useDispatch();
 
@@ -76,6 +78,7 @@ export const Square: FC<SquareProps> = ({
         user={user}
         whitePlayer={whitePlayer}
         blackPlayer={blackPlayer}
+        onPremove={onPremove}
       />
     </div>
   );
