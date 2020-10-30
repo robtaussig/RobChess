@@ -1,3 +1,7 @@
 .root {
-
+  stroke:#1e2346;
+  stroke-width:2;
+  position: absolute;
+  z-index: 100;
+  pointer-events: none;
 }
