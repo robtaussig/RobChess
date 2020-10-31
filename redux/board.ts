@@ -2,7 +2,6 @@ import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { makeMove, getValidMoves, initGame, currentTurn } from './util';
 import { User } from './user';
-import { getBestMove, fenToBoard } from 'robtaussig_chess_engine';
 import { wrap } from 'comlink';
 import { WorkerInterface } from '../engine/index.worker';
 
@@ -219,8 +218,12 @@ const convertToFenPos = (pos: number): number => {
 export const makeEngineMove = (): ThunkAction<void, AppState, void, any> =>
   async (dispatch, getState) => {
     const { board } = getState();
-    const bestMove = await comLinkWorker.getBestMove(fenToBoard(board.fen), 4);
-    if (bestMove) {
+    const bestMove = await comLinkWorker.getBestMove(board.fen, 4);
+    
+    if (typeof bestMove === 'string') {
+      const [from, to] = (bestMove as string).split('-');
+      dispatch(movePiece({ from: Number(from), to: Number(to) }));
+    } else if (bestMove) {
       const [,move] = bestMove;
       const [from, to] = move.split('-').map(Number).map(convertToFenPos);
       dispatch(movePiece({ from, to }));
