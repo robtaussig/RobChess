@@ -277,4 +277,10 @@ export const lastChuessMoveSelector = (state: AppState) => {
   return state.board.lastMove;
 };
 
+export const validChuessMovesSelector = (state: AppState) => {
+  return state.board.history.length > 0 ?
+    INITIAL_STATE.validMoves :
+    state.board.validMoves;
+};
+
 export default boardSlice.reducer

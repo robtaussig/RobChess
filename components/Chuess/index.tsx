@@ -13,9 +13,10 @@ import {
   movePiece,
   chuessBoardSelector,
   lastChuessMoveSelector,
+  validChuessMovesSelector,
   isCurrentUserTurn,
 } from '../../redux/board';
-import { currentTurn } from '../../redux/util';
+import { currentTurn, getValidMoves } from '../../redux/util';
 import { userSelector } from '../../redux/user';
 
 export interface ChuessProps {
@@ -30,7 +31,6 @@ export const Chuess: FC<ChuessProps> = ({
   const {
     fen,
     premoves,
-    validMoves,
     whitePlayer,
     blackPlayer,
     history,
@@ -41,6 +41,7 @@ export const Chuess: FC<ChuessProps> = ({
   const board = useSelector(chuessBoardSelector);
   const lastMove = useSelector(lastChuessMoveSelector);
   const isCurrentTurn = useSelector(isCurrentUserTurn);
+  const validMoves = useSelector(validChuessMovesSelector);
 
   useEffect(() => {
     dispatch(init());
@@ -56,6 +57,27 @@ export const Chuess: FC<ChuessProps> = ({
   
   const handleDraw = () => {
     dispatch(draw(true));
+  };
+
+  const handleCommmitMoves = () => {
+    const validMoves = getValidMoves(fen);
+    for (let { from, to } of premoves) {
+      if (validMoves[from] && validMoves[from].includes(to)) {
+        dispatch(movePiece({ from, to }));
+        return;
+      }
+    }
+    
+    const allValidMoves = Object.entries(validMoves)
+      .reduce((next, [from, to]) => {
+        to.forEach(toMove => {
+          next.push([Number(from), toMove]);
+        })
+        return next;
+      }, [] as [number, number][]);
+
+    const [from, to] = allValidMoves[Math.floor(Math.random() * allValidMoves.length)];
+    dispatch(movePiece({ from, to }));
   };
 
   useEffect(() => {
@@ -112,6 +134,7 @@ export const Chuess: FC<ChuessProps> = ({
         lastMove={lastMove}
         board={board}
         user={user}
+        onCommitMoves={premoves.length > 0 && handleCommmitMoves}
       />
     </div>
   );
