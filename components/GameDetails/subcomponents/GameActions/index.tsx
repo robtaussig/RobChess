@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styles from './styles.module.scss';
 import cn from 'classnames';
 
@@ -19,6 +19,7 @@ export const GameActions: FC<GameActionsProps> = ({
   onPeek,
   peeksLeft,
 }) => {
+  const [isResigning, setIsResigning] = useState(false);
 
   return (
     <div className={cn(styles.root, className)}>
@@ -32,12 +33,19 @@ export const GameActions: FC<GameActionsProps> = ({
       ) : (
         <button
           className={styles.resign}
-          onClick={onResign}
+          onClick={isResigning ? onResign : () => setIsResigning(true)}
         >
-          Resign
+          {isResigning ? 'Confirm' : 'Resign'}
         </button>
       )}
-      {onPeek ? (
+      {isResigning ? (
+        <button
+          className={styles.cancel}
+          onClick={() => setIsResigning(false)}
+        >
+          Cancel
+        </button>
+      ) : onPeek ? (
         <button
           className={styles.peek}
           onClick={onPeek}
