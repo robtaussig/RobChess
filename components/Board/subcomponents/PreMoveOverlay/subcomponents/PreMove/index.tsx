@@ -8,6 +8,7 @@ export interface PreMoveProps {
   to: number;
   parentHeight: number;
   parentWidth: number;
+  isBoardFlipped: boolean;
 }
 
 export const PreMove: FC<PreMoveProps> = ({
@@ -16,11 +17,18 @@ export const PreMove: FC<PreMoveProps> = ({
   to,
   parentHeight,
   parentWidth,
+  isBoardFlipped,
 }) => {
-  const fromRow = Math.floor(from / 8);
-  const toRow = Math.floor(to / 8);
-  const fromCol = (from % 8);
-  const toCol = (to % 8);
+  let fromRow = Math.floor(from / 8);
+  let toRow = Math.floor(to / 8);
+  let fromCol = (from % 8);
+  let toCol = (to % 8);
+  if (isBoardFlipped) {
+    fromRow = 7 - fromRow;
+    toRow = 7 - toRow;
+    fromCol = 7 - fromCol;
+    toCol = 7 - toCol;
+  }
 
   const halfVerticalUnit = parentHeight / 16;
   const halfHorizontalUnit = parentWidth / 16;

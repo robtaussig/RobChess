@@ -6,11 +6,13 @@ import PreMove from './subcomponents/PreMove';
 export interface PreMoveOverlayProps {
   className?: string;
   premoves: { from: number, to: number }[];
+  isBoardFlipped: boolean;
 }
 
 export const PreMoveOverlay: FC<PreMoveOverlayProps> = ({
   className,
   premoves,
+  isBoardFlipped,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const [parentDimensions, setParentDimensions] = useState({ height: 0, width: 0 });
@@ -40,6 +42,7 @@ export const PreMoveOverlay: FC<PreMoveOverlayProps> = ({
             parentWidth={parentDimensions.width}
             from={from}
             to={to}
+            isBoardFlipped={isBoardFlipped}
           />
         );
       })}

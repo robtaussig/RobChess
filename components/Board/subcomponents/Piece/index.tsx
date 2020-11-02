@@ -50,6 +50,7 @@ export const Piece: FC<PieceProps> = ({
         friction: 50,
       },
     });
+
     if (canMoveRef.current && first) {
       onClickPiece();
     } else if (!first && !down) {

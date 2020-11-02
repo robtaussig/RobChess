@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import cn from 'classnames';
-import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Piece from '../Piece';
-import { movingFrom, Moment } from '../../../../redux/board';
+import { Moment } from '../../../../redux/board';
 import { User } from '../../../../redux/user';
 
 export interface SquareProps {
@@ -21,6 +20,7 @@ export interface SquareProps {
   whitePlayer: User;
   blackPlayer: User;
   moveTo: (pos?: number) => void;
+  onMovingFrom: (pos: number) => void;
   isLive: boolean;
   future: Moment[];
   onPremove: (coors: { x: number, y: number}) => void;
@@ -44,8 +44,8 @@ export const Square: FC<SquareProps> = ({
   isLive,
   future,
   onPremove,
+  onMovingFrom,
 }) => {
-  const dispatch = useDispatch();
 
   return (
     <div
@@ -66,14 +66,14 @@ export const Square: FC<SquareProps> = ({
         ) {
           moveTo(pos);
         } else if (!validMoves[pos]) {
-          dispatch(movingFrom(null));
+          onMovingFrom(null);
         }
       }}
     >
       <Piece
         piece={piece}
         canMove={pos in validMoves && (future.length === 0 || !isLive)}
-        onClickPiece={() => dispatch(movingFrom(pos))}
+        onClickPiece={() => onMovingFrom(pos)}
         onMove={() => moveTo()}
         user={user}
         whitePlayer={whitePlayer}

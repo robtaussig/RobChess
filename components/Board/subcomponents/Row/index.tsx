@@ -4,6 +4,7 @@ import styles from './styles.module.scss';
 import Square from '../Square';
 import { User } from '../../../../redux/user';
 import { Moment } from '../../../../redux/board';
+import { flipPosIfBoardFlipped } from '../../util';
 
 export interface RowProps {
   className?: string;
@@ -20,6 +21,8 @@ export interface RowProps {
   isLive: boolean;
   future: Moment[];
   onPremove: (pos: number, coors: { x: number, y: number}) => void;
+  isBoardFlipped: boolean;
+  onMovingFrom: (pos: number) => void;
 }
 
 export const Row: FC<RowProps> = ({
@@ -37,6 +40,8 @@ export const Row: FC<RowProps> = ({
   isLive,
   future,
   onPremove,
+  isBoardFlipped,
+  onMovingFrom,
 }) => {
   const squares = row.split('').reduce((next, unit) => {
     if (!Number.isNaN(Number(unit))) {
@@ -50,7 +55,7 @@ export const Row: FC<RowProps> = ({
   return (
     <div className={cn(styles.root, className)}>
       {squares.map((piece, idx) => {
-        const pos = rowIdx * 8 + idx;
+        const pos = flipPosIfBoardFlipped(rowIdx * 8 + idx, isBoardFlipped);
         const isValidTarget = isMovingFrom && validMoves[isMovingFrom]?.includes(pos);
         return (
           <Square
@@ -71,6 +76,7 @@ export const Row: FC<RowProps> = ({
             isLive={isLive}
             future={future}
             onPremove={coords => onPremove(pos, coords)}
+            onMovingFrom={onMovingFrom}
           />
         );
       })}

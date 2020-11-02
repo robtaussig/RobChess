@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useCallback } from 'react';
 import cn from 'classnames';
 import styles from './styles.module.scss';
 import Row from './subcomponents/Row';
@@ -8,9 +8,15 @@ import {
   premove,
   clearPremoves,
   Moment,
+  movingFrom,
 } from '../../redux/board';
 import { User } from '../../redux/user';
-import { getPosFromEvent, getPosFromCoords } from './util';
+import {
+  getPosFromEvent,
+  getPosFromCoords,
+  flipIfBlack,
+  flipPosIfBoardFlipped,
+} from './util';
 import PreMoveOverlay from './subcomponents/PreMoveOverlay';
 
 export interface BoardProps {
@@ -52,11 +58,16 @@ export const Board: FC<BoardProps> = ({
   const lastClick = useRef<number>(null);
   const dispatch = useDispatch();
   const rootRef = useRef<HTMLDivElement>(null);
+  const isFlippedRef = useRef(false);
+  isFlippedRef.current = user === blackPlayer && user !== whitePlayer;
  
   const handleMove = (
     event: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    const pos = getPosFromEvent(event, rootRef.current);
+    const pos = flipPosIfBoardFlipped(
+      getPosFromEvent(event, rootRef.current),
+      isFlippedRef.current,
+    );
     if (pos !== null) {
       if (isMovingFrom !== null && pos !== isMovingOver) {
         dispatch(movingOver(pos));
@@ -70,7 +81,14 @@ export const Board: FC<BoardProps> = ({
     pos: number,
     coords: { x: number, y: number },
   ) => {
-    const toPos = getPosFromCoords(coords, rootRef.current);
+    const toPos = flipPosIfBoardFlipped(
+      getPosFromCoords(coords, rootRef.current),
+      isFlippedRef.current,
+    );
+    pos = flipPosIfBoardFlipped(
+      pos,
+      isFlippedRef.current,
+    );
     if (pos !== toPos) {
       dispatch(premove({ from: pos, to: toPos }));
     }
@@ -86,6 +104,10 @@ export const Board: FC<BoardProps> = ({
     }
   };
 
+  const handleMovingFrom = useCallback((pos: number) => {
+    dispatch(movingFrom(flipPosIfBoardFlipped(pos, isFlippedRef.current)));
+  }, []);
+
   if (!board) return null;
 
   return (
@@ -96,9 +118,9 @@ export const Board: FC<BoardProps> = ({
       onMouseMove={handleMove}
       onClick={handleClickBoard}
     >
-      {board
+      {flipIfBlack(board
         .split(' ')[0]
-        .split('/')
+        .split('/'), isFlippedRef.current)
         .map((row, idx) => {
           return (
             <Row
@@ -116,12 +138,15 @@ export const Board: FC<BoardProps> = ({
               isLive={isLive}
               future={future}
               onPremove={handlePremove}
+              isBoardFlipped={isFlippedRef.current}
+              onMovingFrom={handleMovingFrom}
             />
           );
       })}
       <PreMoveOverlay
         className={styles.premoves}
         premoves={premoves}
+        isBoardFlipped={isFlippedRef.current}
       />
     </div>
   );

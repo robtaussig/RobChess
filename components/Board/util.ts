@@ -26,3 +26,18 @@ export const getPosFromCoords = (
     return null;
   }
 };
+
+export const flipIfBlack = (rows: string[], isBlack: boolean): string[] => {
+  if (isBlack) return rows.reverse().map(row => row.split('').reverse().join(''));
+
+  return rows;
+};
+
+export const flipPosIfBoardFlipped = (pos: number, isBoardFlipped): number => {
+  if (pos !== null && isBoardFlipped) {
+    const row = 7 - Math.floor(pos / 8);
+    const col = 7 - (pos % 8);
+    return row * 8 + col;
+  }
+  return pos;
+};
