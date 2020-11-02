@@ -250,7 +250,7 @@ export const {
 
 export const boardSelector = (state: AppState) => state.board
 
-const isCurrentUserTurn = (state: AppState) => {
+export const isCurrentUserTurn = (state: AppState) => {
   if (currentTurn(state.board.fen) === 'black') {
     if (state.user === state.board.blackPlayer) {
       return true;

@@ -13,6 +13,7 @@ import {
   movePiece,
   chuessBoardSelector,
   lastChuessMoveSelector,
+  isCurrentUserTurn,
 } from '../../redux/board';
 import { currentTurn } from '../../redux/util';
 import { userSelector } from '../../redux/user';
@@ -39,6 +40,7 @@ export const Chuess: FC<ChuessProps> = ({
   } = useSelector(boardSelector);
   const board = useSelector(chuessBoardSelector);
   const lastMove = useSelector(lastChuessMoveSelector);
+  const isCurrentTurn = useSelector(isCurrentUserTurn);
 
   useEffect(() => {
     dispatch(init());
@@ -82,7 +84,9 @@ export const Chuess: FC<ChuessProps> = ({
   ]);
 
   return (
-    <div className={cn(styles.root, className)}>
+    <div className={cn(styles.root, className, {
+      [styles.isCurrentTurn]: isCurrentTurn,
+    })}>
       <Board
         className={styles.board}
         moveTo={handleMove}
