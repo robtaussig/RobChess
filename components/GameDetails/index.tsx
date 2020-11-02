@@ -5,28 +5,58 @@ import GameActions from './subcomponents/GameActions';
 import CapturedPieces from './subcomponents/CapturedPieces';
 import MoveHistory from './subcomponents/MoveHistory';
 import PlayerDetails from './subcomponents/PlayerDetails';
+import { User } from '../../redux/user'; 
+import { Moment } from '../../redux/board'; 
 
 export interface GameDetailsProps {
   className?: string;
   onResign: () => void;
   onDraw: () => void;
+  whitePlayer: User;
+  blackPlayer: User;
+  user: User;
+  history: Moment[];
+  future: Moment[];
+  lastMove: [number, number];
+  board: string;
 }
 
 export const GameDetails: FC<GameDetailsProps> = ({
   className,
   onResign,
   onDraw,
+  whitePlayer,
+  blackPlayer,
+  history,
+  future,
+  lastMove,
+  board,
+  user,
 }) => {
   return (
     <div className={cn(styles.root, className)}>
-      <PlayerDetails className={styles.playerDetails} />
+      <PlayerDetails
+        className={styles.playerDetails}
+        whitePlayer={whitePlayer}
+        blackPlayer={blackPlayer}
+        history={history}
+        user={user}
+      />
       <GameActions
         className={styles.gameActions}
         onResign={onResign}
         onDraw={onDraw}
       />
-      <CapturedPieces className={styles.capturedPieces} />
-      <MoveHistory className={styles.moveHistory} />
+      <CapturedPieces
+        className={styles.capturedPieces}
+        board={board}  
+      />
+      <MoveHistory
+        className={styles.moveHistory}
+        history={history}
+        future={future}
+        lastMove={lastMove}  
+      />
     </div>
   );
 };

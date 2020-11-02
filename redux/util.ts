@@ -45,6 +45,8 @@ export const initGame = (): {
 };
 
 export const currentTurn = (fen: string): 'white' | 'black' => {
+  if (!fen) return null;
+
   const [, color] = fen.split(' ');
   return color === 'w' ? 'white' : 'black';
 };

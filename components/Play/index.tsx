@@ -63,6 +63,11 @@ export const Play: FC<PlayProps> = ({
     fen,
     premoves,
     validMoves,
+    history,
+    future,
+    lastMove,
+    isMovingOver,
+    isMovingFrom,
   } = useSelector(boardSelector);
   const {
     sendMessage,
@@ -198,6 +203,16 @@ export const Play: FC<PlayProps> = ({
       <Board
         className={styles.board}
         moveTo={handleMove}
+        validMoves={validMoves}
+        isMovingOver={isMovingOver}
+        isMovingFrom={isMovingFrom}
+        whitePlayer={whitePlayer}
+        blackPlayer={blackPlayer}
+        future={future}
+        premoves={premoves}
+        board={fen}
+        lastMove={lastMove}
+        user={user}
         isLive
       />
       {invitedBy ? (
@@ -226,6 +241,13 @@ export const Play: FC<PlayProps> = ({
           className={styles.details}
           onResign={handleResign}
           onDraw={handleDraw}
+          whitePlayer={whitePlayer}
+          blackPlayer={blackPlayer}
+          history={history}
+          future={future}
+          lastMove={lastMove}
+          board={fen}
+          user={user}
         />
       )}
     </div>

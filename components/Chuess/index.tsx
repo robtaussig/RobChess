@@ -4,15 +4,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Board from '../Board';
 import GameDetails from '../GameDetails';
-import { init, moveTo, resign, draw, boardSelector, movePiece } from '../../redux/board';
+import {
+  init,
+  moveTo,
+  resign,
+  draw,
+  boardSelector,
+  movePiece,
+  chuessBoardSelector,
+  lastChuessMoveSelector,
+} from '../../redux/board';
 import { currentTurn } from '../../redux/util';
 import { userSelector } from '../../redux/user';
 
-export interface AIProps {
+export interface ChuessProps {
   className?: string;
 }
 
-export const AI: FC<AIProps> = ({
+export const Chuess: FC<ChuessProps> = ({
   className,
 }) => {
   const dispatch = useDispatch();
@@ -25,10 +34,11 @@ export const AI: FC<AIProps> = ({
     blackPlayer,
     history,
     future,
-    lastMove,
     isMovingOver,
     isMovingFrom,
   } = useSelector(boardSelector);
+  const board = useSelector(chuessBoardSelector);
+  const lastMove = useSelector(lastChuessMoveSelector);
 
   useEffect(() => {
     dispatch(init());
@@ -83,7 +93,7 @@ export const AI: FC<AIProps> = ({
         blackPlayer={blackPlayer}
         future={future}
         premoves={premoves}
-        board={fen}
+        board={board}
         lastMove={lastMove}
         user={user}
       />
@@ -96,11 +106,11 @@ export const AI: FC<AIProps> = ({
         history={history}
         future={future}
         lastMove={lastMove}
-        board={fen}
+        board={board}
         user={user}
       />
     </div>
   );
 };
 
-export default AI;
+export default Chuess;

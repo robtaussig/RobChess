@@ -31,10 +31,10 @@ export const Home: FC<HomeProps> = () => {
         Continue As Guest
       </Button>
       <Button
-        className={styles.signinButton}
-        onClick={authenticateUser}
+        className={styles.guestButton}
+        link={'/chuess'}
       >
-        Sign in
+        Play Chuess
       </Button>
       <Button
         className={styles.aiButton}

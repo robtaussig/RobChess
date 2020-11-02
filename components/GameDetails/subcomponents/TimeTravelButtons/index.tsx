@@ -1,18 +1,21 @@
 import React, { FC } from 'react';
 import cn from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Button from '../../../Button';
-import { boardSelector, goBack, goForward } from '../../../../redux/board';
+import { Moment, goBack, goForward } from '../../../../redux/board';
 
 export interface TimeTravelButtonsProps {
   className?: string;
+  history: Moment[];
+  future: Moment[];
 }
 
 export const TimeTravelButtons: FC<TimeTravelButtonsProps> = ({
   className,
+  history,
+  future,
 }) => {
-  const { history, future } = useSelector(boardSelector);
   const dispatch = useDispatch();
 
   return (

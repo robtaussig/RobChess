@@ -1,25 +1,27 @@
 import React, { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import cn from 'classnames';
-import { boardSelector, claimSeat, assignAI, AI_PLAYER } from '../../../../redux/board';
-import { userSelector } from '../../../../redux/user';
+import { Moment, claimSeat, assignAI, AI_PLAYER } from '../../../../redux/board';
+import { User } from '../../../../redux/user';
 import Player from './subcomponents/Player';
 
 export interface PlayerDetailsProps {
     className?: string;
+    whitePlayer: User;
+    blackPlayer: User;
+    user: User;
+    history: Moment[];
 }
 
 export const PlayerDetails: FC<PlayerDetailsProps> = ({
     className,
+    whitePlayer,
+    blackPlayer,
+    history,
+    user,
 }) => {
     const dispatch = useDispatch();
-    const {
-        whitePlayer,
-        blackPlayer,
-        history,
-    } = useSelector(boardSelector);
-    const user = useSelector(userSelector);
 
     const handleClaimSeat = (color: 'white' | 'black') => {
         dispatch(claimSeat({ user, color }));

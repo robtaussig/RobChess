@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import cn from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Piece from '../Piece';
 import { movingFrom, Moment } from '../../../../redux/board';

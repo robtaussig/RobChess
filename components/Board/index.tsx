@@ -2,9 +2,14 @@ import React, { FC, useRef } from 'react';
 import cn from 'classnames';
 import styles from './styles.module.scss';
 import Row from './subcomponents/Row';
-import { useDispatch, useSelector } from 'react-redux';
-import { movingOver, boardSelector, premove, clearPremoves } from '../../redux/board';
-import { userSelector } from '../../redux/user';
+import { useDispatch } from 'react-redux';
+import {
+  movingOver,
+  premove,
+  clearPremoves,
+  Moment,
+} from '../../redux/board';
+import { User } from '../../redux/user';
 import { getPosFromEvent, getPosFromCoords } from './util';
 import PreMoveOverlay from './subcomponents/PreMoveOverlay';
 
@@ -12,26 +17,39 @@ export interface BoardProps {
   className?: string;
   moveTo: (pos?: number) => void;
   isLive?: boolean;
+  validMoves: {
+    [pos: number]: number[];
+  };
+  isMovingOver: number;
+  isMovingFrom: number;
+  whitePlayer: User;
+  blackPlayer: User;
+  future: Moment[];
+  premoves: {
+    from: number;
+    to: number;
+  }[];
+  board: string;
+  lastMove: [number, number];
+  user: User;
 }
 
 export const Board: FC<BoardProps> = ({
   className,
   moveTo,
+  validMoves,
+  isMovingOver,
+  isMovingFrom,
+  whitePlayer,
+  blackPlayer,
+  future,
+  premoves,
+  board,
+  lastMove,
+  user,
   isLive = false,
 }) => {
   const lastClick = useRef<number>(null);
-  const {
-    validMoves,
-    fen: board,
-    isMovingOver,
-    isMovingFrom,
-    lastMove,
-    whitePlayer,
-    blackPlayer,
-    future,
-    premoves,
-  } = useSelector(boardSelector);
-  const user = useSelector(userSelector);
   const dispatch = useDispatch();
   const rootRef = useRef<HTMLDivElement>(null);
  

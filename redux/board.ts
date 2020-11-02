@@ -250,4 +250,31 @@ export const {
 
 export const boardSelector = (state: AppState) => state.board
 
+const isCurrentUserTurn = (state: AppState) => {
+  if (currentTurn(state.board.fen) === 'black') {
+    if (state.user === state.board.blackPlayer) {
+      return true;
+    }
+  } else if (state.user === state.board.whitePlayer) {
+    return true;
+  }
+  return false;
+};
+
+export const chuessBoardSelector = (state: AppState) => {
+  if (isCurrentUserTurn(state)) {
+    return state.board.history[state.board.history.length - 1]?.fen ?? state.board.fen;
+  }
+
+  return state.board.fen;
+};
+
+export const lastChuessMoveSelector = (state: AppState) => {
+  if (isCurrentUserTurn(state)) {
+    return state.board.history[state.board.history.length - 1]?.move ?? state.board.lastMove;
+  }
+
+  return state.board.lastMove;
+};
+
 export default boardSlice.reducer

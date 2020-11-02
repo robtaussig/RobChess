@@ -1,6 +1,5 @@
 import React, { FC, useRef } from 'react';
 import cn from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import clamp from 'lodash/clamp';
 import { useSpring, animated } from 'react-spring';
@@ -69,7 +68,6 @@ export const Piece: FC<PieceProps> = ({
       className={cn(styles.root, className)}
       style={{
         //@ts-ignore
-        transform: xy?.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`),
         touchAction: 'none',
         display: 'flex',
       }}
@@ -85,7 +83,7 @@ export const Piece: FC<PieceProps> = ({
       {...bind()}
       style={{
         //@ts-ignore
-        transform: xy?.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`),
+        transform: canMoveRef.current && xy?.interpolate((x, y) => `translate3d(${x}px,${y}px,0)`),
         touchAction: 'none',
         display: 'flex',
       }}

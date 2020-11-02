@@ -1,23 +1,24 @@
 import React, { FC, useState, useEffect } from 'react';
 import styles from './styles.module.scss';
 import cn from 'classnames';
-import { boardSelector, goTo } from '../../../../redux/board';
+import { goTo, Moment } from '../../../../redux/board';
 import { convertMoveHistory } from './util';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import TimeTravelButtons from '../TimeTravelButtons';
 import MovePair from './components/MovePair';
 export interface MoveHistoryProps {
     className?: string;
+    history: Moment[];
+    future: Moment[];
+    lastMove: [number, number];
 }
 
 export const MoveHistory: FC<MoveHistoryProps> = ({
     className,
+    history,
+    future,
+    lastMove,
 }) => {
-    const {
-        history,
-        future,
-        lastMove,
-    } = useSelector(boardSelector);
     const dispatch = useDispatch();
     const [moveHistory, setMoveHistory] = useState([]);
 
@@ -33,7 +34,11 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
 
     return (
         <div className={cn(styles.root, className)}>
-            <TimeTravelButtons className={styles.timeTravelButtons} />
+            <TimeTravelButtons
+                className={styles.timeTravelButtons}
+                history={history}
+                future={future}
+            />
             <ul className={styles.moveList} >
                 {moveHistory
                 .reduce((pairs, move, idx) => {

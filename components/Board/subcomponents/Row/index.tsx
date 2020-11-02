@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import cn from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Square from '../Square';
 import { User } from '../../../../redux/user';
