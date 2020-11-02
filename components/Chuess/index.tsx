@@ -99,6 +99,8 @@ export const Chuess: FC<ChuessProps> = ({
     dispatch(peek());
   };
 
+  const canPeek = isCurrentTurn && !peeked && peeksLeft > 0;
+
   return (
     <div className={cn(styles.root, className, {
       [styles.isCurrentTurn]: isCurrentTurn,
@@ -138,7 +140,8 @@ export const Chuess: FC<ChuessProps> = ({
         board={board}
         user={user}
         onCommitMoves={premoves.length > 0 && handleCommmitMoves}
-        onPeek={!peeked && peeksLeft > 0 && handlePeek}
+        onPeek={canPeek && handlePeek}
+        peeksLeft={peeksLeft}
       />
     </div>
   );

@@ -7,7 +7,8 @@ export interface GameActionsProps {
   onResign: () => void;
   onDraw: () => void;
   onCommitMoves: () => void;
-  onPeek: () => void;
+  onPeek?: () => void;
+  peeksLeft?: number;
 }
 
 export const GameActions: FC<GameActionsProps> = ({
@@ -16,6 +17,7 @@ export const GameActions: FC<GameActionsProps> = ({
   onDraw,
   onCommitMoves,
   onPeek,
+  peeksLeft,
 }) => {
 
   return (
@@ -40,7 +42,7 @@ export const GameActions: FC<GameActionsProps> = ({
           className={styles.peek}
           onClick={onPeek}
         >
-          Peek
+          Peek ({peeksLeft})
         </button>
       ) : (
         <button

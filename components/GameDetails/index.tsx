@@ -21,6 +21,7 @@ export interface GameDetailsProps {
   board: string;
   onCommitMoves?: () => void;
   onPeek?: () => void;
+  peeksLeft?: number;
 }
 
 export const GameDetails: FC<GameDetailsProps> = ({
@@ -36,6 +37,7 @@ export const GameDetails: FC<GameDetailsProps> = ({
   user,
   onCommitMoves,
   onPeek,
+  peeksLeft,
 }) => {
   return (
     <div className={cn(styles.root, className)}>
@@ -52,6 +54,7 @@ export const GameDetails: FC<GameDetailsProps> = ({
         onDraw={onDraw}
         onCommitMoves={onCommitMoves}
         onPeek={onPeek}
+        peeksLeft={peeksLeft}
       />
       <CapturedPieces
         className={styles.capturedPieces}
