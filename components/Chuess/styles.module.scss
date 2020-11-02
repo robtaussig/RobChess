@@ -7,11 +7,13 @@
                        "details";
   grid-template-rows: 96vw calc(var(--100vh, 100vh) - 102vw);
   grid-template-columns: 96vw;
+  
   &.isCurrentTurn {
     background-color: #006786;
   }
+
   @media screen and (min-width: 600px) {
-    margin: calc(0.02 * var(--100vh, 100vh));
+    padding: calc(0.02 * var(--100vh, 100vh));
     grid-gap: calc(0.02 * var(--100vh, 100vh));
     grid-template-areas: "board details";
     grid-template-rows: calc(0.96 * var(--100vh, 100vh));
@@ -23,6 +25,18 @@
   grid-area: board;
 }
 
+.opponentFinder {
+  grid-area: details;
+}
+
 .details {
+  grid-area: details;
+}
+
+.challengedMessage {
+  grid-area: details;
+}
+
+.gameOver {
   grid-area: details;
 }
