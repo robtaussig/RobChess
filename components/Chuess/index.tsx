@@ -142,6 +142,7 @@ export const Chuess: FC<ChuessProps> = ({
         onCommitMoves={premoves.length > 0 && handleCommmitMoves}
         onPeek={canPeek && handlePeek}
         peeksLeft={peeksLeft}
+        canTimeTravel={false}
       />
     </div>
   );

@@ -124,6 +124,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         onCommitMoves={premoves.length > 0 && handleCommmitMoves}
         onPeek={!peeked && peeksLeft > 0 && handlePeek}
         peeksLeft={peeksLeft}
+        canTimeTravel={false}
       />
     </div>
   );

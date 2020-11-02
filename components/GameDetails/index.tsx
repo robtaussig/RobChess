@@ -22,6 +22,7 @@ export interface GameDetailsProps {
   onCommitMoves?: () => void;
   onPeek?: () => void;
   peeksLeft?: number;
+  canTimeTravel?: boolean;
 }
 
 export const GameDetails: FC<GameDetailsProps> = ({
@@ -38,6 +39,7 @@ export const GameDetails: FC<GameDetailsProps> = ({
   onCommitMoves,
   onPeek,
   peeksLeft,
+  canTimeTravel = true,
 }) => {
   return (
     <div className={cn(styles.root, className)}>
@@ -64,7 +66,8 @@ export const GameDetails: FC<GameDetailsProps> = ({
         className={styles.moveHistory}
         history={history}
         future={future}
-        lastMove={lastMove}  
+        lastMove={lastMove}
+        canTimeTravel={canTimeTravel}
       />
     </div>
   );

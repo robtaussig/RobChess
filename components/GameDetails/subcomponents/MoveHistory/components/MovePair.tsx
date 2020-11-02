@@ -22,9 +22,9 @@ export const MovePair: FC<MovePairProps> = ({
     const isWhiteMove = (movePairNum * 2) === history.length - 1;
     const isBlackMove = ((movePairNum * 2) + 1) === history.length - 1;
 
-    const handleClickWhiteMove = () => onGoTo(movePairNum, true);
+    const handleClickWhiteMove = () => onGoTo && onGoTo(movePairNum, true);
 
-    const handleClickBlackMove = () => onGoTo(movePairNum, false);
+    const handleClickBlackMove = () => onGoTo && onGoTo(movePairNum, false);
 
     useEffect(() => {
         if (isWhiteMove || isBlackMove) {

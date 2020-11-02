@@ -11,6 +11,7 @@ export interface MoveHistoryProps {
     history: Moment[];
     future: Moment[];
     lastMove: [number, number];
+    canTimeTravel: boolean;
 }
 
 export const MoveHistory: FC<MoveHistoryProps> = ({
@@ -18,6 +19,7 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
     history,
     future,
     lastMove,
+    canTimeTravel,
 }) => {
     const dispatch = useDispatch();
     const [moveHistory, setMoveHistory] = useState([]);
@@ -34,11 +36,11 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
 
     return (
         <div className={cn(styles.root, className)}>
-            <TimeTravelButtons
+            {canTimeTravel && (<TimeTravelButtons
                 className={styles.timeTravelButtons}
                 history={history}
                 future={future}
-            />
+            />)}
             <ul className={styles.moveList} >
                 {moveHistory
                 .reduce((pairs, move, idx) => {
@@ -56,7 +58,7 @@ export const MoveHistory: FC<MoveHistoryProps> = ({
                                 whiteMove={whiteMove}
                                 blackMove={blackMove}
                                 history={history}
-                                onGoTo={handleGoToMove}
+                                onGoTo={canTimeTravel && handleGoToMove}
                             />
                         );
                 })}

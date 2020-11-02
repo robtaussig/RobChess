@@ -41,6 +41,7 @@ export interface MultiplayerGameDetailsProps {
   onCommitMoves?: () => void;
   onPeek?: () => void;
   peeksLeft?: number;
+  canTimeTravel?: boolean;
 }
 
 export const MultiplayerGameDetails: FC<MultiplayerGameDetailsProps> = ({
@@ -65,6 +66,7 @@ export const MultiplayerGameDetails: FC<MultiplayerGameDetailsProps> = ({
   onCommitMoves,
   onPeek,
   peeksLeft,
+  canTimeTravel = true,
 }) => {
 
   return (
@@ -105,6 +107,7 @@ export const MultiplayerGameDetails: FC<MultiplayerGameDetailsProps> = ({
           onCommitMoves={onCommitMoves}
           onPeek={onPeek}
           peeksLeft={peeksLeft}
+          canTimeTravel={canTimeTravel}
         />
       )}
     </>
