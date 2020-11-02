@@ -2,7 +2,7 @@ import { ThunkAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { joined, addUser, disconnected } from './network';
 import { movePiece, claimSeat, resign } from './board';
-import { Messages } from '../components/Play/constants';
+import { Messages } from '../hooks/constants';
 
 type Thunk = ThunkAction<void, AppState, void, any>;
 type SendMessage = (message: string) => void;

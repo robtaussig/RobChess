@@ -1,29 +1,21 @@
-import React, { FC, useEffect } from 'react';
-import cn from 'classnames';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './styles.module.scss';
-import Board from '../Board';
-import GameDetails from '../GameDetails';
 import {
   init,
-  boardSelector,
   moveTo,
   resign,
-  draw,
-  PlayerState,
   movePiece,
-} from '../../redux/board';
-import { currentTurn } from '../../redux/util';
-import { named, userSelector } from '../../redux/user';
+} from '../components/../redux/board';
+import { currentTurn } from '../components/../redux/util';
+import { named, userSelector, User } from '../components/../redux/user';
 import {
   networkSelector,
   RoomJoinStatus,
   joining,
-  MAIN_ROOM,
   invite,
   invitedBy as invitedByAction,
   acceptedInvite,
-} from '../../redux/network';
+} from '../components/../redux/network';
 import { WS_ADDR, Messages } from './constants';
 import useWebsocket from 'react-use-websocket';
 import {
@@ -34,19 +26,21 @@ import {
   blackClaimed,
   propagateResignation,
   propagatePreMove,
-} from '../../redux/message-handler';
+} from '../components/../redux/message-handler';
 import { v4 as uuidv4 } from 'uuid';
-import OpponentFinder from '../OpponentFinder';
-import ChallengedMessage from './subcomponents/ChallengedMessage';
-import GameOver from './subcomponents/GameOver';
 
-export interface PlayProps {
-  className?: string;
-}
-
-export const Play: FC<PlayProps> = ({
-  className,
-}) => {
+export const useMultiplayer = (
+  fen: string,
+  premoves: {
+    from: number;
+    to: number;
+  }[],
+  validMoves: {
+    [pos: number]: number[];
+  },
+  whitePlayer: User,
+  blackPlayer: User,
+) => {
   const dispatch = useDispatch();
   const {
     room,
@@ -55,20 +49,7 @@ export const Play: FC<PlayProps> = ({
     invitedBy,
   } = useSelector(networkSelector);
   const user = useSelector(userSelector);
-  const {
-    whitePlayer,
-    blackPlayer,
-    playerState,
-    opponentState,
-    fen,
-    premoves,
-    validMoves,
-    history,
-    future,
-    lastMove,
-    isMovingOver,
-    isMovingFrom,
-  } = useSelector(boardSelector);
+
   const {
     sendMessage,
     lastMessage,
@@ -198,60 +179,13 @@ export const Play: FC<PlayProps> = ({
     user,
   ]);
 
-  return (
-    <div className={cn(styles.root, className)}>
-      <Board
-        className={styles.board}
-        moveTo={handleMove}
-        validMoves={validMoves}
-        isMovingOver={isMovingOver}
-        isMovingFrom={isMovingFrom}
-        whitePlayer={whitePlayer}
-        blackPlayer={blackPlayer}
-        future={future}
-        premoves={premoves}
-        board={fen}
-        lastMove={lastMove}
-        user={user}
-        isLive
-      />
-      {invitedBy ? (
-        <ChallengedMessage
-          className={styles.challengedMessage}
-          by={invitedBy}
-          onAccept={handleAcceptChallenge}
-          onReject={handleRejectChallenge}
-        />
-      ) : room === MAIN_ROOM ? (
-        <OpponentFinder
-          className={styles.opponentFinder}
-        />
-      ) : opponentState === PlayerState.Resigned ||
-          playerState === PlayerState.Resigned ? (
-        <GameOver
-          className={styles.gameOver}
-          opponentState={opponentState}
-          playerState={playerState}
-          onPlayAgain={handlePlayAgain}
-          onGoBack={handleGoBack}
-          onDraw={handleDraw}
-        />
-      ) :(
-        <GameDetails
-          className={styles.details}
-          onResign={handleResign}
-          onDraw={handleDraw}
-          whitePlayer={whitePlayer}
-          blackPlayer={blackPlayer}
-          history={history}
-          future={future}
-          lastMove={lastMove}
-          board={fen}
-          user={user}
-        />
-      )}
-    </div>
-  );
+  return {
+    handleAcceptChallenge,
+    handleRejectChallenge,
+    handleMove,
+    handleResign,
+    handleDraw,
+    handlePlayAgain,
+    handleGoBack,
+  };
 };
-
-export default Play;

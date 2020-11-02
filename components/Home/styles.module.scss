@@ -2,11 +2,12 @@
   height: 100%;
   display: grid;
   grid-template-areas: ". header ."
-                       ". guest ."
+                       ". chess ."
+                       ". chuess ."
                        ". sign-in ."
                        ". ai ."
                        ". . .";
-  grid-template-rows: 1fr max-content max-content max-content 1fr;
+  grid-template-rows: 1fr max-content max-content max-content max-content 1fr;
   grid-template-columns: 1fr max-content 1fr;
   grid-gap: 5px;
   & > button {
@@ -32,8 +33,12 @@
   font-size: 36px;
 }
 
-.guestButton {
-  grid-area: guest;
+.chessButton {
+  grid-area: chess;
+}
+
+.chuessButton {
+  grid-area: chuess;
 }
 
 .signinButton {

@@ -25,13 +25,13 @@ export const Home: FC<HomeProps> = () => {
         Rob Chess
       </h1>
       <Button
-        className={styles.guestButton}
-        link={'/play'}
+        className={styles.chessButton}
+        link={'/chess'}
       >
-        Continue As Guest
+        Play Chess
       </Button>
       <Button
-        className={styles.guestButton}
+        className={styles.chuessButton}
         link={'/chuess'}
       >
         Play Chuess
