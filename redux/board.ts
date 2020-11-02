@@ -5,6 +5,8 @@ import { User } from './user';
 import { wrap } from 'comlink';
 import { WorkerInterface } from '../engine/index.worker';
 
+const PREMOVE_MAXIMUM = 3;
+
 const comLinkWorker = typeof window !== 'undefined' ?
   wrap<WorkerInterface>(new Worker('../engine/index.worker', {
     type: 'module',
@@ -114,7 +116,9 @@ const boardSlice = createSlice({
       if (existingPremove > -1) {
         state.premoves.splice(existingPremove, 1);
       } else {
+        if (state.premoves.length < PREMOVE_MAXIMUM) {
         state.premoves.push(action.payload);
+        }
       }
     },
     clearPremoves(state) {
