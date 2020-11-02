@@ -3,9 +3,9 @@
   display: grid;
   grid-template-areas: ". header ."
                        ". chess ."
-                       ". chuess ."
-                       ". sign-in ."
                        ". ai ."
+                       ". chuess ."
+                       ". chuess-ai ."
                        ". . .";
   grid-template-rows: 1fr max-content max-content max-content max-content 1fr;
   grid-template-columns: 1fr max-content 1fr;
@@ -39,6 +39,10 @@
 
 .chuessButton {
   grid-area: chuess;
+}
+
+.chuessAIButton {
+  grid-area: chuess-ai;
 }
 
 .signinButton {

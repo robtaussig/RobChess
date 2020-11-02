@@ -18,14 +18,6 @@ import {
 } from '../../redux/board';
 import { currentTurn, getValidMoves } from '../../redux/util';
 import { userSelector } from '../../redux/user';
-import {
-  networkSelector,
-  MAIN_ROOM,
-} from '../../redux/network';
-import OpponentFinder from '../OpponentFinder';
-import ChallengedMessage from '../Chess/subcomponents/ChallengedMessage';
-import GameOver from '../Chess/subcomponents/GameOver';
-import { useMultiplayer } from '../../hooks/use-multiplayer';
 
 export interface ChuessAIProps {
   className?: string;

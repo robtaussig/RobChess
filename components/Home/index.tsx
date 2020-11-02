@@ -31,16 +31,22 @@ export const Home: FC<HomeProps> = () => {
         Play Chess
       </Button>
       <Button
+        className={styles.aiButton}
+        link={'/ai'}
+      >
+        Play Chess AI
+      </Button>
+      <Button
         className={styles.chuessButton}
         link={'/chuess'}
       >
         Play Chuess
       </Button>
       <Button
-        className={styles.aiButton}
-        link={'/ai'}
+        className={styles.chuessAIButton}
+        link={'/chuess-ai'}
       >
-        Play AI
+        Play Chuess AI
       </Button>
     </div>
   );
