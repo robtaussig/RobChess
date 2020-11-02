@@ -7,6 +7,7 @@ export interface GameActionsProps {
   onResign: () => void;
   onDraw: () => void;
   onCommitMoves: () => void;
+  onPeek: () => void;
 }
 
 export const GameActions: FC<GameActionsProps> = ({
@@ -14,6 +15,7 @@ export const GameActions: FC<GameActionsProps> = ({
   onResign,
   onDraw,
   onCommitMoves,
+  onPeek,
 }) => {
 
   return (
@@ -33,12 +35,21 @@ export const GameActions: FC<GameActionsProps> = ({
           Resign
         </button>
       )}
-      <button
-        className={styles.draw}
-        onClick={onDraw}
-      >
-        Draw
-      </button>
+      {onPeek ? (
+        <button
+          className={styles.peek}
+          onClick={onPeek}
+        >
+          Peek
+        </button>
+      ) : (
+        <button
+          className={styles.draw}
+          onClick={onDraw}
+        >
+          Draw
+        </button>
+      )}
     </div>
   );
 };

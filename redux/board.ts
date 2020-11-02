@@ -261,26 +261,4 @@ export const isCurrentUserTurn = (state: AppState) => {
   return false;
 };
 
-export const chuessBoardSelector = (state: AppState) => {
-  if (isCurrentUserTurn(state)) {
-    return state.board.history[state.board.history.length - 1]?.fen ?? state.board.fen;
-  }
-
-  return state.board.fen;
-};
-
-export const lastChuessMoveSelector = (state: AppState) => {
-  if (isCurrentUserTurn(state)) {
-    return state.board.history[state.board.history.length - 1]?.move ?? null;
-  }
-
-  return state.board.lastMove;
-};
-
-export const validChuessMovesSelector = (state: AppState) => {
-  return state.board.history.length > 0 ?
-    INITIAL_STATE.validMoves :
-    state.board.validMoves;
-};
-
 export default boardSlice.reducer

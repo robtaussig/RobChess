@@ -11,11 +11,15 @@ import {
   draw,
   boardSelector,
   movePiece,
+  isCurrentUserTurn,
+} from '../../redux/board';
+import {
   chuessBoardSelector,
   lastChuessMoveSelector,
   validChuessMovesSelector,
-  isCurrentUserTurn,
-} from '../../redux/board';
+  chuessSelector,
+  peek,
+} from '../../redux/chuess';
 import { getValidMoves } from '../../redux/util';
 import { userSelector } from '../../redux/user';
 
@@ -28,6 +32,10 @@ export const ChuessAI: FC<ChuessAIProps> = ({
 }) => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
+  const {
+    peeksLeft,
+    peeked,
+  } = useSelector(chuessSelector);
   const {
     fen,
     premoves,
@@ -57,6 +65,10 @@ export const ChuessAI: FC<ChuessAIProps> = ({
   
   const handleDraw = () => {
     dispatch(draw(true));
+  };
+
+  const handlePeek = () => {
+    dispatch(peek());
   };
 
   const handleCommmitMoves = () => {
@@ -110,6 +122,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         board={board}
         user={user}
         onCommitMoves={premoves.length > 0 && handleCommmitMoves}
+        onPeek={!peeked && peeksLeft > 0 && handlePeek}
       />
     </div>
   );

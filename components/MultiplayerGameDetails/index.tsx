@@ -39,6 +39,7 @@ export interface MultiplayerGameDetailsProps {
   board: string;
   user: User;
   onCommitMoves?: () => void;
+  onPeek?: () => void;
 }
 
 export const MultiplayerGameDetails: FC<MultiplayerGameDetailsProps> = ({
@@ -61,6 +62,7 @@ export const MultiplayerGameDetails: FC<MultiplayerGameDetailsProps> = ({
   board,
   user,
   onCommitMoves,
+  onPeek,
 }) => {
 
   return (
@@ -99,6 +101,7 @@ export const MultiplayerGameDetails: FC<MultiplayerGameDetailsProps> = ({
           board={board}
           user={user}
           onCommitMoves={onCommitMoves}
+          onPeek={onPeek}
         />
       )}
     </>

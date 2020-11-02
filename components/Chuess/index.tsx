@@ -1,15 +1,19 @@
 import React, { FC } from 'react';
 import cn from 'classnames';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './styles.module.scss';
 import Board from '../Board';
 import {
   boardSelector,
+  isCurrentUserTurn,
+} from '../../redux/board';
+import {
   chuessBoardSelector,
   lastChuessMoveSelector,
   validChuessMovesSelector,
-  isCurrentUserTurn,
-} from '../../redux/board';
+  chuessSelector,
+  peek,
+} from '../../redux/chuess';
 import { userSelector } from '../../redux/user';
 import {
   networkSelector,
@@ -25,11 +29,16 @@ export interface ChuessProps {
 export const Chuess: FC<ChuessProps> = ({
   className,
 }) => {
+  const dispatch = useDispatch();
   const {
     room,
     invitedBy,
   } = useSelector(networkSelector);
   const user = useSelector(userSelector);
+  const {
+    peeksLeft,
+    peeked,
+  } = useSelector(chuessSelector);
   const {
     fen,
     whitePlayer,
@@ -86,6 +95,10 @@ export const Chuess: FC<ChuessProps> = ({
     movePieceAndPropagate(from, to);
   };
 
+  const handlePeek = () => {
+    dispatch(peek());
+  };
+
   return (
     <div className={cn(styles.root, className, {
       [styles.isCurrentTurn]: isCurrentTurn,
@@ -125,6 +138,7 @@ export const Chuess: FC<ChuessProps> = ({
         board={board}
         user={user}
         onCommitMoves={premoves.length > 0 && handleCommmitMoves}
+        onPeek={!peeked && peeksLeft > 0 && handlePeek}
       />
     </div>
   );
