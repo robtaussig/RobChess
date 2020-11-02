@@ -1,46 +1,42 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import cn from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Board from '../Board';
-import GameDetails from '../GameDetails';
 import {
-  init,
-  moveTo,
-  resign,
-  draw,
   boardSelector,
-  movePiece,
   chuessBoardSelector,
   lastChuessMoveSelector,
   validChuessMovesSelector,
   isCurrentUserTurn,
 } from '../../redux/board';
-import { currentTurn, getValidMoves } from '../../redux/util';
 import { userSelector } from '../../redux/user';
 import {
   networkSelector,
-  MAIN_ROOM,
 } from '../../redux/network';
-import OpponentFinder from '../OpponentFinder';
-import ChallengedMessage from '../Chess/subcomponents/ChallengedMessage';
-import GameOver from '../Chess/subcomponents/GameOver';
+import { getValidMoves } from '../../redux/util';
 import { useMultiplayer } from '../../hooks/use-multiplayer';
+import MultiplayerGameDetails from '../MultiplayerGameDetails';
 
-export interface ChuessAIProps {
+export interface ChuessProps {
   className?: string;
 }
 
-export const ChuessAI: FC<ChuessAIProps> = ({
+export const Chuess: FC<ChuessProps> = ({
   className,
 }) => {
-  const dispatch = useDispatch();
+  const {
+    room,
+    invitedBy,
+  } = useSelector(networkSelector);
   const user = useSelector(userSelector);
   const {
     fen,
-    premoves,
     whitePlayer,
     blackPlayer,
+    playerState,
+    opponentState,
+    premoves,
     history,
     future,
     isMovingOver,
@@ -51,27 +47,29 @@ export const ChuessAI: FC<ChuessAIProps> = ({
   const isCurrentTurn = useSelector(isCurrentUserTurn);
   const validMoves = useSelector(validChuessMovesSelector);
 
-  useEffect(() => {
-    dispatch(init());
-  }, []);
-
-  const handleMove = (pos?: number) => {
-    dispatch(moveTo(pos));
-  };
-
-  const handleResign = () => {
-    dispatch(resign(true));
-  };
-  
-  const handleDraw = () => {
-    dispatch(draw(true));
-  };
+  const {
+    handleAcceptChallenge,
+    handleRejectChallenge,
+    handleMove,
+    handleResign,
+    handleDraw,
+    handlePlayAgain,
+    handleGoBack,
+    movePieceAndPropagate,
+  } = useMultiplayer(
+    fen,
+    premoves,
+    validMoves,
+    whitePlayer,
+    blackPlayer,
+  );
 
   const handleCommmitMoves = () => {
     const validMoves = getValidMoves(fen);
+
     for (let { from, to } of premoves) {
       if (validMoves[from] && validMoves[from].includes(to)) {
-        dispatch(movePiece({ from, to }));
+        movePieceAndPropagate(from, to);
         return;
       }
     }
@@ -85,7 +83,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
       }, [] as [number, number][]);
 
     const [from, to] = allValidMoves[Math.floor(Math.random() * allValidMoves.length)];
-    dispatch(movePiece({ from, to }));
+    movePieceAndPropagate(from, to);
   };
 
   return (
@@ -105,11 +103,20 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         board={board}
         lastMove={lastMove}
         user={user}
+        isLive
       />
-      <GameDetails
-        className={styles.details}
-        onResign={handleResign}
-        onDraw={handleDraw}
+      <MultiplayerGameDetails
+        styles={styles}
+        invitedBy={invitedBy}
+        handleAcceptChallenge={handleAcceptChallenge}
+        handleRejectChallenge={handleRejectChallenge}
+        room={room}
+        opponentState={opponentState}
+        playerState={playerState}
+        handlePlayAgain={handlePlayAgain}
+        handleGoBack={handleGoBack}
+        handleDraw={handleDraw}
+        handleResign={handleResign}
         whitePlayer={whitePlayer}
         blackPlayer={blackPlayer}
         history={history}
@@ -123,4 +130,4 @@ export const ChuessAI: FC<ChuessAIProps> = ({
   );
 };
 
-export default ChuessAI;
+export default Chuess;

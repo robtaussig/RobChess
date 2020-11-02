@@ -16,7 +16,7 @@ import {
   validChuessMovesSelector,
   isCurrentUserTurn,
 } from '../../redux/board';
-import { currentTurn, getValidMoves } from '../../redux/util';
+import { getValidMoves } from '../../redux/util';
 import { userSelector } from '../../redux/user';
 
 export interface ChuessAIProps {

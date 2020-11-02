@@ -271,7 +271,7 @@ export const chuessBoardSelector = (state: AppState) => {
 
 export const lastChuessMoveSelector = (state: AppState) => {
   if (isCurrentUserTurn(state)) {
-    return state.board.history[state.board.history.length - 1]?.move ?? state.board.lastMove;
+    return state.board.history[state.board.history.length - 1]?.move ?? null;
   }
 
   return state.board.lastMove;

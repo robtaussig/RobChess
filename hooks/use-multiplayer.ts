@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   init,
@@ -87,6 +87,11 @@ export const useMultiplayer = (
     dispatch(moveTo(pos));
   };
 
+  const movePieceAndPropagate = useCallback((from: number, to: number) => {
+    dispatch(movePiece({ from, to }));
+    dispatch(propagatePreMove(sendMessage, from, to));
+  }, []);
+
   const handleResign = () => {
     dispatch(resign(true));
     dispatch(propagateResignation(sendMessage));
@@ -163,8 +168,7 @@ export const useMultiplayer = (
       if (isCurrentTurn) {
         for (let { from, to } of premoves) {
           if (validMoves[from] && validMoves[from].includes(to)) {
-            dispatch(movePiece({ from, to }));
-            dispatch(propagatePreMove(sendMessage, from, to));
+            movePieceAndPropagate(from, to);
             return;
           }
         }
@@ -187,5 +191,6 @@ export const useMultiplayer = (
     handleDraw,
     handlePlayAgain,
     handleGoBack,
+    movePieceAndPropagate,
   };
 };
