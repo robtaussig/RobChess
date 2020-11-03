@@ -36,10 +36,12 @@ export const Player: FC<PlayerProps> = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isPromoting) {
-      dispatch(promote('q')); //TODO check for better move
-    } else if (player === AI_PLAYER && currentTurn) {
-      dispatch(makeEngineMove());
+    if (player === AI_PLAYER && currentTurn) {
+      if (isPromoting) {
+        dispatch(promote('q')); //TODO check for better move
+      } else {
+        dispatch(makeEngineMove());
+      }
     }
   }, [currentTurn, player, isPromoting]);
 
