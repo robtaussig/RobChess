@@ -132,7 +132,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         onPromote={handlePromote}
         peeksLeft={peeksLeft}
         canTimeTravel={false}
-        isPromoting={isPromoting}
+        isPromoting={isCurrentTurn && isPromoting}
       />
     </div>
   );

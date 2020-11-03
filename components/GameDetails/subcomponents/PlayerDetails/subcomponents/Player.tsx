@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { User } from '../../../../../redux/user';
 import { PIECE_TO_CSS } from '../../../../Board/subcomponents/Piece/constants';
-import { AI_PLAYER, makeEngineMove } from '../../../../../redux/board';
+import { AI_PLAYER, makeEngineMove, promote } from '../../../../../redux/board';
 
 export interface PlayerProps {
   className?: string;
@@ -14,6 +14,7 @@ export interface PlayerProps {
   canUnseat: boolean;
   currentTurn: boolean;
   canClaim: boolean;
+  isPromoting: boolean;
   onClaimSeat: (color: 'white' | 'black') => void;
   onAssignAI: (color: 'white' | 'black') => void;
   onUnseat: (color: 'white' | 'black') => void;
@@ -30,14 +31,17 @@ export const Player: FC<PlayerProps> = ({
   onUnseat,
   currentTurn,
   canClaim,
+  isPromoting,
 }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (player === AI_PLAYER && currentTurn) {
+    if (isPromoting) {
+      dispatch(promote('q')); //TODO check for better move
+    } else if (player === AI_PLAYER && currentTurn) {
       dispatch(makeEngineMove());
     }
-  }, [currentTurn, player]);
+  }, [currentTurn, player, isPromoting]);
 
   if (!player) {
     return (

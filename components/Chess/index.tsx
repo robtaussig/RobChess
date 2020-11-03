@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import Board from '../Board';
 import {
   boardSelector,
+  isCurrentUserTurn,
 } from '../../redux/board';
 import { userSelector } from '../../redux/user';
 import {
@@ -40,6 +41,7 @@ export const Chess: FC<ChessProps> = ({
     isMovingFrom,
     isPromoting,
   } = useSelector(boardSelector);
+  const isCurrentTurn = useSelector(isCurrentUserTurn);
   const {
     handleAcceptChallenge,
     handleRejectChallenge,
@@ -93,7 +95,7 @@ export const Chess: FC<ChessProps> = ({
         lastMove={lastMove}
         board={fen}
         user={user}
-        isPromoting={isPromoting}
+        isPromoting={isCurrentTurn && isPromoting}
         onPromote={handlePromote}
       />
     </div>

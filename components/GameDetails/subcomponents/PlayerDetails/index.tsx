@@ -12,6 +12,7 @@ export interface PlayerDetailsProps {
     blackPlayer: User;
     user: User;
     history: Moment[];
+    isPromoting: boolean;
 }
 
 export const PlayerDetails: FC<PlayerDetailsProps> = ({
@@ -20,6 +21,7 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
     blackPlayer,
     history,
     user,
+    isPromoting,
 }) => {
     const dispatch = useDispatch();
 
@@ -46,6 +48,7 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 onUnseat={handleUnseat}
                 currentTurn={history.length % 2 === 0}
                 canClaim={blackPlayer !== user}
+                isPromoting={isPromoting}
                 white
             />
             {whitePlayer && blackPlayer && (<span className={styles.vs}>-vs-</span>)}
@@ -58,6 +61,7 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 onUnseat={handleUnseat}
                 currentTurn={history.length % 2 === 1}
                 canClaim={whitePlayer !== user}
+                isPromoting={isPromoting}
                 black
             />
         </div>
