@@ -1,7 +1,7 @@
 import { ThunkAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { joined, addUser, disconnected } from './network';
-import { movePiece, claimSeat, resign } from './board';
+import { movePiece, claimSeat, resign, promote } from './board';
 import { Messages } from '../hooks/constants';
 
 type Thunk = ThunkAction<void, AppState, void, any>;
@@ -65,6 +65,21 @@ export const propagatePreMove = (
           from,
           to,
         },
+      }
+    }));
+  };
+
+export const propagatePromotion = (
+  sendMessage: SendMessage,
+  piece: string
+): Thunk =>
+  (dispatch, getState) => {
+    const { network } = getState();
+    network.users.forEach(user => sendTo(user.name, sendMessage, {
+      type: Messages.Action,
+      payload: {
+        type: promote.type,
+        payload: piece,
       }
     }));
   };

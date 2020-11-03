@@ -27,6 +27,7 @@ import {
   blackClaimed,
   propagateResignation,
   propagatePreMove,
+  propagatePromotion,
 } from '../components/../redux/message-handler';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -112,6 +113,7 @@ export const useMultiplayer = (
 
   const handlePromote = (piece: string) => {
     dispatch(promote(piece));
+    dispatch(propagatePromotion(sendMessage, piece));
   };
 
   useEffect(() => {
