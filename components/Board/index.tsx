@@ -36,7 +36,7 @@ export interface BoardProps {
     to: number;
   }[];
   board: string;
-  lastMove: [number, number];
+  lastMove: [number, number, string?];
   user: User;
 }
 

@@ -10,7 +10,7 @@ export interface MoveHistoryProps {
     className?: string;
     history: Moment[];
     future: Moment[];
-    lastMove: [number, number];
+    lastMove: [number, number, string?];
     canTimeTravel: boolean;
 }
 

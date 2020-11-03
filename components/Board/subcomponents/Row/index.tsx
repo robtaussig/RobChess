@@ -13,7 +13,7 @@ export interface RowProps {
   validMoves: { [pos: number]: number[] };
   isMovingFrom: number;
   isMovingOver: number;
-  lastMove: [number, number];
+  lastMove: [number, number, string?];
   user: User;
   whitePlayer: User;
   blackPlayer: User;

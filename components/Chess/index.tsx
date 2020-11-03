@@ -38,6 +38,7 @@ export const Chess: FC<ChessProps> = ({
     lastMove,
     isMovingOver,
     isMovingFrom,
+    isPromoting,
   } = useSelector(boardSelector);
   const {
     handleAcceptChallenge,
@@ -47,6 +48,7 @@ export const Chess: FC<ChessProps> = ({
     handleDraw,
     handlePlayAgain,
     handleGoBack,
+    handlePromote,
   } = useMultiplayer(
     fen,
     premoves,
@@ -91,6 +93,8 @@ export const Chess: FC<ChessProps> = ({
         lastMove={lastMove}
         board={fen}
         user={user}
+        isPromoting={isPromoting}
+        onPromote={handlePromote}
       />
     </div>
   );

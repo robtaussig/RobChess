@@ -5,6 +5,7 @@ import {
   moveTo,
   resign,
   movePiece,
+  promote,
 } from '../components/../redux/board';
 import { currentTurn } from '../components/../redux/util';
 import { named, userSelector, User } from '../components/../redux/user';
@@ -109,6 +110,10 @@ export const useMultiplayer = (
     dispatch(init());
   };
 
+  const handlePromote = (piece: string) => {
+    dispatch(promote(piece));
+  };
+
   useEffect(() => {
     dispatch(init());
   }, []);
@@ -192,5 +197,6 @@ export const useMultiplayer = (
     handlePlayAgain,
     handleGoBack,
     movePieceAndPropagate,
+    handlePromote,
   };
 };

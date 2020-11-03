@@ -7,6 +7,8 @@ import MoveHistory from './subcomponents/MoveHistory';
 import PlayerDetails from './subcomponents/PlayerDetails';
 import { User } from '../../redux/user'; 
 import { Moment } from '../../redux/board'; 
+import { currentTurn } from '../../redux/util'; 
+import PiecePromotion from './subcomponents/PiecePromotion';
 
 export interface GameDetailsProps {
   className?: string;
@@ -17,12 +19,14 @@ export interface GameDetailsProps {
   user: User;
   history: Moment[];
   future: Moment[];
-  lastMove: [number, number];
+  lastMove: [number, number, string?];
   board: string;
+  isPromoting: boolean;
   onCommitMoves?: () => void;
   onPeek?: () => void;
   peeksLeft?: number;
   canTimeTravel?: boolean;
+  onPromote: (piece: string) => void;
 }
 
 export const GameDetails: FC<GameDetailsProps> = ({
@@ -39,6 +43,8 @@ export const GameDetails: FC<GameDetailsProps> = ({
   onCommitMoves,
   onPeek,
   peeksLeft,
+  isPromoting,
+  onPromote,
   canTimeTravel = true,
 }) => {
   return (
@@ -62,13 +68,21 @@ export const GameDetails: FC<GameDetailsProps> = ({
         className={styles.capturedPieces}
         board={board}  
       />
-      <MoveHistory
-        className={styles.moveHistory}
-        history={history}
-        future={future}
-        lastMove={lastMove}
-        canTimeTravel={canTimeTravel}
-      />
+      {isPromoting ? (
+        <PiecePromotion
+          className={styles.piecePromotion}
+          onPromote={onPromote}
+          isBlack={currentTurn(board) === 'black'}
+        />
+      ) : (
+        <MoveHistory
+          className={styles.moveHistory}
+          history={history}
+          future={future}
+          lastMove={lastMove}
+          canTimeTravel={canTimeTravel}
+        />
+      )}
     </div>
   );
 };

@@ -27,7 +27,7 @@ export interface Board {
   validMoves: {
     [pos: number]: number[];
   };
-  lastMove: [number, number];
+  lastMove: [number, number, string?];
   history: Moment[];
   future: Moment[];
   whitePlayer: User;
@@ -35,11 +35,12 @@ export interface Board {
   opponentState: PlayerState;
   playerState: PlayerState;
   premoves: { from: number, to: number }[];
+  isPromoting: boolean;
 }
 
 export interface Moment {
   fen: string;
-  move: [number, number];
+  move: [number, number, string?];
 }
 
 export const AI_PLAYER: User = {
@@ -60,6 +61,7 @@ const INITIAL_STATE: Board = {
   opponentState: null,
   playerState: null,
   premoves: [],
+  isPromoting: false,
 }
 
 const boardSlice = createSlice({
@@ -90,12 +92,23 @@ const boardSlice = createSlice({
         state.isMovingFrom !== target &&
         state.validMoves[state.isMovingFrom]?.includes(target)
       ) {
-        const { fen, validMoves } = makeMove(state.fen, state.isMovingFrom, target);
+        const { fen, validMoves, isPromotion } = makeMove(
+          state.fen,
+          state.isMovingFrom,
+          target,
+        );
+
         state.history.push({ fen: state.fen, move: state.lastMove });
-        state.lastMove = [state.isMovingFrom, target];
-        state.fen = fen;
         state.future = [];
-        state.validMoves = validMoves;
+        state.lastMove = [state.isMovingFrom, target];
+
+        if (isPromotion) {
+          state.isPromoting = isPromotion;
+        } else {
+          state.fen = fen;
+          state.validMoves = validMoves;
+        }
+        
         if (
           state.premoves.find(premove =>
             premove.from === state.isMovingFrom && premove.to === target
@@ -125,12 +138,22 @@ const boardSlice = createSlice({
       state.premoves = [];
     },
     movePiece(state, action: PayloadAction<{ from: number, to: number }>) {
-      const { fen, validMoves } = makeMove(state.fen, action.payload.from, action.payload.to);
+      const { fen, validMoves, isPromotion } = makeMove(
+        state.fen,
+        action.payload.from,
+        action.payload.to,
+      );
+      state.future = [];
       state.history.push({ fen: state.fen, move: state.lastMove });
       state.lastMove = [action.payload.from, action.payload.to];
-      state.fen = fen;
-      state.future = [];
-      state.validMoves = validMoves;
+
+      if (isPromotion) {
+        state.isPromoting = isPromotion;
+      } else {
+        state.fen = fen;
+        state.validMoves = validMoves;
+      }
+
       if (
         state.premoves.find(premove =>
           premove.from === action.payload.from && premove.to === action.payload.to
@@ -209,7 +232,19 @@ const boardSlice = createSlice({
       } else {
         state.opponentState = PlayerState.OfferedDraw;
       }
-    }
+    },
+    promote(state, action: PayloadAction<string>) {
+      const { fen, validMoves, isPromotion } = makeMove(
+        state.fen,
+        state.lastMove[0],
+        state.lastMove[1],
+        action.payload,
+      );
+      state.lastMove = [state.lastMove[0], state.lastMove[1], action.payload];
+      state.fen = fen;
+      state.validMoves = validMoves;
+      state.isPromoting = false;
+    },
   }
 })
 
@@ -250,6 +285,7 @@ export const {
   draw,
   premove,
   clearPremoves,
+  promote,
 } = boardSlice.actions
 
 export const boardSelector = (state: AppState) => state.board

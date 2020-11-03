@@ -35,9 +35,11 @@ export interface MultiplayerGameDetailsProps {
   blackPlayer: User;
   history: Moment[];
   future: Moment[];
-  lastMove: [number, number];
+  lastMove: [number, number, string?];
   board: string;
   user: User;
+  isPromoting: boolean;
+  onPromote: (piece: string) => void;
   onCommitMoves?: () => void;
   onPeek?: () => void;
   peeksLeft?: number;
@@ -66,6 +68,8 @@ export const MultiplayerGameDetails: FC<MultiplayerGameDetailsProps> = ({
   onCommitMoves,
   onPeek,
   peeksLeft,
+  isPromoting,
+  onPromote,
   canTimeTravel = true,
 }) => {
 
@@ -108,6 +112,8 @@ export const MultiplayerGameDetails: FC<MultiplayerGameDetailsProps> = ({
           onPeek={onPeek}
           peeksLeft={peeksLeft}
           canTimeTravel={canTimeTravel}
+          isPromoting={isPromoting}
+          onPromote={onPromote}
         />
       )}
     </>

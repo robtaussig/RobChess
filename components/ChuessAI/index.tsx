@@ -12,6 +12,7 @@ import {
   boardSelector,
   movePiece,
   isCurrentUserTurn,
+  promote,
 } from '../../redux/board';
 import {
   chuessBoardSelector,
@@ -45,6 +46,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
     future,
     isMovingOver,
     isMovingFrom,
+    isPromoting,
   } = useSelector(boardSelector);
   const board = useSelector(chuessBoardSelector);
   const lastMove = useSelector(lastChuessMoveSelector);
@@ -71,6 +73,10 @@ export const ChuessAI: FC<ChuessAIProps> = ({
     dispatch(peek());
   };
 
+  const handlePromote = (piece: string) => {
+    dispatch(promote(piece));
+  };
+
   const handleCommmitMoves = () => {
     const validMoves = getValidMoves(fen);
     for (let { from, to } of premoves) {
@@ -86,7 +92,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
           next.push([Number(from), toMove]);
         })
         return next;
-      }, [] as [number, number][]);
+      }, [] as [number, number, string?][]);
 
     const [from, to] = allValidMoves[Math.floor(Math.random() * allValidMoves.length)];
     dispatch(movePiece({ from, to }));
@@ -123,8 +129,10 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         user={user}
         onCommitMoves={premoves.length > 0 && handleCommmitMoves}
         onPeek={!peeked && peeksLeft > 0 && handlePeek}
+        onPromote={handlePromote}
         peeksLeft={peeksLeft}
         canTimeTravel={false}
+        isPromoting={isPromoting}
       />
     </div>
   );

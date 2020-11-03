@@ -50,6 +50,7 @@ export const Chuess: FC<ChuessProps> = ({
     future,
     isMovingOver,
     isMovingFrom,
+    isPromoting,
   } = useSelector(boardSelector);
   const board = useSelector(chuessBoardSelector);
   const lastMove = useSelector(lastChuessMoveSelector);
@@ -65,6 +66,7 @@ export const Chuess: FC<ChuessProps> = ({
     handlePlayAgain,
     handleGoBack,
     movePieceAndPropagate,
+    handlePromote,
   } = useMultiplayer(
     fen,
     premoves,
@@ -89,7 +91,7 @@ export const Chuess: FC<ChuessProps> = ({
           next.push([Number(from), toMove]);
         })
         return next;
-      }, [] as [number, number][]);
+      }, [] as [number, number, string?][]);
 
     const [from, to] = allValidMoves[Math.floor(Math.random() * allValidMoves.length)];
     movePieceAndPropagate(from, to);
@@ -143,6 +145,8 @@ export const Chuess: FC<ChuessProps> = ({
         onPeek={canPeek && handlePeek}
         peeksLeft={peeksLeft}
         canTimeTravel={false}
+        isPromoting={isPromoting}
+        onPromote={handlePromote}
       />
     </div>
   );

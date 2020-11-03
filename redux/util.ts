@@ -1,16 +1,36 @@
 import Chess from 'chess.js';
 
-export const makeMove = (board: string, from: number, to: number): {
-  fen: string, validMoves: { [pos: number]: number[] },
+export const makeMove = (
+  board: string,
+  from: number,
+  to: number,
+  promoteTo?: string,
+): {
+  fen: string,
+  validMoves: { [pos: number]: number[] },
+  isPromotion: boolean,
 } => {
   const game = new Chess(board);
   const fromNotation = game.SQUARES[from];
   const toNotation = game.SQUARES[to];
-  game.move({ from: fromNotation, to: toNotation });
+  let isPromotion = false;
+  if (promoteTo) {
+    game.move({ from: fromNotation, to: toNotation, promotion: promoteTo });
+  } else {
+    if (
+      game.get(fromNotation)?.type === 'p' &&
+      (to > 55 || to < 8)
+    ) {
+      isPromotion = true;
+    } else {
+      game.move({ from: fromNotation, to: toNotation });
+    }
+  }
   const nextBoard = game.fen();
   return {
     fen: nextBoard,
     validMoves: getValidMoves(nextBoard),
+    isPromotion,
   };
 };
 

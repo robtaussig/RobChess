@@ -4,7 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Board from '../Board';
 import GameDetails from '../GameDetails';
-import { init, moveTo, resign, draw, boardSelector, movePiece } from '../../redux/board';
+import {
+  init,
+  moveTo,
+  resign,
+  draw,
+  boardSelector,
+  movePiece,
+  promote,
+} from '../../redux/board';
 import { currentTurn } from '../../redux/util';
 import { userSelector } from '../../redux/user';
 
@@ -28,6 +36,7 @@ export const AI: FC<AIProps> = ({
     lastMove,
     isMovingOver,
     isMovingFrom,
+    isPromoting,
   } = useSelector(boardSelector);
 
   useEffect(() => {
@@ -44,6 +53,10 @@ export const AI: FC<AIProps> = ({
   
   const handleDraw = () => {
     dispatch(draw(true));
+  };
+
+  const handlePromote = (piece: string) => {
+    dispatch(promote(piece));
   };
 
   useEffect(() => {
@@ -98,6 +111,8 @@ export const AI: FC<AIProps> = ({
         lastMove={lastMove}
         board={fen}
         user={user}
+        isPromoting={isPromoting}
+        onPromote={handlePromote}
       />
     </div>
   );
