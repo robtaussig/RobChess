@@ -6,6 +6,7 @@ import {
   resign,
   movePiece,
   promote,
+  GameTypes,
 } from '../components/../redux/board';
 import { currentTurn } from '../components/../redux/util';
 import { named, userSelector, User } from '../components/../redux/user';
@@ -42,6 +43,7 @@ export const useMultiplayer = (
   },
   whitePlayer: User,
   blackPlayer: User,
+  gameType: GameTypes = GameTypes.Chess,
 ) => {
   const dispatch = useDispatch();
   const {
@@ -117,8 +119,8 @@ export const useMultiplayer = (
   };
 
   useEffect(() => {
-    dispatch(init());
-  }, []);
+    dispatch(init(gameType));
+  }, [gameType]);
 
   useEffect(() => {
     if (status === RoomJoinStatus.None) {

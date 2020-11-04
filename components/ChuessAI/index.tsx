@@ -13,6 +13,7 @@ import {
   movePiece,
   isCurrentUserTurn,
   promote,
+  GameTypes,
 } from '../../redux/board';
 import {
   chuessBoardSelector,
@@ -20,9 +21,11 @@ import {
   validChuessMovesSelector,
   chuessSelector,
   peek,
+  changeDifficulty,
 } from '../../redux/chuess';
 import { getValidMoves } from '../../redux/util';
 import { userSelector } from '../../redux/user';
+import DifficultySlider from './subcomponents/DifficultySlider';
 
 export interface ChuessAIProps {
   className?: string;
@@ -36,6 +39,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
   const {
     peeksLeft,
     peeked,
+    difficulty,
   } = useSelector(chuessSelector);
   const {
     fen,
@@ -54,7 +58,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
   const validMoves = useSelector(validChuessMovesSelector);
 
   useEffect(() => {
-    dispatch(init());
+    dispatch(init(GameTypes.Chuess));
   }, []);
 
   const handleMove = (pos?: number) => {
@@ -98,6 +102,10 @@ export const ChuessAI: FC<ChuessAIProps> = ({
     dispatch(movePiece({ from, to }));
   };
 
+  const handleChangeDifficulty = (difficulty: number) => {
+    dispatch(changeDifficulty(difficulty));
+  };
+
   return (
     <div className={cn(styles.root, className, {
       [styles.isCurrentTurn]: isCurrentTurn,
@@ -115,6 +123,11 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         board={board}
         lastMove={lastMove}
         user={user}
+      />
+      <DifficultySlider
+        className={styles.difficultySlider}
+        difficulty={difficulty}
+        onChangeDifficulty={handleChangeDifficulty}
       />
       <GameDetails
         className={styles.details}

@@ -5,11 +5,13 @@ import { movePiece, init, isCurrentUserTurn } from './board';
 export interface Chuess {
   peeksLeft: number;
   peeked: boolean;
+  difficulty: number;
 }
 
 const INITIAL_STATE: Chuess = {
   peeksLeft: 5,
   peeked: true,
+  difficulty: 5,
 };
 
 const chuessSlice = createSlice({
@@ -21,6 +23,9 @@ const chuessSlice = createSlice({
         state.peeked = true;
       }
       state.peeksLeft--;
+    },
+    changeDifficulty(state, action: PayloadAction<number>) {
+      state.difficulty = action.payload;
     },
     reset(state, action) {
       return INITIAL_STATE;
@@ -36,7 +41,7 @@ const chuessSlice = createSlice({
   },
 })
 
-export const { reset, peek } = chuessSlice.actions
+export const { reset, peek, changeDifficulty } = chuessSlice.actions
 
 export const chuessSelector = (state: AppState) => state.chuess
 

@@ -6,6 +6,7 @@ import Board from '../Board';
 import {
   boardSelector,
   isCurrentUserTurn,
+  GameTypes,
 } from '../../redux/board';
 import {
   chuessBoardSelector,
@@ -73,6 +74,7 @@ export const Chuess: FC<ChuessProps> = ({
     validMoves,
     whitePlayer,
     blackPlayer,
+    GameTypes.Chuess,
   );
 
   const handleCommmitMoves = () => {

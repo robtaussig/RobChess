@@ -4,8 +4,9 @@
   display: grid;
   grid-gap: 2vw;
   grid-template-areas: "board"
+                       "difficulty"
                        "details";
-  grid-template-rows: 96vw calc(var(--100vh, 100vh) - 102vw);
+  grid-template-rows: 96vw 50px calc(var(--100vh, 100vh) - 104vw - 50px);
   grid-template-columns: 96vw;
   &.isCurrentTurn {
     background-color: #006786;
@@ -13,14 +14,19 @@
   @media screen and (min-width: 600px) {
     padding: calc(0.02 * var(--100vh, 100vh));
     grid-gap: calc(0.02 * var(--100vh, 100vh));
-    grid-template-areas: "board details";
-    grid-template-rows: calc(0.96 * var(--100vh, 100vh));
+    grid-template-areas: "board difficulty"
+                         "board details";
+    grid-template-rows: 100px calc(0.94 * var(--100vh, 100vh) - 100px);
     grid-template-columns: calc(0.96 * var(--100vh, 100vh)) calc(100vw - calc(1.02 * var(--100vh, 100vh)));
   }
 }
 
 .board {
   grid-area: board;
+}
+
+.difficultySlider {
+  grid-area: difficulty;
 }
 
 .details {

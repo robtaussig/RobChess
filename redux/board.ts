@@ -20,6 +20,11 @@ export enum PlayerState {
   Rematch = 'rematch',
 }
 
+export enum GameTypes {
+  Chess = 'Chess',
+  Chuess = 'Chuess',
+}
+
 export interface Board {
   fen: string;
   isMovingFrom: number;
@@ -36,6 +41,7 @@ export interface Board {
   playerState: PlayerState;
   premoves: { from: number, to: number }[];
   isPromoting: boolean;
+  gameType: GameTypes;
 }
 
 export interface Moment {
@@ -62,13 +68,14 @@ const INITIAL_STATE: Board = {
   playerState: null,
   premoves: [],
   isPromoting: false,
+  gameType: null,
 }
 
 const boardSlice = createSlice({
   name: 'board',
   initialState: INITIAL_STATE,
   reducers: {
-    init(state) {
+    init(state, action?: PayloadAction<GameTypes>) {
       const { fen, validMoves } = initGame();
       state.fen = fen;
       state.validMoves = validMoves;
@@ -77,6 +84,7 @@ const boardSlice = createSlice({
       state.lastMove = null;
       state.opponentState = null;
       state.playerState = null;
+      state.gameType = action.payload ?? GameTypes.Chess;
     },
     movingFrom(state, action) {
       state.isMovingFrom = action.payload;
@@ -254,18 +262,102 @@ const convertToFenPos = (pos: number): number => {
   return (row * 8) + col - 1;
 };
 
+const getBestMoveFromEngine = (bestMove: string | [number, string]): [number, number] => {
+  if (typeof bestMove === 'string') {
+    return (bestMove as string).split('-').map(Number) as [number, number];
+  } else if (bestMove) {
+    const [,move] = bestMove;
+    return move.split('-').map(Number).map(convertToFenPos) as [number, number];
+  } else {
+    return [null, null];
+  }
+};
+
 export const makeEngineMove = (): ThunkAction<void, AppState, void, any> =>
   async (dispatch, getState) => {
     const { board } = getState();
-    const bestMove = await comLinkWorker.getBestMove(board.fen, 4);
-    
-    if (typeof bestMove === 'string') {
-      const [from, to] = (bestMove as string).split('-');
-      dispatch(movePiece({ from: Number(from), to: Number(to) }));
-    } else if (bestMove) {
-      const [,move] = bestMove;
-      const [from, to] = move.split('-').map(Number).map(convertToFenPos);
+    if (board.gameType === GameTypes.Chuess) {
+      return dispatch(makeEngineChuessMove());
+    } else {
+      const bestMove = await comLinkWorker.getBestMove(board.fen, 4);
+      const [from, to] = getBestMoveFromEngine(bestMove);
       dispatch(movePiece({ from, to }));
+    }
+  };
+
+const fenPosToEnginePos = (pos: number): number => {
+  const row = Math.floor(pos / 8) + 1;
+  const col = pos % 8;
+  return (row * 10) + (col + 1);
+};
+
+const fenMovesToEngineMoves = ([from, to]: [number, number]) => {
+  
+  return `${fenPosToEnginePos(from)}-${fenPosToEnginePos(to)}`;
+};
+
+const makeEngineChuessMove = (): ThunkAction<void, AppState, void, any> =>
+  async (dispatch, getState) => {
+    const { board, chuess } = getState();
+    //Change that AI auto-peeks
+    if (Math.random() < (chuess.difficulty / 10)) {
+      const bestMove = await comLinkWorker.getBestMove(board.fen, 4);
+      const [from, to] = getBestMoveFromEngine(bestMove);
+      dispatch(movePiece({ from, to }));
+    } else {
+      const firstFen = board.history.length > 0 ?
+      board.history[board.history.length - 1].fen :
+      board.fen;
+      if (Object.keys(board.validMoves).length > 0) {
+        const bestOpponentMove = await comLinkWorker.getBestMove(firstFen, 4);
+        const [from, to] = getBestMoveFromEngine(bestOpponentMove);
+        const { fen: secondFen, validMoves, isPromotion } = makeMove(
+          firstFen,
+          from,
+          to,
+        );
+
+        const mutualValidMoves = Object.entries(board.validMoves)
+          .reduce((next, [origin, targets]) => {
+            if (origin in validMoves) {
+              targets.forEach(target => {
+                if (validMoves[origin].includes(target)) {
+                  next.push([Number(origin), target]);
+                }
+              })
+            }
+            return next;
+          }, [] as [number, number][]);
+
+          if (mutualValidMoves.length === 1) {
+          const [from, to] = mutualValidMoves[0];
+
+          dispatch(movePiece({ from, to }));
+        } else if (mutualValidMoves.length === 0) {
+          
+          const validMoveList = Object.entries(board.validMoves)
+            .reduce((next, [origin, targets]) => {
+              targets.forEach(target => {
+                next.push([Number(origin), target]);
+              })
+              return next;
+            }, [] as [number, number][]);
+
+          const [from, to] = validMoveList[Math.floor(validMoveList.length * Math.random())];
+
+          dispatch(movePiece({ from, to }));
+        } else {
+          const bestAIMove = await comLinkWorker.getBestMove(
+            secondFen,
+            4,
+            mutualValidMoves.map(fenMovesToEngineMoves),
+          );
+
+          const [from, to] = getBestMoveFromEngine(bestAIMove);
+
+          dispatch(movePiece({ from, to }));
+        }
+      }
     }
   };
 

@@ -16,7 +16,7 @@ const convertToFenPos = (pos: number): number => {
   return (row * 8) + col - 1;
 };
 
-const toFenMove = (move: string): string => {
+export const toFenMove = (move: string): string => {
   return move.split('-').map(pos => convertToFenPos(Number(pos))).join('-');
 };
 
