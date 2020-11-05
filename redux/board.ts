@@ -265,7 +265,7 @@ const convertToFenPos = (pos: number): number => {
 const getBestMoveFromEngine = (bestMove: string | [number, string]): [number, number] => {
   if (typeof bestMove === 'string') {
     return (bestMove as string).split('-').map(Number) as [number, number];
-  } else if (bestMove) {
+  } else if (bestMove && bestMove[1]) {
     const [,move] = bestMove;
     return move.split('-').map(Number).map(convertToFenPos) as [number, number];
   } else {
@@ -279,8 +279,7 @@ export const makeEngineMove = (): ThunkAction<void, AppState, void, any> =>
     if (board.gameType === GameTypes.Chuess) {
       return dispatch(makeEngineChuessMove());
     } else {
-      const bestMove = await comLinkWorker.getBestMove(board.fen, 4);
-      const [from, to] = getBestMoveFromEngine(bestMove);
+      const [from, to] = await getBestMove(board.fen);
       dispatch(movePiece({ from, to }));
     }
   };
@@ -296,21 +295,51 @@ const fenMovesToEngineMoves = ([from, to]: [number, number]) => {
   return `${fenPosToEnginePos(from)}-${fenPosToEnginePos(to)}`;
 };
 
+const getBestMove = async (board: string, limitMoves?: string[]): Promise<[number, number]> => {
+  const depth = await getDepthFromBoard(board);
+  const bestMove = await comLinkWorker.getBestMove(board, depth, limitMoves);
+  return getBestMoveFromEngine(bestMove);
+};
+
+const pieceMap = {
+  'Q': 3,
+  'q': 3,
+  'N': 1,
+  'n': 1,
+  'B': 2,
+  'b': 2,
+  'R': 2,
+  'r': 2,
+};
+
+const getDepthFromBoard = async (board: string): Promise<number> => {
+  const check = await comLinkWorker.isCheck(board);
+  if (check) return 4;
+
+  const activityPoints = board.split(' ')[0].split('').reduce((count, piece) => {
+    return count + (pieceMap[piece] ?? 0);
+  }, 0);
+
+  if (activityPoints < 10) return 5;
+  if (activityPoints < 7) return 6;
+  if (activityPoints < 4) return 7;
+  if (activityPoints < 2) return 8;
+  return 4;
+};
+
 const makeEngineChuessMove = (): ThunkAction<void, AppState, void, any> =>
   async (dispatch, getState) => {
     const { board, chuess } = getState();
     //Change that AI auto-peeks
     if (Math.random() < (chuess.difficulty / 10)) {
-      const bestMove = await comLinkWorker.getBestMove(board.fen, 4);
-      const [from, to] = getBestMoveFromEngine(bestMove);
+      const [from, to] = await getBestMove(board.fen);
       dispatch(movePiece({ from, to }));
     } else {
       const firstFen = board.history.length > 0 ?
       board.history[board.history.length - 1].fen :
       board.fen;
       if (Object.keys(board.validMoves).length > 0) {
-        const bestOpponentMove = await comLinkWorker.getBestMove(firstFen, 4);
-        const [from, to] = getBestMoveFromEngine(bestOpponentMove);
+        const [from, to] = await getBestMove(board.fen);
         const { fen: secondFen, validMoves, isPromotion } = makeMove(
           firstFen,
           from,
@@ -347,13 +376,10 @@ const makeEngineChuessMove = (): ThunkAction<void, AppState, void, any> =>
 
           dispatch(movePiece({ from, to }));
         } else {
-          const bestAIMove = await comLinkWorker.getBestMove(
+          const [from, to] = await getBestMove(
             secondFen,
-            4,
             mutualValidMoves.map(fenMovesToEngineMoves),
           );
-
-          const [from, to] = getBestMoveFromEngine(bestAIMove);
 
           dispatch(movePiece({ from, to }));
         }

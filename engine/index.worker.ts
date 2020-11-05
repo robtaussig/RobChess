@@ -2,6 +2,7 @@ import { expose } from 'comlink';
 import {
   getBestMove as getBestMoveEngine,
   fenToBoard,
+  isCheck as isCheckEngine,
 } from 'robtaussig_chess_engine';
 import {
   getBoardMap,
@@ -11,7 +12,12 @@ import {
 export interface WorkerInterface {
   getBestMove: typeof getBestMove,
   getBoardMap: typeof getBoardMap,
+  isCheck: typeof isCheck,
 }
+
+const isCheck = (board: string): boolean => {
+  return isCheckEngine(fenToBoard(board));
+};
 
 const boardMap = getBoardMap();
 
@@ -19,11 +25,13 @@ const getBestMove = (board: string, depth: number = 4, limitMoves?: string[]): [
   const [newBoard, color] = board.split(' ');
   const combined = `${newBoard} ${color}`;
   const limitedFenMoves = limitMoves?.map(toFenMove);
+
   const openingMoves = boardMap[combined]?.filter(move => {
     return limitedFenMoves ?
       limitedFenMoves.includes(move) :
       true;
   });
+
   if (openingMoves?.length > 0) {
     return openingMoves[Math.floor(openingMoves.length * Math.random())];
   }
@@ -34,4 +42,5 @@ const getBestMove = (board: string, depth: number = 4, limitMoves?: string[]): [
 expose({
   getBestMove,
   getBoardMap,
+  isCheck,
 });

@@ -548,7 +548,7 @@ export const openings = [[
 ], [
   'e2-e4 d7-d5',
   'e4xd5 Qd8xd5',
-  'Nb1-c3 Qd8-a5',
+  'Nb1-c3 Qd5-a5',
   'd2-d4 Ng8-f6',
   'Ng1-f3 Bc8-g4',
 ], [
