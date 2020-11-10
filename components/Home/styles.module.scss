@@ -1,15 +1,7 @@
 .root {
   height: 100%;
-  display: grid;
-  grid-template-areas: ". header ."
-                       ". chess ."
-                       ". ai ."
-                       ". chuess ."
-                       ". chuess-ai ."
-                       ". . .";
-  grid-template-rows: 1fr max-content max-content max-content max-content 1fr;
-  grid-template-columns: 1fr max-content 1fr;
-  grid-gap: 5px;
+  display: flex;
+  flex-direction: column;
   & > button {
     border: 1px solid black;
     padding: 15px 10px;
@@ -26,29 +18,15 @@
 }
 
 .header {
-  grid-area: header;
   margin-top: 50px;
   text-align: center;
   font-weight: 600;
   font-size: 36px;
 }
 
-.chessButton {
-  grid-area: chess;
-}
-
-.chuessButton {
-  grid-area: chuess;
-}
-
-.chuessAIButton {
-  grid-area: chuess-ai;
-}
-
-.signinButton {
-  grid-area: sign-in;
-}
-
-.aiButton {
-  grid-area: ai;
+.buttonGroups {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }

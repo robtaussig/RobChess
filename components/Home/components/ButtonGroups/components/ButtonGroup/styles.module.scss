@@ -1,0 +1,41 @@
+.root {
+  display: flex;
+  justify-content: space-around;
+  @media screen and (min-width: 600px) {
+    
+  }
+}
+
+.linkButton {
+  border: 1px solid black;
+  padding: 15px 10px;
+  margin: 20px 0;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 600;
+  color: white;
+  background-color: #8383ff;
+  width: 25%;
+}
+
+.horizontal {
+
+}
+
+.revealHeader {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+.revealItems {
+  width: 25%;
+  border: 1px solid black;
+  padding: 15px 10px;
+  margin: 20px 0;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 600;
+  color: white;
+  background-color: midnightblue;
+}
