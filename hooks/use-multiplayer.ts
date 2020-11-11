@@ -119,7 +119,7 @@ export const useMultiplayer = (
   };
 
   useEffect(() => {
-    dispatch(init(gameType));
+    dispatch(init({ type: gameType }));
   }, [gameType]);
 
   useEffect(() => {

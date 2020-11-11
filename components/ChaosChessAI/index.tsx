@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useCallback } from 'react';
 import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
@@ -11,55 +11,46 @@ import {
   draw,
   boardSelector,
   movePiece,
-  isCurrentUserTurn,
   promote,
   GameTypes,
 } from '../../redux/board';
-import {
-  chuessBoardSelector,
-  lastChuessMoveSelector,
-  validChuessMovesSelector,
-  chuessSelector,
-  peek,
-  changeDifficulty,
-} from '../../redux/chuess';
-import { getValidMoves } from '../../redux/util';
+import { currentTurn } from '../../redux/util';
 import { userSelector } from '../../redux/user';
+import { chaosSelector, changeDifficulty } from '../../redux/chaos';
 import DifficultySlider from './subcomponents/DifficultySlider';
+import debounce from 'lodash/debounce';
 
-export interface ChuessAIProps {
+export interface AIProps {
   className?: string;
 }
 
-export const ChuessAI: FC<ChuessAIProps> = ({
+export const AI: FC<AIProps> = ({
   className,
 }) => {
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
   const {
-    peeksLeft,
-    peeked,
-    difficulty,
-  } = useSelector(chuessSelector);
-  const {
     fen,
     premoves,
+    validMoves,
     whitePlayer,
     blackPlayer,
     history,
     future,
+    lastMove,
     isMovingOver,
     isMovingFrom,
     isPromoting,
   } = useSelector(boardSelector);
-  const board = useSelector(chuessBoardSelector);
-  const lastMove = useSelector(lastChuessMoveSelector);
-  const isCurrentTurn = useSelector(isCurrentUserTurn);
-  const validMoves = useSelector(validChuessMovesSelector);
+  const { difficulty } = useSelector(chaosSelector);
+
+  const debouncedInit = useCallback(debounce((difficulty: number) => {
+    dispatch(init({ type: GameTypes.Chaos, difficulty }));
+  }, 500), []);
 
   useEffect(() => {
-    dispatch(init({ type: GameTypes.Chuess }));
-  }, []);
+    debouncedInit(difficulty);
+  }, [difficulty]);
 
   const handleMove = (pos?: number) => {
     dispatch(moveTo(pos));
@@ -73,43 +64,41 @@ export const ChuessAI: FC<ChuessAIProps> = ({
     dispatch(draw(true));
   };
 
-  const handlePeek = () => {
-    dispatch(peek());
-  };
-
   const handlePromote = (piece: string) => {
     dispatch(promote(piece));
-  };
-
-  const handleCommmitMoves = () => {
-    const validMoves = getValidMoves(fen);
-    for (let { from, to } of premoves) {
-      if (validMoves[from] && validMoves[from].includes(to)) {
-        dispatch(movePiece({ from, to }));
-        return;
-      }
-    }
-    
-    const allValidMoves = Object.entries(validMoves)
-      .reduce((next, [from, to]) => {
-        to.forEach(toMove => {
-          next.push([Number(from), toMove]);
-        })
-        return next;
-      }, [] as [number, number, string?][]);
-
-    const [from, to] = allValidMoves[Math.floor(Math.random() * allValidMoves.length)];
-    dispatch(movePiece({ from, to }));
   };
 
   const handleChangeDifficulty = (difficulty: number) => {
     dispatch(changeDifficulty(difficulty));
   };
 
+  useEffect(() => {
+    if (fen) {
+      const color = currentTurn(fen);
+      const isCurrentTurn = (
+        (color === 'white' && whitePlayer === user) ||
+        (color === 'black' && blackPlayer === user)
+      );
+      if (isCurrentTurn) {
+        for (let { from, to } of premoves) {
+          if (validMoves[from] && validMoves[from].includes(to)) {
+            dispatch(movePiece({ from, to }));
+            return;
+          }
+        }
+      }
+    }
+  }, [
+    fen,
+    premoves,
+    validMoves,
+    whitePlayer,
+    blackPlayer,
+    user,
+  ]);
+  
   return (
-    <div className={cn(styles.root, className, {
-      [styles.isCurrentTurn]: isCurrentTurn,
-    })}>
+    <div className={cn(styles.root, className)}>
       <Board
         className={styles.board}
         moveTo={handleMove}
@@ -120,7 +109,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         blackPlayer={blackPlayer}
         future={future}
         premoves={premoves}
-        board={board}
+        board={fen}
         lastMove={lastMove}
         user={user}
       />
@@ -138,17 +127,13 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         history={history}
         future={future}
         lastMove={lastMove}
-        board={board}
+        board={fen}
         user={user}
-        onCommitMoves={premoves.length > 0 && handleCommmitMoves}
-        onPeek={!peeked && peeksLeft > 0 && handlePeek}
+        isPromoting={isPromoting}
         onPromote={handlePromote}
-        peeksLeft={peeksLeft}
-        canTimeTravel={false}
-        isPromoting={isCurrentTurn && isPromoting}
       />
     </div>
   );
 };
 
-export default ChuessAI;
+export default AI;

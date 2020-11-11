@@ -23,6 +23,7 @@ export enum PlayerState {
 export enum GameTypes {
   Chess = 'Chess',
   Chuess = 'Chuess',
+  Chaos = 'Chaos',
 }
 
 export interface Board {
@@ -75,16 +76,19 @@ const boardSlice = createSlice({
   name: 'board',
   initialState: INITIAL_STATE,
   reducers: {
-    init(state, action?: PayloadAction<GameTypes>) {
-      const { fen, validMoves } = initGame();
+    init(state, action?: PayloadAction<{
+      type: GameTypes, 
+      difficulty?: number,
+    }>) {
+      const { fen, validMoves, history, lastMove } = initGame(action.payload.type, action.payload.difficulty);
       state.fen = fen;
       state.validMoves = validMoves;
-      state.history = [];
+      state.history = history ?? [];
       state.future = [];
-      state.lastMove = null;
+      state.lastMove = lastMove ?? null;
       state.opponentState = null;
       state.playerState = null;
-      state.gameType = action.payload ?? GameTypes.Chess;
+      state.gameType = action.payload.type ?? GameTypes.Chess;
     },
     movingFrom(state, action) {
       state.isMovingFrom = action.payload;
@@ -295,9 +299,13 @@ const fenMovesToEngineMoves = ([from, to]: [number, number]) => {
   return `${fenPosToEnginePos(from)}-${fenPosToEnginePos(to)}`;
 };
 
-const getBestMove = async (board: string, limitMoves?: string[]): Promise<[number, number]> => {
+const getBestMove = async (
+  board: string,
+  bonusDepth: number = 0,
+  limitMoves?: string[],
+): Promise<[number, number]> => {
   const depth = await getDepthFromBoard(board);
-  const bestMove = await comLinkWorker.getBestMove(board, depth, limitMoves);
+  const bestMove = await comLinkWorker.getBestMove(board, depth + bonusDepth, limitMoves);
   return getBestMoveFromEngine(bestMove);
 };
 
@@ -378,6 +386,7 @@ const makeEngineChuessMove = (): ThunkAction<void, AppState, void, any> =>
         } else {
           const [from, to] = await getBestMove(
             secondFen,
+            0,
             mutualValidMoves.map(fenMovesToEngineMoves),
           );
 
