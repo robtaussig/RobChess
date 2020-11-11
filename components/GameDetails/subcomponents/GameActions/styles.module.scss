@@ -3,47 +3,41 @@
   align-items: center;
   padding: 10px;
   justify-content: space-around;
+  height: 30px;
   @media screen and (min-width: 600px) {
     
   }
 }
+.actionHeader {
 
-.resign {
-  background-color: #920000;
-  padding: 3px 8px;
-  border-radius: 4px;
-  color: white;
-  margin-left: auto;
 }
 
-.commit {
-  background-color: #00927e;
-  padding: 3px 8px;
-  border-radius: 4px;
-  color: white;
-  margin-left: auto;
-}
-
-.draw {
-  background-color: #e29b30;
-  padding: 3px 8px;
-  border-radius: 4px;
-  color: white;
-  margin-left: auto;
-}
-
-.peek {
-  background-color: #920000;
-  padding: 3px 8px;
-  border-radius: 4px;
-  color: white;
-  margin-left: auto;
+.confirm {
+  color: limegreen;
 }
 
 .cancel {
-  background-color: #920000;
-  padding: 3px 8px;
-  border-radius: 4px;
+  color: #9e3737;
+}
+
+.commit {
   color: white;
-  margin-left: auto;
+  background-color: midnightblue;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.peek {
+  color: white;
+  background-color: midnightblue;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.resign {
+  color: #9e3737;
+}
+
+.draw {
+  color: #9e3737;
 }

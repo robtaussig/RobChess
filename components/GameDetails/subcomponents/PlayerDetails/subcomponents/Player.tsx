@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { User } from '../../../../../redux/user';
 import { PIECE_TO_CSS } from '../../../../Board/subcomponents/Piece/constants';
 import { AI_PLAYER, makeEngineMove, promote } from '../../../../../redux/board';
+import IconButton from '../../../../General/IconButton';
 
 export interface PlayerProps {
   className?: string;
@@ -80,12 +81,11 @@ export const Player: FC<PlayerProps> = ({
       <span className={styles.name}>{player.name.slice(0, 7)}</span>
       <span className={styles.rating}>({player.rating})</span>
       {canUnseat && (
-        <button
+        <IconButton
           className={styles.unseatButton}
+          icon={'gg-close'}
           onClick={() => onUnseat(white ? 'white' : 'black')}
-        >
-          X
-        </button>
+        />
       )}
     </div>
   );

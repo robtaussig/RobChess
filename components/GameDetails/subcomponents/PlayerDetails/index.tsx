@@ -51,7 +51,6 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 isPromoting={isPromoting}
                 white
             />
-            {whitePlayer && blackPlayer && (<span className={styles.vs}>-vs-</span>)}
             <Player
                 className={styles.blackPlayer}
                 player={blackPlayer}
