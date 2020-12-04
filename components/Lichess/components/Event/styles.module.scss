@@ -1,0 +1,38 @@
+.root {
+    padding: 5px;
+    display: grid;
+    grid-template-areas: "icon title title"
+                         "icon players time";
+    grid-template-rows: 1fr max-content;
+    grid-template-columns: max-content max-content 1fr;
+    background: linear-gradient(to bottom, #d1e4f6 0%, #c5d8e9 100%);
+    cursor: pointer;
+    &:hover {
+        color: midnightblue;
+    }
+    .eventIcon {
+        grid-area: icon;
+        margin: auto 10px;
+    }
+
+    .title {
+        grid-area: title;
+        font-size: 14px;
+        font-weight: 300;
+    }
+
+    .players {
+        grid-area: players;
+        font-size: 11px;
+        margin-right: 2px;
+    }
+
+    .time {
+        grid-area: time;
+        font-size: 11px;
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

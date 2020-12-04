@@ -1,0 +1,140 @@
+.root {
+    display: grid;
+    grid-gap: 2vmin;
+    flex: 1;
+    & > * {
+        // background-color: gainsboro;
+    }
+    .streamers {
+        grid-area: streamers;
+    }
+
+    .events {
+        grid-area: events;
+    }
+
+    .feed {
+        grid-area: feed;
+    }
+
+    .topGame {
+        grid-area: top-game;
+    }
+
+    .footer {
+        grid-area: footer;
+    }
+
+    .room {
+        grid-area: room;
+    }
+
+    .leaderboard {
+        grid-area: leaderboard;
+    }
+
+    .tournamentWinners {
+        grid-area: tournament-winners;
+    }
+
+    .updates {
+        grid-area: updates;
+    }
+
+    .tournaments {
+        grid-area: tournaments;
+    }
+
+    .exhibitions {
+        grid-area: exhibitions;
+    }
+
+    .forumPosts {
+        grid-area: forum-posts;
+    }
+
+    .actions {
+        grid-area: actions;
+    }
+
+    .puzzle {
+        grid-area: puzzle;
+    }
+
+    .donate {
+        grid-area: donate;
+    }
+    @media screen and (min-width: 600px) {
+        grid-template-areas: "feed room room actions"
+                             "feed room room actions"
+                             "feed room room actions"
+                             "top-game leaderboard tournament-winners puzzle"
+                             "footer updates updates donate"
+                             ". tournaments tournaments ."
+                             ". exhibitions exhibitions ."
+                             ". forum-posts forum-posts .";
+        grid-template-rows: repeat(8, fit-content(0));
+        grid-template-columns: repeat(4, 1fr);
+    
+        .streamers {
+            
+        }
+    
+        .events {
+            
+        }
+    
+        .feed {
+            
+        }
+    
+        .topGame {
+            height: calc(23vw - 0.5vmin + 40px);
+        }
+    
+        .footer {
+            
+        }
+    
+        .room {
+            
+            height: 600px;
+        }
+    
+        .leaderboard {
+            
+        }
+    
+        .tournamentWinners {
+            
+        }
+    
+        .updates {
+            
+        }
+    
+        .tournaments {
+            
+        }
+    
+        .exhibitions {
+            
+        }
+    
+        .forumPosts {
+            
+        }
+    
+        .actions {
+            
+        }
+    
+        .puzzle {
+            height: calc(23vw - 0.5vmin + 40px);
+        }
+    
+        .donate {
+            
+        }
+    }
+}

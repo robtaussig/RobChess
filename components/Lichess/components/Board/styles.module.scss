@@ -1,0 +1,40 @@
+.root {
+    display: grid;
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(8, 1fr);
+    border: 2px solid #4d4d4d;
+
+    .square {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .blackSquare {
+        background-color: rgb(125, 135, 150);
+    }
+    
+    .blackPiece {
+        color: #332b2b;
+    }
+    
+    .whiteSquare {
+        background-color: rgb(232, 235, 239);
+    }
+    
+    .whitePiece {
+        color:#ff8a8a;
+    }
+
+    .lastMoveFrom {
+        border: 2px solid #13008a;
+    }
+
+    .lastMoveTo {
+        border: 2px solid #13008a;
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

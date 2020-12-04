@@ -1,0 +1,21 @@
+.root {
+    padding: 3px;
+    position: relative;
+    margin-bottom: 5px;
+    .streamer {
+
+    }
+    .streamersButton {
+        position: absolute;
+        bottom: -20px;
+        right: 3px;
+        font-size: 12px;
+        cursor: pointer;
+        &:hover {
+            color: dodgerblue;
+        }
+    }
+    @media screen and (min-width: 600px) {
+        
+    }
+}

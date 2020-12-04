@@ -1,0 +1,13 @@
+.root {
+    flex: 0 0 60px;
+    display: flex;
+    .toolbar {
+        flex: 1;
+    }
+    .account {
+        flex: 0;
+    }
+    @media screen and (min-width: 600px) {
+        
+    }
+}

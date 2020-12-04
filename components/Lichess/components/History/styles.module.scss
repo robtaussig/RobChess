@@ -1,0 +1,9 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

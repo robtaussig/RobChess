@@ -36,6 +36,21 @@ export const makeMove = (
   };
 };
 
+export const getRandomValidMove = (board: string): [number, number, string?] => {
+  const game = new Chess(board);
+  const NOTATION_MAP = (game.SQUARES as string[]).reduce((next, square, idx) => {
+    next[square] = idx;
+    return next;
+  }, {} as { [notation: string]: number });
+  const moves = game.moves({ verbose: true });
+  if (moves.length === 0) {
+    return null;
+  }
+  const seed = Math.floor(Math.random() * (moves.length));
+  const { from, to, promotion } = moves[seed];
+  return [NOTATION_MAP[from], NOTATION_MAP[to], promotion];
+};
+
 export const getValidMoves = (board: string): { [pos: number]: number[] } => {
   const game = new Chess(board);
   const legalMoves: { [pos: number]: number[] } = {};
@@ -55,7 +70,7 @@ export const getValidMoves = (board: string): { [pos: number]: number[] } => {
   return legalMoves;
 };
 
-const initChaosChess = (difficulty?: number): {
+export const initChaosChess = (difficulty?: number): {
   fen: string,
   validMoves: { [pos: number]: number[] },
   history: Moment[],
@@ -71,15 +86,17 @@ const initChaosChess = (difficulty?: number): {
   for (let i = 0; i < (110 - (difficulty * 10)); i++) {
     const validMoves = game.moves({ verbose: true });
     const nextMove = validMoves[Math.floor(validMoves.length * Math.random())];
-    const fromNum = NOTATION_MAP[nextMove.from];
-    const toNum = NOTATION_MAP[nextMove.to];
-    let move = [fromNum, toNum];
-    history.push({
-      fen: game.fen(),
-      move: lastMove,
-    });
-    game.move(nextMove);
-    lastMove = move;
+    if (nextMove) {
+      const fromNum = NOTATION_MAP[nextMove.from];
+      const toNum = NOTATION_MAP[nextMove.to];
+      let move = [fromNum, toNum];
+      history.push({
+        fen: game.fen(),
+        move: lastMove,
+      });
+      game.move(nextMove);
+      lastMove = move;
+    }
   }
   const fen = game.fen();
 

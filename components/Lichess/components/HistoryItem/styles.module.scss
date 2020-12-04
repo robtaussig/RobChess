@@ -1,0 +1,33 @@
+.root {
+    font-size: 14px;
+    margin: 5px;
+    &:hover {
+        .result, .opponent {
+            color: dodgerblue;
+        }
+    }
+    & > * {
+        margin: 0 3px;
+    }
+    .result {
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .opponent {
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .mode {
+
+    }
+
+    .time {
+
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

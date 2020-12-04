@@ -1,0 +1,43 @@
+.root {
+    display: grid;
+    grid-template-areas: "black-player black-player-rating black-time"
+                         "board board board"
+                         "white-player white-player-rating white-time";
+    grid-template-rows: 1fr max-content 1fr;
+    grid-template-columns: max-content max-content 1fr;
+    grid-column-gap: 5px;
+    .blackPlayer {
+        grid-area: black-player;
+    }
+
+    .blackPlayerRating {
+        grid-area: black-player-rating;
+    }
+
+    .blackTime {
+        grid-area: black-time;
+        margin-left: auto;
+    }
+
+    .board {
+        width: 100%;
+        grid-area: board;
+    }
+
+    .whitePlayer {
+        grid-area: white-player;
+    }
+
+    .whitePlayerRating {
+        grid-area: white-player-rating;
+    }
+
+    .whiteTime {
+        grid-area: white-time;
+        margin-left: auto;
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

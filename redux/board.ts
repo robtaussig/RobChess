@@ -300,7 +300,7 @@ const fenMovesToEngineMoves = ([from, to]: [number, number]) => {
   return `${fenPosToEnginePos(from)}-${fenPosToEnginePos(to)}`;
 };
 
-const getBestMove = async (
+export const getBestMove = async (
   board: string,
   bonusDepth: number = 0,
   limitMoves?: string[],
