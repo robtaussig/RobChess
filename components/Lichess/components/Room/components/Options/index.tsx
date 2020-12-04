@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState, useEffect } from 'react';
+import React, { FC, useRef } from 'react';
 import styles from './styles.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
@@ -22,19 +22,6 @@ export const Options: FC<OptionsProps> = ({
     gamesInPlay,
 }) => {
     const rootRef = useRef(null);
-    const [width, setWidth] = useState(null);
-
-    useEffect(() => {
-        const adjustWidth = () => {
-            rootRef.current && setWidth(rootRef.current.clientWidth);
-        }
-        adjustWidth();
-        window.addEventListener('resize', adjustWidth);
-
-        return () => {
-            window.removeEventListener('resize', adjustWidth);
-        };
-    }, []);
 
     let component;
     switch (currentRoom) {
@@ -77,9 +64,6 @@ export const Options: FC<OptionsProps> = ({
         <div
             ref={rootRef}
             className={cn(styles.root, className)}
-            style={{
-                height: width,
-            }}
         >
             {component}
         </div>

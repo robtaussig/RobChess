@@ -1,4 +1,29 @@
 .root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    & > button {
+        background: linear-gradient(to bottom, #f5f5f5 0%, #ededed 100%);
+        text-shadow: 0 1px 0 #fff;
+        text-transform: uppercase;
+        cursor: pointer;
+        border-radius: 3px;
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,0.225);
+        padding: 10px;
+        text-align: center;
+        margin: 15px 0;
+    }
+    .createGame {
+
+    }
+
+    .playFriend {
+
+    }
+
+    .playCpu {
+
+    }
 
     @media screen and (min-width: 600px) {
         

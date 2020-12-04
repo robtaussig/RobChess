@@ -70,16 +70,13 @@
     }
     @media screen and (min-width: 600px) {
         grid-template-areas: "feed room room actions"
-                             "feed room room actions"
-                             "feed room room actions"
                              "top-game leaderboard tournament-winners puzzle"
                              "footer updates updates donate"
                              ". tournaments tournaments ."
                              ". exhibitions exhibitions ."
                              ". forum-posts forum-posts .";
-        grid-template-rows: repeat(8, fit-content(0));
+        grid-template-rows: min(50vw, 686px) repeat(5, fit-content(0));
         grid-template-columns: repeat(4, 1fr);
-    
         .streamers {
             
         }

@@ -13,7 +13,9 @@ export const Account: FC<AccountProps> = ({
 
     return (
         <div className={cn(styles.root, className)}>
-            
+            <button className={styles.createGame}>Create a game</button>
+            <button className={styles.playFriend}>Play with a friend</button>
+            <button className={styles.playCpu}>Play with the computer</button>
         </div>
     );
 };
