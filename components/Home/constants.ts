@@ -42,8 +42,23 @@ const ChaosButtonGroup: ButtonGroup = {
   ],
 };
 
+const RaceTheKingsButtonGroup: ButtonGroup = {
+  name: 'RaceTheKings',
+  items: [
+    {
+      name: 'vs. Player',
+      link: '/race-the-kings',
+    },
+    {
+      name: 'vs AI',
+      link: '/race-the-kings-ai',
+    },
+  ],
+};
+
 export const ButtonGroups: ButtonGroup[] = [
   ChessButtonGroup,
   ChuessButtonGroup,
   ChaosButtonGroup,
+  RaceTheKingsButtonGroup,
 ];

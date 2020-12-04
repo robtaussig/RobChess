@@ -24,6 +24,7 @@ export enum GameTypes {
   Chess = 'Chess',
   Chuess = 'Chuess',
   Chaos = 'Chaos',
+  RaceTheKings = 'RaceTheKings',
 }
 
 export interface Board {

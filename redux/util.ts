@@ -1,4 +1,5 @@
 import Chess from 'chess.js';
+import { fenToBoard, isCheck } from 'robtaussig_chess_engine';
 import { GameTypes, Moment } from './board';
 
 export const makeMove = (
@@ -90,6 +91,47 @@ const initChaosChess = (difficulty?: number): {
   };
 };
 
+const INITIAL_BOARD_RACE_THE_KINGS = '8/8/8/8/8/8/krbnNBRK/qrbnNBRQ w - - 0 1';
+
+const filterOutCheckMoves = (board: string, moves: {
+  [pos: number]: number[];
+}): {
+  [pos: number]: number[];
+} => {
+  return Object.entries(moves).reduce((next, [from, targets]) => {
+    const nextTargets = targets.filter(target => {
+      return !isCheck(
+        fenToBoard(
+          makeMove(board, Number(from), Number(target)).fen
+        )
+      );
+    });
+    if (nextTargets.length > 0) {
+      next[from] = nextTargets;
+    }
+    return next;
+  }, {} as {
+    [pos: number]: number[];
+  });
+};
+
+const initRaceTheKings = (): {
+  fen: string,
+  validMoves: { [pos: number]: number[] },
+  history: Moment[],
+  lastMove: [number, number],
+} => {
+  return {
+    fen: INITIAL_BOARD_RACE_THE_KINGS,
+    validMoves: filterOutCheckMoves(
+      INITIAL_BOARD_RACE_THE_KINGS,
+      getValidMoves(INITIAL_BOARD_RACE_THE_KINGS),
+    ),
+    history: [],
+    lastMove: null,
+  };
+};
+
 export const initGame = (gameType?: GameTypes, difficulty?: number): {
   fen: string,
   validMoves: { [pos: number]: number[] },
@@ -98,6 +140,8 @@ export const initGame = (gameType?: GameTypes, difficulty?: number): {
 } => {
   if (gameType === GameTypes.Chaos) {
     return initChaosChess(difficulty);
+  } else if (gameType === GameTypes.RaceTheKings) {
+    return initRaceTheKings();
   }
 
   const game = new Chess();
