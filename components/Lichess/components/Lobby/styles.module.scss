@@ -6,8 +6,9 @@
     grid-template-areas: "actions"
                          "room"
                          "top-game";
-    grid-template-rows: max-content 1fr max-content;
+    grid-template-rows: max-content calc(100vw - 8vmin) max-content;
     grid-template-columns: 1fr;
+    overflow: auto;
 
     .streamers {
         grid-area: streamers;
