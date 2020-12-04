@@ -1,4 +1,4 @@
-export const WS_ADDR = 'wss://robtaussig.com/ws/';
+export const WS_ADDR = 'wss://ws.robtaussig.com/ws/';
 export enum Messages {
   Action = '[[Action]]',
   Broadcast = '[[Broadcast]]',
