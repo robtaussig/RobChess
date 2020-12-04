@@ -26,7 +26,7 @@ const chaosSlice = createSlice({
     [init.type](state, action) {
       return {
         ...INITIAL_STATE,
-        difficulty: action.payload.difficulty ?? 5,
+        difficulty: action.payload?.difficulty ?? 5,
       };
     }
   },

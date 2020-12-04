@@ -81,7 +81,7 @@ const boardSlice = createSlice({
       type: GameTypes, 
       difficulty?: number,
     }>) {
-      const { fen, validMoves, history, lastMove } = initGame(action.payload.type, action.payload.difficulty);
+      const { fen, validMoves, history, lastMove } = initGame(action.payload?.type, action.payload?.difficulty);
       state.fen = fen;
       state.validMoves = validMoves;
       state.history = history ?? [];
@@ -89,7 +89,7 @@ const boardSlice = createSlice({
       state.lastMove = lastMove ?? null;
       state.opponentState = null;
       state.playerState = null;
-      state.gameType = action.payload.type ?? GameTypes.Chess;
+      state.gameType = action.payload?.type ?? GameTypes.Chess;
     },
     movingFrom(state, action) {
       state.isMovingFrom = action.payload;
