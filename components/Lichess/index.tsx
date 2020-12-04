@@ -4,13 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import Nav from './components/Nav';
 import Lobby from './components/Lobby';
 import { init } from '../../redux/lichess';
+import { userSelector } from '../../redux/user';
 
+userSelector
 export interface LichessProps {
 
 }
 
 export const Lichess: FC<LichessProps> = () => {
     const dispatch = useDispatch();
+    const user = useSelector(userSelector);
 
     useEffect(() => {
         dispatch(init());
@@ -18,7 +21,7 @@ export const Lichess: FC<LichessProps> = () => {
 
     return (
         <div className={styles.root}>
-            <Nav className={styles.nav}/>
+            <Nav className={styles.nav} user={user}/>
             <Lobby className={styles.lobby}/>
         </div>
     );

@@ -3,11 +3,21 @@
     grid-gap: 2vmin;
     flex: 1;
     
-    grid-template-areas: "actions"
-                         "room"
-                         "top-game";
-    grid-template-rows: max-content calc(100vw - 8vmin) max-content;
-    grid-template-columns: 1fr;
+    grid-template-areas: "room"
+                         "actions"
+                         "feed"
+                         "updates"
+                         "top-game"
+                         "puzzle"
+                         "leaderboard"
+                         "tournament-winners"
+                         "tournaments"
+                         "exhibitions"
+                         "forum-posts"
+                         "donate"
+                         "footer";
+    grid-template-columns: 100%;
+    grid-auto-rows: max-content;
     overflow: auto;
 
     .streamers {
@@ -140,64 +150,5 @@
     }
     @media screen and (max-width: 600px) {
         padding: 4vmin;
-        .streamers {
-            display: none;
-        }
-    
-        .events {
-            display: none;
-        }
-    
-        .feed {
-            display: none;
-        }
-    
-        .topGame {
-
-        }
-    
-        .footer {
-            display: none;
-        }
-    
-        .room {
-
-        }
-    
-        .leaderboard {
-            display: none;
-        }
-    
-        .tournamentWinners {
-            display: none;
-        }
-    
-        .updates {
-            display: none;
-        }
-    
-        .tournaments {
-            display: none;
-        }
-    
-        .exhibitions {
-            display: none;
-        }
-    
-        .forumPosts {
-            display: none;
-        }
-    
-        .actions {
-
-        }
-    
-        .puzzle {
-            display: none;
-        }
-    
-        .donate {
-            display: none;
-        }
     }
 }

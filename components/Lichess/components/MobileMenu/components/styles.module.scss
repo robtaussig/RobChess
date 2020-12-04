@@ -1,0 +1,30 @@
+.root {
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    height: 100%;
+    overflow: auto;
+    @media screen and (min-width: 600px) {
+        
+    }
+}
+
+.group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+    max-width: 40%;
+}
+
+.itemHeader {
+    font-weight: 600;
+}
+
+.button {
+    padding: 10px 0;
+    padding-left: 15px;
+    &:active {
+        background-color: dodgerblue;
+        color: white;
+    }
+}

@@ -1,0 +1,61 @@
+.root {
+    width: 60px;
+    position: relative;
+    &.open {
+        background-color: white;
+    }
+    & > button {
+        z-index: 5;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    @media screen and (min-width: 600px) {
+        
+    }
+    
+}
+
+.closeIcon {
+
+}
+
+.menuIcon {
+    
+}
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2;
+    cursor: pointer;
+}
+
+.menu {
+    position: absolute;
+    background-color: white;
+    top: 60px;
+    height: calc(100vh - 60px);
+    left: -100vw;
+    width: 80vw;
+    z-index: 10;
+    transition: all 0.2s linear;
+    box-shadow: 2px 5px 7px rgba(0,0,0,0.5);
+    border-radius: 0 3px 0 0;
+    &.open {
+        left: 0;
+        .mobileToolbar {
+            visibility: visible; 
+         }
+    }
+}
+
+.mobileToolbar {
+   visibility: hidden; 
+}

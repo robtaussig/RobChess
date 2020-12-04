@@ -1,6 +1,27 @@
 .root {
-
+    display: grid;
+    grid-template-areas: "puzzle-text"
+                         "board"
+                         "current-turn";
+    grid-template-rows: 1fr max-content 1fr;
+    grid-template-columns: 1fr;
+    grid-column-gap: 5px;
+    z-index: 5;
     @media screen and (min-width: 600px) {
         
     }
+}
+
+.puzzleText {
+    grid-area: puzzle-text;
+    margin-left: auto;
+}
+
+.board {
+    grid-area: board;
+}
+
+.currentTurnText {
+    grid-area: current-turn;
+    margin-left: auto;
 }

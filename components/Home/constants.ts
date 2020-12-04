@@ -56,9 +56,23 @@ const RaceTheKingsButtonGroup: ButtonGroup = {
   ],
 };
 
+const LichessButtonGroup: ButtonGroup = {
+  name: 'Lichess',
+  items: [
+    {
+      name: 'vs. Player',
+      link: '/lichess',
+    },
+    {
+      name: 'vs AI',
+      link: '/lichess',
+    },
+  ],
+};
 export const ButtonGroups: ButtonGroup[] = [
   ChessButtonGroup,
   ChuessButtonGroup,
   ChaosButtonGroup,
   RaceTheKingsButtonGroup,
+  LichessButtonGroup,
 ];

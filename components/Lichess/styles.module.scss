@@ -1,5 +1,5 @@
 .root {
-    width: min(100vw, 1400px);
+    width: min(calc(100vw - 28px), 1400px);
     margin: auto auto;
     flex: 1;
     display: flex;
@@ -9,12 +9,20 @@
     overflow: hidden;
     .nav {
         margin-bottom: 20px;
-        display: none;
     }
     @media screen and (min-width: 600px) {
         padding: 0 14px;
+    }
+
+    @media screen and (max-width: 600px) {
+        margin: 0;
+        width: 100vw;
         .nav {
-            display: flex;
+            margin-bottom: 0;
         }
+    }
+
+    button:not(:disabled) {
+        cursor: pointer;
     }
 }

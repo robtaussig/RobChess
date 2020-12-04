@@ -5,9 +5,24 @@
         flex: 1;
     }
     .account {
-        flex: 0;
+        flex: 0 0 250px;
+    }
+    .mobileMenu {
+        display: none;
     }
     @media screen and (min-width: 600px) {
         
+    }
+
+    @media screen and (max-width: 600px) {
+        .toolbar {
+            display: none;
+        }
+        .account {
+            margin-left: auto;
+        }
+        .mobileMenu {
+            display: flex;
+        }
     }
 }

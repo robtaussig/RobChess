@@ -1,6 +1,24 @@
 .root {
-
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
     @media screen and (min-width: 600px) {
         
     }
+}
+
+.searchIcon {
+
+}
+
+.boltIcon {
+
+}
+
+.bellIcon {
+
+}
+
+.userName {
+
 }

@@ -91,8 +91,12 @@ export const Lobby: FC<LobbyProps> = ({
             <Tournaments className={styles.tournaments}/>
             <Exhibitions className={styles.exhibitions}/>
             <ForumPosts className={styles.forumPosts}/>
-            <Actions className={styles.actions}/>
-            <Puzzle className={styles.puzzle}/>
+            <Actions
+                className={styles.actions}
+                playerCount={playerCount}
+                gameCount={gameCount}
+            />
+            <Puzzle className={styles.puzzle} puzzle={puzzle}/>
             <Donate className={styles.donate}/>
         </main>
     );
