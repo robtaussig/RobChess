@@ -2,6 +2,7 @@ import { createSlice, ThunkAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { initChaosChess, makeMove, getRandomValidMove, currentTurn } from './util';
 import { getBestMove } from './board';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface Streamer {
     name: string;
@@ -37,7 +38,7 @@ export interface Event {
     description: string;
 }
 
-const randomId = () => String(rand(1000));
+const randomId = () => uuidv4().slice(0,6);
 const randomItemFromPool = <T>(pool: T[]): T => pool[rand(pool.length - 1)];
 
 const generateEvents = (max: number, playerPool: Player[]): Event[] => {
@@ -75,6 +76,7 @@ export enum GameModes {
     Blitz = 'Blitz',
     Bullet = 'Bullet',
     Correspondence = 'Correspondence',
+    Custom = 'Custom',
 }
 
 export interface LobbyGame {
@@ -83,19 +85,33 @@ export interface LobbyGame {
     time: string;
     rated: boolean;
     mode: GameModes;
+    challengerColor: 'white' | 'black' | 'random';
 }
 
+const challengerColors: ('white' | 'black' | 'random')[] = ['white', 'black', 'random'];
+
 const generateLobbyGames = (max: number, playerPool: Player[]): LobbyGame[] => {
+    let randomSeed = rand(max);
+
     return new Array(rand(max) + 1).fill(null).map((_,idx) => {
-        const player = randomItemFromPool(playerPool);
+        const seed = (randomSeed + idx) % playerPool.length;
+
+        const player = playerPool[seed];
         return {
             playerId: player.id,
             rating: player.rating,
-            time: '5 + 0',
+            time: idx % 3 ?
+                '1 day' :
+                idx % 2 ?
+                    '10 + 0' :
+                    '5 + 3',
             rated: idx % 2 === 0,
+            challengerColor: randomItemFromPool(challengerColors),
             mode: idx % 3 ?
-                GameModes.Classic :
-                GameModes.Rapid,
+                GameModes.Correspondence :
+                idx % 2 ?
+                    GameModes.Classic :
+                    GameModes.Rapid,
         }
     });
 };
@@ -327,7 +343,7 @@ const lichessSlice = createSlice({
             puzzle: isBrowser ?
                 initChaosChess(5).fen :
                 null,
-            lobby: generateLobbyGames(20, players),
+            lobby: generateLobbyGames(30, players),
             gamesInPlay: isBrowser ?
                 generateGamesInPlay(6, players) :
                 [],

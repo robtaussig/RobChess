@@ -18,11 +18,10 @@ export const Board: FC<BoardProps> = ({
 }) => {
     const rootRef = useRef(null);
     const [width, setWidth] = useState(null);
-    console.log(board);
 
     useEffect(() => {
         const adjustWidth = () => {
-            setWidth(rootRef.current.clientWidth);
+            rootRef.current && setWidth(rootRef.current.clientWidth);
         }
         adjustWidth();
         window.addEventListener('resize', adjustWidth);

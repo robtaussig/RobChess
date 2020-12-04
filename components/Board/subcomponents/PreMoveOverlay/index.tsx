@@ -19,7 +19,7 @@ export const PreMoveOverlay: FC<PreMoveOverlayProps> = ({
   
   useEffect(() => {
     const setSize = () => {
-      setParentDimensions({
+      rootRef.current && setParentDimensions({
         height: rootRef.current.clientHeight,
         width: rootRef.current.clientWidth,
       });

@@ -1,5 +1,14 @@
 .root {
 
+    .nav {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .options {
+
+    }
+    
     @media screen and (min-width: 600px) {
         
     }

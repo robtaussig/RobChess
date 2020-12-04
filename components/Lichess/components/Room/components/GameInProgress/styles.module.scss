@@ -1,0 +1,16 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    .board {
+
+    }
+
+    .opponent {
+        text-align: center;
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

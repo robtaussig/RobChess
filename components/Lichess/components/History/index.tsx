@@ -17,10 +17,10 @@ export const History: FC<HistoryProps> = ({
 
     return (
         <div className={cn(styles.root, className)}>
-            {history.map(historyItem => {
+            {history.map((historyItem, idx) => {
                 return (
                     <HistoryItem
-                        key={`${historyItem.result}-${historyItem.opponentId}-${historyItem.time}`}
+                        key={`${idx}- ${historyItem.result}-${historyItem.opponentId}-${historyItem.time}`}
                         className={styles.historyItem}
                         historyItem={historyItem}
                     />

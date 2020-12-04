@@ -1,0 +1,90 @@
+.root {
+    & > * {
+        border-bottom: 1px solid #4d4d4d38;
+        padding: 3px 0;
+        cursor: pointer;
+    }
+    &:hover {
+        & > * {
+            background-color: #d59020;
+            color: white;
+        }
+        .challengerIcon {
+            border: 2px solid white;
+            &.white {
+                background: white;
+            }
+            &.black {
+                border: 2px solid #ecae49;
+                background: #ecae49;
+            }
+            &.random {
+                position: relative;
+                border: 2px solid white;
+                &:before {
+                    content: "";
+                    background-color: #ecae49;
+                    position: absolute;
+                    left: 50%;
+                    top: 0;
+                    bottom: 0;
+                    right: 0;
+                }
+            }
+        }
+    }
+    .challengerColor {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+    }
+    .challengerIcon {
+        border: 2px solid #4d4d4d;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        &.white {
+
+        }
+
+        &.black {
+            background: #4d4d4d;
+        }
+
+        &.random {
+            position: relative;
+            background-color: white;
+            overflow: hidden;
+            &:before {
+                content: "";
+                background-color: #4d4d4d;
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                right: 50%;
+            }
+        }
+
+    }
+
+    .playerId {
+        padding: 10px;
+    }
+
+    .rating {
+        padding: 10px;
+    }
+
+    .time {
+        padding: 10px;
+    }
+
+    .mode {
+        padding: 10px;
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

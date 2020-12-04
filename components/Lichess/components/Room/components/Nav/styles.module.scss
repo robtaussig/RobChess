@@ -1,0 +1,18 @@
+.root {
+
+    .navOption {
+        font-size: 12px;
+        &.isCurrentRoom {
+            color: #d59020;
+            border-bottom: 2px solid #d59020;
+        }
+        &:not(.isCurrentRoom) {
+            .navButton {
+                cursor: pointer;
+            }
+        }
+    }
+    @media screen and (min-width: 600px) {
+        
+    }
+}

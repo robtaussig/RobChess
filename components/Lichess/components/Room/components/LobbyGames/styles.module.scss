@@ -1,0 +1,44 @@
+.root {
+    display: grid;
+    grid-template-columns: 35px repeat(4, minmax(max-content, 150px));
+    grid-auto-rows: max-content;
+    grid-auto-flow: row;
+    overflow: auto;
+    padding: 0px!important;
+    height: 100%!important;
+    .graph {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+    }
+    .graphButton {
+        cursor: pointer;
+        &:hover {
+            color: #d59020;
+        }
+    }
+
+    .playerHeader {
+        margin: 10px;
+    }
+
+    .ratingHeader {
+        margin: 10px;
+    }
+
+    .timeHeader {
+        margin: 10px;
+    }
+
+    .modeHeader {
+        margin: 10px;
+    }
+
+    .lobbyGame {
+        display: contents;
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

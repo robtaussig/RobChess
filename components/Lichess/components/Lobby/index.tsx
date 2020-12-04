@@ -73,7 +73,12 @@ export const Lobby: FC<LobbyProps> = ({
                 topGame={topGame}
             />
             <Footer className={styles.footer}/>
-            <Room className={styles.room}/>
+            <Room
+                className={styles.room}
+                lobby={lobby}
+                numGamesInPlay={gamesInPlay.length}
+                gamesInPlay={gamesInPlay}
+            />
             <Leaderboard className={styles.leaderboard}/>
             <TournamentWinners className={styles.tournamentWinners}/>
             <Updates className={styles.updates}/>
