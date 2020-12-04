@@ -162,6 +162,7 @@ export interface Leader {
     mode: GameModes;
     playerId: string;
     rating: number;
+    positionDiff: number;
 }
 
 const generateLeaderboard = (max: number, playerPool: Player[]): Leader[] => {
@@ -171,6 +172,7 @@ const generateLeaderboard = (max: number, playerPool: Player[]): Leader[] => {
             mode: GameModes.Classic,
             playerId: player.id,
             rating: player.rating,
+            positionDiff: 5 - rand(10),
         }
     });
 };
