@@ -19,13 +19,15 @@ export const PreMoveOverlay: FC<PreMoveOverlayProps> = ({
   
   useEffect(() => {
     const setSize = () => {
-      rootRef.current && setParentDimensions({
-        height: rootRef.current.clientHeight,
-        width: rootRef.current.clientWidth,
-      });
+      setTimeout(() => {
+        rootRef.current && setParentDimensions({
+          height: rootRef.current.clientHeight,
+          width: rootRef.current.clientWidth,
+        });
+      },50);
     };
 
-    setTimeout(setSize, 50);
+    setSize();
 
     window.addEventListener('resize', setSize);
 
