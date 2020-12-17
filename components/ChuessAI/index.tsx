@@ -25,6 +25,7 @@ import {
   changeDifficulty,
   displayRulesModal,
   displayChangelogModal,
+  displayBugModal,
 } from '../../redux/chuess';
 import { getValidMoves } from '../../redux/util';
 import { userSelector } from '../../redux/user';
@@ -32,6 +33,7 @@ import DifficultySlider from './subcomponents/DifficultySlider';
 import ChangeLog from './subcomponents/ChangeLog';
 import Rules from './subcomponents/Rules';
 import { CHANGELOG, RULES } from './constants';
+import BugReport from './subcomponents/BugReport';
 
 export interface ChuessAIProps {
   className?: string;
@@ -48,6 +50,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
     difficulty,
     displayChangelog,
     displayRules,
+    displayReportBug,
   } = useSelector(chuessSelector);
   const {
     fen,
@@ -165,6 +168,10 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         open={displayRules}
         onClose={() => dispatch(displayRulesModal(false))}
         rules={RULES}
+      />
+      <BugReport
+        open={displayReportBug}
+        onClose={() => dispatch(displayBugModal(false))}
       />
     </div>
   );
