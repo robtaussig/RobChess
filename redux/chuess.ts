@@ -6,12 +6,16 @@ export interface Chuess {
   peeksLeft: number;
   peeked: boolean;
   difficulty: number;
+  displayRules: boolean;
+  displayChangelog: boolean;
 }
 
 const INITIAL_STATE: Chuess = {
   peeksLeft: 5,
   peeked: true,
   difficulty: 5,
+  displayRules: false,
+  displayChangelog: false,
 };
 
 const chuessSlice = createSlice({
@@ -30,6 +34,12 @@ const chuessSlice = createSlice({
     reset(state, action) {
       return INITIAL_STATE;
     },
+    displayRulesModal(state, action: PayloadAction<boolean>) {
+      state.displayRules = action.payload;
+    },
+    displayChangelogModal(state, action: PayloadAction<boolean>) {
+      state.displayChangelog = action.payload;
+    }
   },
   extraReducers: {
     [movePiece.type](state) {
@@ -46,7 +56,7 @@ const chuessSlice = createSlice({
   },
 })
 
-export const { reset, peek, changeDifficulty } = chuessSlice.actions
+export const { reset, peek, changeDifficulty, displayRulesModal, displayChangelogModal } = chuessSlice.actions
 
 export const chuessSelector = (state: AppState) => state.chuess
 

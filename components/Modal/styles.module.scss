@@ -1,0 +1,17 @@
+.header {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.body {
+    overflow: auto;
+    flex: 1;
+}
+
+.closeButton {
+    margin-left: auto;
+    margin-top: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}

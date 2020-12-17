@@ -1,0 +1,29 @@
+.root {
+    display: flex;
+    align-items: center;
+    & > :not(:first-child) {
+        margin-left: 10px;
+    }
+
+    & button {
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .header {
+        font-size: 5vw;
+        font-weight: 600;
+    }
+
+    .rules {
+        margin-left: auto;
+    }
+
+    .changeLog {
+
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

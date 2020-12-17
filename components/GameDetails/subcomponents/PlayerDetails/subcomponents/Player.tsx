@@ -15,7 +15,6 @@ export interface PlayerProps {
   canUnseat: boolean;
   currentTurn: boolean;
   canClaim: boolean;
-  isPromoting: boolean;
   onClaimSeat: (color: 'white' | 'black') => void;
   onAssignAI: (color: 'white' | 'black') => void;
   onUnseat: (color: 'white' | 'black') => void;
@@ -32,19 +31,14 @@ export const Player: FC<PlayerProps> = ({
   onUnseat,
   currentTurn,
   canClaim,
-  isPromoting,
 }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (player === AI_PLAYER && currentTurn) {
-      if (isPromoting) {
-        dispatch(promote('q')); //TODO check for better move
-      } else {
-        dispatch(makeEngineMove());
-      }
+      dispatch(makeEngineMove());
     }
-  }, [currentTurn, player, isPromoting]);
+  }, [currentTurn, player]);
 
   if (!player) {
     return (

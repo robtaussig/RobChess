@@ -1,0 +1,42 @@
+.root {
+    .version {
+        margin-bottom: 15px;
+    }
+
+    .versionNumber {
+        font-weight: 600;
+    }
+
+    .change {
+        margin-bottom: 5px;
+        list-style: bullet;
+    }
+
+    .type {
+        margin-right: 5px;
+        &.release {
+            color: midnightblue;
+        }
+
+        &.bug {
+            color: red;
+        }
+
+        &.improvement {
+            color: gold;
+        }
+
+        &.feature {
+            color: dodgerblue;
+        }
+
+        &.styling {
+            color: green;
+        }
+
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

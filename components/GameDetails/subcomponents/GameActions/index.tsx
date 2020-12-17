@@ -31,7 +31,10 @@ export const GameActions: FC<GameActionsProps> = ({
           className={styles.confirm}
           icon={'gg-check'}
           size={1.5}
-          onClick={onResign}
+          onClick={() => {
+            setIsResigning(false);
+            onResign();
+          }}
         />
         <IconButton
           className={styles.cancel}
@@ -50,7 +53,10 @@ export const GameActions: FC<GameActionsProps> = ({
           className={styles.confirm}
           icon={'gg-check'}
           size={1.5}
-          onClick={onDraw}
+          onClick={() => {
+            setIsDrawing(false);
+            onDraw();
+          }}
         />
         <IconButton
           className={styles.cancel}

@@ -5,7 +5,7 @@ import { User } from './user';
 import { wrap } from 'comlink';
 import { WorkerInterface } from '../engine/index.worker';
 
-const PREMOVE_MAXIMUM = 3;
+const PREMOVE_MAXIMUM = 5;
 
 const comLinkWorker = typeof window !== 'undefined' ?
   wrap<WorkerInterface>(new Worker('../engine/index.worker', {
@@ -110,7 +110,7 @@ const boardSlice = createSlice({
           state.isMovingFrom,
           target,
         );
-
+      
         state.history.push({ fen: state.fen, move: state.lastMove });
         state.future = [];
         state.lastMove = [state.isMovingFrom, target];
@@ -151,21 +151,18 @@ const boardSlice = createSlice({
       state.premoves = [];
     },
     movePiece(state, action: PayloadAction<{ from: number, to: number }>) {
-      const { fen, validMoves, isPromotion } = makeMove(
+      let { fen, validMoves, isPromotion } = makeMove(
         state.fen,
         action.payload.from,
         action.payload.to,
+        'q',
       );
       state.future = [];
       state.history.push({ fen: state.fen, move: state.lastMove });
       state.lastMove = [action.payload.from, action.payload.to];
 
-      if (isPromotion) {
-        state.isPromoting = isPromotion;
-      } else {
-        state.fen = fen;
-        state.validMoves = validMoves;
-      }
+      state.fen = fen;
+      state.validMoves = validMoves;
 
       if (
         state.premoves.find(premove =>

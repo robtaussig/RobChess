@@ -23,7 +23,7 @@ export const makeMove = (
       game.get(fromNotation)?.type === 'p' &&
       (to > 55 || to < 8)
     ) {
-      isPromotion = true;
+      game.move({ from: fromNotation, to: toNotation, promotion: 'q' });
     } else {
       game.move({ from: fromNotation, to: toNotation });
     }

@@ -25,7 +25,7 @@ export const PreMoveOverlay: FC<PreMoveOverlayProps> = ({
       });
     };
 
-    setSize();
+    setTimeout(setSize, 50);
 
     window.addEventListener('resize', setSize);
 

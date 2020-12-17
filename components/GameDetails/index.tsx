@@ -55,7 +55,6 @@ export const GameDetails: FC<GameDetailsProps> = ({
         blackPlayer={blackPlayer}
         history={history}
         user={user}
-        isPromoting={isPromoting}
       />
       <GameActions
         className={styles.gameActions}

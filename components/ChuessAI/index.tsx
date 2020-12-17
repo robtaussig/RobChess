@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Board from '../Board';
 import GameDetails from '../GameDetails';
+import ChuessHeader from './subcomponents/ChuessHeader';
 import {
   init,
   moveTo,
@@ -22,10 +23,15 @@ import {
   chuessSelector,
   peek,
   changeDifficulty,
+  displayRulesModal,
+  displayChangelogModal,
 } from '../../redux/chuess';
 import { getValidMoves } from '../../redux/util';
 import { userSelector } from '../../redux/user';
 import DifficultySlider from './subcomponents/DifficultySlider';
+import ChangeLog from './subcomponents/ChangeLog';
+import Rules from './subcomponents/Rules';
+import { CHANGELOG, RULES } from './constants';
 
 export interface ChuessAIProps {
   className?: string;
@@ -40,6 +46,8 @@ export const ChuessAI: FC<ChuessAIProps> = ({
     peeksLeft,
     peeked,
     difficulty,
+    displayChangelog,
+    displayRules,
   } = useSelector(chuessSelector);
   const {
     fen,
@@ -66,7 +74,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
   };
 
   const handleResign = () => {
-    dispatch(resign(true));
+    dispatch(init({ type: GameTypes.Chuess }));
   };
   
   const handleDraw = () => {
@@ -110,6 +118,7 @@ export const ChuessAI: FC<ChuessAIProps> = ({
     <div className={cn(styles.root, className, {
       [styles.isCurrentTurn]: isCurrentTurn,
     })}>
+      <ChuessHeader className={styles.header}/>
       <Board
         className={styles.board}
         moveTo={handleMove}
@@ -146,6 +155,16 @@ export const ChuessAI: FC<ChuessAIProps> = ({
         peeksLeft={peeksLeft}
         canTimeTravel={false}
         isPromoting={isCurrentTurn && isPromoting}
+      />
+      <ChangeLog
+        open={displayChangelog}
+        onClose={() => dispatch(displayChangelogModal(false))}
+        changelog={CHANGELOG}
+      />
+      <Rules
+        open={displayRules}
+        onClose={() => dispatch(displayRulesModal(false))}
+        rules={RULES}
       />
     </div>
   );

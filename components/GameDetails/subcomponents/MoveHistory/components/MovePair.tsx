@@ -18,7 +18,6 @@ export const MovePair: FC<MovePairProps> = ({
     history,
     onGoTo,
 }) => {
-    const liRef = useRef<HTMLLIElement>(null);
     const isWhiteMove = (movePairNum * 2) === history.length - 1;
     const isBlackMove = ((movePairNum * 2) + 1) === history.length - 1;
 
@@ -26,18 +25,8 @@ export const MovePair: FC<MovePairProps> = ({
 
     const handleClickBlackMove = () => onGoTo && onGoTo(movePairNum, false);
 
-    useEffect(() => {
-        if (isWhiteMove || isBlackMove) {
-            liRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
-                inline: 'start',
-            });
-        }
-    }, [isWhiteMove, isBlackMove]);
-
     return (
-        <li ref={liRef} className={styles.movePair}>
+        <li className={styles.movePair}>
             <button
                 disabled={isWhiteMove}
                 onClick={handleClickWhiteMove}

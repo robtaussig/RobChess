@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import cn from 'classnames';
-import { Moment, claimSeat, assignAI, AI_PLAYER } from '../../../../redux/board';
+import { Moment, claimSeat, assignAI, AI_PLAYER, isCurrentUserTurn } from '../../../../redux/board';
 import { User } from '../../../../redux/user';
 import Player from './subcomponents/Player';
 
@@ -12,7 +12,6 @@ export interface PlayerDetailsProps {
     blackPlayer: User;
     user: User;
     history: Moment[];
-    isPromoting: boolean;
 }
 
 export const PlayerDetails: FC<PlayerDetailsProps> = ({
@@ -21,9 +20,9 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
     blackPlayer,
     history,
     user,
-    isPromoting,
 }) => {
     const dispatch = useDispatch();
+    const isUserTurn = useSelector(isCurrentUserTurn);
 
     const handleClaimSeat = (color: 'white' | 'black') => {
         dispatch(claimSeat({ user, color }));
@@ -44,11 +43,10 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 player={whitePlayer}
                 onClaimSeat={handleClaimSeat}
                 onAssignAI={handleAssignAI}
-                canUnseat={whitePlayer && (whitePlayer === user || whitePlayer === AI_PLAYER)}
+                canUnseat={isUserTurn && whitePlayer && (whitePlayer === user || whitePlayer === AI_PLAYER)}
                 onUnseat={handleUnseat}
                 currentTurn={history.length % 2 === 0}
                 canClaim={blackPlayer !== user}
-                isPromoting={isPromoting}
                 white
             />
             <Player
@@ -56,11 +54,10 @@ export const PlayerDetails: FC<PlayerDetailsProps> = ({
                 player={blackPlayer}
                 onClaimSeat={handleClaimSeat}
                 onAssignAI={handleAssignAI}
-                canUnseat={blackPlayer && (blackPlayer === user || blackPlayer === AI_PLAYER)}
+                canUnseat={isUserTurn && blackPlayer && (blackPlayer === user || blackPlayer === AI_PLAYER)}
                 onUnseat={handleUnseat}
                 currentTurn={history.length % 2 === 1}
                 canClaim={whitePlayer !== user}
-                isPromoting={isPromoting}
                 black
             />
         </div>

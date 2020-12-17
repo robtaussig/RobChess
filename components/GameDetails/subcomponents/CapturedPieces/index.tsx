@@ -41,6 +41,21 @@ export const CapturedPieces: FC<CapturedPiecesProps> = ({
         black[piece] = offBoard;
       }
     });
+
+    Object.entries(white).forEach(([piece, count]) => {
+      const blackPiece = piece.toLowerCase();
+      const blackCount = black[blackPiece];
+      if (count > blackCount) {
+        white[piece] -= black[blackPiece];
+        black[blackPiece] = 0;
+      } else if (blackCount > count) {
+        black[blackPiece] -= white[piece];
+        white[piece] = 0;
+      } else {
+        white[piece] = 0;
+        black[blackPiece] = 0;
+      }
+    });
     
     return {
       white,

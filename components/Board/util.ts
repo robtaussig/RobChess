@@ -12,7 +12,7 @@ export const getPosFromCoords = (
 ): number => {
   const boardX = coords.x - boardEl.offsetLeft;
   const boardY = coords.y - boardEl.offsetTop;
-  const sideLength = (Math.min(window.innerWidth, window.innerHeight) / 25) * 24;
+  const sideLength = boardEl.clientWidth;
   if (
     boardX > 0 &&
     boardY > 0 &&

@@ -7,8 +7,8 @@
   user-select: none;
   position: relative;
   @media screen and (min-width: 600px) {
-    width: calc(0.96 * var(--100vh, 100vh));
-    height: calc(0.96 * var(--100vh, 100vh));
+    width: calc(0.94 * var(--100vh, 100vh) - 100px);
+    height: calc(0.94 * var(--100vh, 100vh) - 100px);
   }
 }
 
