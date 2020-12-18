@@ -17,4 +17,11 @@ export const rootReducer = combineReducers({
 
 export default rootReducer;
 
-export type AppState = ReturnType<typeof rootReducer>;
+export type AppState = {
+  user: ReturnType<typeof userReducer>,
+  board: ReturnType<typeof boardReducer>,
+  network: ReturnType<typeof networkReducer>,
+  chuess: ReturnType<typeof chuessReducer>,
+  chaos: ReturnType<typeof chaosReducer>,
+  lichess: ReturnType<typeof lichessReducer>,
+}
