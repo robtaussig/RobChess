@@ -3,7 +3,7 @@
     grid-template-areas: "email date state"
                          "description description description";
     grid-template-rows: 25px 200px;
-    grid-template-columns: 1fr 100px 1fr;
+    grid-template-columns: 1fr max-content 1fr;
     .email {
         grid-area: email;
     }
