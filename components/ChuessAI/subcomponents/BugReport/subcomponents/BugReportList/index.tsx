@@ -19,7 +19,7 @@ export const BugReportList: FC<BugReportListProps> = ({
     return (
         <div className={cn(styles.root, className)}>
             <h2 className={styles.header}>List of reported bugs</h2>
-            {bugReports.reverse().map(bugReport => {
+            {bugReports.slice().reverse().map(bugReport => {
                 return (
                     <BugReport
                         key={`${bugReport.description}-bug-report`}

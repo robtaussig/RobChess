@@ -28,7 +28,7 @@ export const getPosFromCoords = (
 };
 
 export const flipIfBlack = (rows: string[], isBlack: boolean): string[] => {
-  if (isBlack) return rows.reverse().map(row => row.split('').reverse().join(''));
+  if (isBlack) return rows.slice().reverse().map(row => row.split('').reverse().join(''));
 
   return rows;
 };

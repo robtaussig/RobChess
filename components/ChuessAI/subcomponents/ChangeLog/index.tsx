@@ -25,7 +25,7 @@ export const ChangeLog: FC<ChangeLogProps> = ({
         title="Changelog"
     >
         <div className={styles.root}>
-            {changelog.reverse().map(({ version, changes }) => {
+            {changelog.slice().reverse().map(({ version, changes }) => {
                 return (
                     <div key={`${version}-version`} className={cn(styles.version, className)}>
                         <h2 className={styles.versionNumber}>{version}</h2>
