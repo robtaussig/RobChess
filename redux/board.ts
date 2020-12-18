@@ -56,6 +56,7 @@ export interface Moment {
 export const AI_PLAYER: User = {
   name: 'AI',
   rating: 1000,
+  cloned: false,
 };
 
 const INITIAL_STATE: Board = {
