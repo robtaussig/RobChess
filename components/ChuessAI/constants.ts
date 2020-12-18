@@ -61,6 +61,15 @@ export const CHANGELOG: Version[] = [
             },
         ],
     },
+    {
+        version: '1.1.1',
+        changes: [
+            {
+                text: 'Add support for receiving user feedback',
+                type: ChangeType.Feature,
+            }
+        ]
+    }
 ];
 
 export interface Rule {

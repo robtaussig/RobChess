@@ -1,13 +1,17 @@
 import React, { FC, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import Modal from '../../../Modal';
 import cn from 'classnames';
+import { AppState } from '../../../../redux/reducers';
 
 export interface BugReportProps {
     className?: string;
     open: boolean;
     onClose: () => void;
 }
+
+const stateSelector = (state: AppState) => state;
 
 export const BugReport: FC<BugReportProps> = ({
     open,
@@ -17,10 +21,27 @@ export const BugReport: FC<BugReportProps> = ({
     const [messageType, setMessageType] = useState('Bug');
     const [feedback, setFeedback] = useState('');
     const [isSending, setIsSending] = useState(null);
+    const state = useSelector(stateSelector);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSending(true);
+        await fetch('https://api.robtaussig.com/bug-report', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                app: 'Chuess',
+                type: messageType,
+                state,
+                email,
+                description: feedback,
+            }),
+        })
+        setIsSending(false);
     };
 
     return <Modal

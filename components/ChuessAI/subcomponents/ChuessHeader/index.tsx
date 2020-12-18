@@ -18,7 +18,7 @@ export const ChuessHeader: FC<ChuessHeaderProps> = ({
             <h1 className={styles.header}>Chuess</h1>
             <button className={styles.rules} onClick={() => dispatch(displayRulesModal(true))}>Rules</button>
             <button className={styles.changeLog} onClick={() => dispatch(displayChangelogModal(true))}>Changelog</button>
-            {/* <button className={styles.bug} onClick={() => dispatch(displayBugModal(true))}>Feedback</button> */}
+            <button className={styles.bug} onClick={() => dispatch(displayBugModal(true))}>Feedback</button>
         </div>
     );
 };
