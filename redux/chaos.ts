@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
+import { setState } from './board';
 import { movePiece, init, isCurrentUserTurn } from './board';
 
 export interface Chaos {
@@ -28,7 +29,10 @@ const chaosSlice = createSlice({
         ...INITIAL_STATE,
         difficulty: action.payload?.difficulty ?? 5,
       };
-    }
+    },
+    [setState.type](state, action) {
+      return action.payload.chaos;
+    },
   },
 })
 

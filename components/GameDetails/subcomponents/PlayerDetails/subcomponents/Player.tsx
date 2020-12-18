@@ -35,7 +35,7 @@ export const Player: FC<PlayerProps> = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (player === AI_PLAYER && currentTurn) {
+    if ((player === AI_PLAYER || (player && player.name === 'AI' && player.cloned)) && currentTurn) {
       dispatch(makeEngineMove());
     }
   }, [currentTurn, player]);

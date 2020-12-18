@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
+import { setState } from './board';
 import { User } from './user';
 import { init } from './board';
 
@@ -66,6 +67,9 @@ const networkSlice = createSlice({
   extraReducers: {
     [init.type](state) {
       state.room = MAIN_ROOM;
+    },
+    [setState.type](state, action) {
+      return action.payload.network;
     },
   }
 })

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
+import { setState } from './board';
 import { movePiece, init, isCurrentUserTurn, claimSeat } from './board';
 
 export interface Chuess {
@@ -57,7 +58,10 @@ const chuessSlice = createSlice({
       if (state.peeksLeft === 5 && action.payload.isUser !== false && action.payload.color === 'black') {
         state.peeksLeft++;
       }
-    }
+    },
+    [setState.type](state, action) {
+      return action.payload.chuess;
+    },
   },
 })
 

@@ -1,7 +1,14 @@
 .root {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    display: grid;
+    grid-template-areas: "bug-report"
+                         "bug-report-list";
+    grid-template-columns: 1fr;
+    form {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        grid-area: bug-report;
+    }
     label {
         display: flex;
         flex-direction: column;
@@ -63,7 +70,13 @@
         }
     }
 
+    .bugReportList {
+        grid-area: bug-report-list;
+    }
+
     @media screen and (min-width: 600px) {
-        
+        grid-template-areas: "bug-report bug-report-list";
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
     }
 }

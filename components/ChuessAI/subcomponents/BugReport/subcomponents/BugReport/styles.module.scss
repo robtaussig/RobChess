@@ -1,0 +1,45 @@
+.root {
+    display: grid;
+    grid-template-areas: "email date state"
+                         "description description description";
+    grid-template-rows: 25px 200px;
+    grid-template-columns: 1fr 100px 1fr;
+    .email {
+        grid-area: email;
+    }
+
+    .date {
+        grid-area: date;
+        color: gray;
+        font-size: 11px;
+        margin-left: auto;
+    }
+
+    .stateButton {
+        grid-area: state;
+        margin-left: auto;
+        color: white;
+        background: dodgerblue;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+
+    .value {
+        display: flex;
+        align-items: center;
+    }
+
+    .description {
+        grid-area: description;
+        background-color: gainsboro;
+        margin: 5px 0;
+        padding: 5px;
+        border-radius: 3px;
+        align-items: flex-start;
+        overflow: auto;
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

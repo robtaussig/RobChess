@@ -1,0 +1,12 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    .header {
+        margin: 20px 0;
+        font-weight: 600;
+    }
+
+    @media screen and (min-width: 600px) {
+        
+    }
+}

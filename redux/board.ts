@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, ThunkAction, createAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
 import { makeMove, getValidMoves, initGame, currentTurn } from './util';
 import { User } from './user';
@@ -6,6 +6,8 @@ import { wrap } from 'comlink';
 import { WorkerInterface } from '../engine/index.worker';
 
 const PREMOVE_MAXIMUM = 5;
+
+export const setState = createAction<AppState>('SET_APPLICATION_STATE');
 
 const comLinkWorker = typeof window !== 'undefined' ?
   wrap<WorkerInterface>(new Worker('../engine/index.worker', {
@@ -255,6 +257,19 @@ const boardSlice = createSlice({
       state.validMoves = validMoves;
       state.isPromoting = false;
     },
+  },
+  extraReducers: {
+    [setState.type](state, action) {
+      AI_PLAYER.cloned = true;
+      state = action.payload.board;
+      if (state.whitePlayer.name !== 'AI') {
+        state.whitePlayer = action.payload.user;
+      }
+      if (state.blackPlayer.name !== 'AI') {
+        state.blackPlayer = action.payload.user;
+      }
+      return state;
+    }
   }
 })
 

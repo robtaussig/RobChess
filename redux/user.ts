@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
+import { setState } from './board';
 
 export interface User {
   name: string;
   rating: number;
+  cloned?: boolean;
 }
 
 const INITIAL_STATE: User = {
@@ -20,6 +22,11 @@ const userSlice = createSlice({
     },
     reset(state, action) {
       return INITIAL_STATE;
+    },
+  },
+  extraReducers: {
+    [setState.type](state, action) {
+      return action.payload.user;
     },
   }
 })

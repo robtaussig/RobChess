@@ -1,5 +1,6 @@
 import { createSlice, ThunkAction } from '@reduxjs/toolkit';
 import { AppState } from './reducers';
+import { setState } from './board';
 import { initChaosChess, makeMove, getRandomValidMove, currentTurn } from './util';
 import { getBestMove } from './board';
 import { v4 as uuidv4 } from 'uuid';
@@ -375,7 +376,9 @@ const lichessSlice = createSlice({
     }
   },
   extraReducers: {
-    
+    [setState.type](state, action) {
+        return action.payload.lichess;
+    },
   },
 })
 

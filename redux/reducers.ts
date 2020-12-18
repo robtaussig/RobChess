@@ -1,4 +1,4 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, createAction } from '@reduxjs/toolkit';
 import userReducer from './user';
 import boardReducer from './board';
 import networkReducer from './network';
